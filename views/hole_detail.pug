@@ -1,0 +1,22 @@
+extends layout
+
+block content
+    h1 Hole Number: #{hole.name}
+
+    div(style="margin-left:20px;margin-top:20px")
+        h4 Green 
+        each green in hole.green.sort((a,b) => b.length - a.length)
+            
+            div(style="margin-left:40px;")
+                a(href=green.url)  #{green.name}
+                | (Diameter #{green.diameter} yards, Altitude: #{green.altitude})
+            
+        hr
+
+        h4 Tees
+        each tee in hole.tee.sort((a,b) => b.length - a.length)
+
+            div(style="margin-left:40px;")
+                a(href=tee.url)  #{tee.name}
+                | (#{tee.length} yard, par #{tee.par})
+

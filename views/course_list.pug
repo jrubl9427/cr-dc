@@ -1,0 +1,24 @@
+extends layout 
+
+block content
+    h1= title 
+
+    ul 
+        each course in course_list 
+            li 
+                a(href=course.url) #{course.name} 
+                ul 
+                    li #[strong Date:] #{course.date_formatted}
+                    li #[strong Altitude:] #{course.altitude} feet
+                    li #[strong Wind:] #{course.wind} mph
+                    li #[strong Grass Type:] #{course.grassType}
+                    li #[strong Green Speed:] #{course.greenSpeed} feet
+                    li #[strong Rough Height:] #{course.roughHeight} inches
+                    li #[strong Holes:] #{course.hole.length}
+                        //- ul 
+                        //-     each val in course.hole.sort((a,b) => a.name - b.name)
+                        //-         li 
+                        //-             a(href= val.url) Hole Number #{val.name}
+            hr
+        else
+            li There are no courses.

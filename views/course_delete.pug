@@ -1,0 +1,30 @@
+extends layout
+
+block content
+    h1 #{name}: #{course.name}
+    
+    p #[strong Date:] #{course.date_formatted}
+    p #[strong Altitude:] #{course.altitude}
+    p #[strong Wind:] #{course.wind}
+    p #[strong Grass Type:] #{course.grassType}
+    p #[strong Green Speed:] #{course.greenSpeed}
+    p #[strong Rough Height:] #{course.roughHeight}
+    p #[strong Holes:] #{holes.length}
+        ul
+            each val in holes.sort((a,b) => a.name - b.name)
+                li 
+                    a(href=val.url) #[strong Hole Number] #{val.name}
+    hr
+    
+    if holes.length
+    
+        p #[strong Delete all holes before attempting to delete this course.]
+        
+    else 
+        p Do you really want to delete this course?
+        
+        form(method='POST' action='')
+            div.form-group
+                input#id.form-control(type='hidden' name='courseid', required='true' value=course._id)
+    
+            button.btn.btn-primary(type='submit') Delete

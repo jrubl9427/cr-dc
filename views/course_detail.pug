@@ -1,0 +1,39 @@
+extends layout
+
+block content
+    h1 Name: #{course.name}
+
+    p #[strong Date:] #{course.date_formatted}
+    p #[strong Altitude:] #{course.altitude} feet
+    p #[strong Wind:] #{course.wind} mph
+    p #[strong Grass Type:] #{course.grassType}
+    p #[strong Green Speed:] #{course.greenSpeed} feet
+    p #[strong Rough Height:] #{course.roughHeight} inches
+    p #[strong Holes:] #{holes.length} 
+
+    div(style="margin-left:20px;margin-top:20px")
+        h4 Holes 
+    
+        each hole in holes.sort((a,b) => a.name - b.name)
+            hr
+
+            div(style="margin-left:40px;")
+                a(href=hole.url) #[strong Hole:] #{hole.name}
+
+            each green in hole.green.sort((a,b) => a.name - b.name)
+
+                div(style="margin-left:40px;")
+                    a(href=green.url) #[strong Green] #{green.name}
+                    | (altitude: #{green.altitude} feet diameter: #{green.diameter} yards)
+
+            each tee in hole.tee.sort((a,b) => b.length - a.length)
+                
+                div(style="margin-left:40px;")
+                    a(href=tee.url) #[strong Tee] #{tee.name}
+                    | (#{tee.length} yard par #{tee.par} altitude: #{tee.altitude} feet)
+             
+    hr
+    p 
+        a(href=course.url+'/delete') Delete Course
+    p
+        a(href=course.url+'/update') Update Course

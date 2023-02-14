@@ -1,0 +1,95 @@
+doctype html
+html(lang='en')
+  head
+    title= title
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css", integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z", crossorigin="anonymous")
+    script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js", integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj", crossorigin="anonymous")
+    script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js", integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV", crossorigin="anonymous")
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    div(class='container-fluid')
+      div(class='row')
+        div(class='col-sm-2')
+          block sidebar
+            ul(class='sidebar-nav')
+              li
+                a(href='/catalog') Home 
+              li
+                a(href='/catalog/courses') All courses
+              li
+                a(href='/catalog/holes') All holes
+              li
+                a(href='/catalog/tees') All tees
+              li
+                a(href='/catalog/greens') All greens
+              li
+                a(href='/catalog/ratingZones') All rating zones 
+              li
+                a(href='/catalog/obstacles') All obstacles 
+              li
+                a(href='/catalog/layups') All layups
+              li
+                a(href='/catalog/doglegs') All doglegs
+              li
+                a(href='/catalog/rolls') All rolls
+              li
+                a(href='/catalog/topos') All topos
+              li
+                a(href='/catalog/fairways') All fairways
+              li
+                a(href='/catalog/targets') All targets
+              li
+                a(href='/catalog/rRs') All rRs
+              li
+                a(href='/catalog/bunkers') All bunkers
+              li
+                a(href='/catalog/laterals') All laterals
+              li
+                a(href='/catalog/crossings') All crossings
+              li
+                a(href='/catalog/trees') All trees  
+              li
+                a(href='/catalog/surfaces') All surfaces
+              li
+                hr
+              li
+                a(href='/catalog/course/create') Create new course
+              li
+                a(href='/catalog/hole/create') Create new hole
+              li
+                a(href='/catalog/tee/create') Create new tee
+              li
+                a(href='/catalog/green/create') Create new green
+              li
+                a(href='/catalog/ratingZone/create') Create new ratingZone
+              li
+                a(href='/catalog/obstacle/create') Create new obstacle
+              li
+                a(href='/catalog/layup/create') Create new layup
+              li
+                a(href='/catalog/dogleg/create') Create new dogleg
+              li
+                a(href='/catalog/roll/create') Create new roll
+              li
+                a(href='/catalog/topo/create') Create new topo
+              li
+                a(href='/catalog/fairway/create') Create new fairway
+              li
+                a(href='/catalog/target/create') Create new target
+              li
+                a(href='/catalog/rR/create') Create new rR
+              li
+                a(href='/catalog/bunker/create') Create new bunker
+              li
+                a(href='/catalog/lateral/create') Create new lateral
+              li
+                a(href='/catalog/crossing/create') Create new crossing
+              li
+                a(href='/catalog/tree/create') Create new tree
+              li
+                a(href='/catalog/surface/create') Create new surface
+
+        div(class='col-sm-10')
+          block content

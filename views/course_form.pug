@@ -1,0 +1,95 @@
+extends layout
+
+block content
+    h1= title
+    
+    form(method='POST' action='')
+        div.form-group
+            label(for='name') Name:
+            input#name.form-control(
+                type='text'
+                placeholder='Name of course'
+                name='name' 
+                required='true' 
+                value=(undefined===course ? '' : course.name)
+            )
+
+        div.form-group
+            label(for='date') Date of course rating:
+            input#date.form-control(
+                type='date'
+                placeholder='Date of course rating'
+                name='date' 
+                required='true' 
+                value=(undefined===course ? '' : course.date)
+            )
+
+        div.form-group
+            label(for='altitude') Altitude of course:
+            input#altitude.form-control(
+                type='number'
+                placeholder='Altitude of course in feet'
+                name='altitude' 
+                required='true' 
+                value=(undefined===course ? '' : course.altitude)
+            )
+
+        div.form-group
+            label(for='wind') Prevailing wind at course:
+            input#wind.form-control(
+                type='number'
+                placeholder='Prevailing wind in mph'
+                name='wind' 
+                required='true' 
+                value=(undefined===course ? '' : course.wind)
+            )
+
+        div.form-group
+            label(for='grassType') Predominant rough grass type:
+            select#grassType.form-control(
+                type='select'
+                placeholder='Select grass type'
+                name='grassType' 
+                required='true'
+                ) 
+                option(value="CoolSeason") CoolSeason 
+                option(value="WarmSeason") WarmSeason
+
+        div.form-group
+            label(for='greenSpeed') Stimpmeter value:
+            input#greenSpeed.form-control(
+                type='text'
+                placeholder='Green speed in decimal feet'
+                name='greenSpeed' 
+                required='true' 
+                value=(undefined===course ? '' : course.greenSpeed)
+            )
+
+        div.form-group
+            label(for='roughHeight') Height of rough:
+            input#roughHeight.form-control(
+                type='text'
+                placeholder='Rough Height in decimal inches'
+                name='roughHeight' 
+                required='true' 
+                value=(undefined===course ? '' : course.roughHeight)
+            )
+                
+        div.form-group
+            label Holes:
+            for hole in holes 
+                div(style="display: inline; padding-right:10px;")
+                    input.checkbox-input(
+                        type="checkbox", 
+                        name="hole", 
+                        id=hole._id, 
+                        value=hole._id, 
+                        checked=hole.checked )
+                    label(for=hole._id) #{hole.name}
+
+        button.btn.btn-primary(type='submit') Submit
+        
+    if errors
+        ul
+            for error in errors
+                li!= error.msg
