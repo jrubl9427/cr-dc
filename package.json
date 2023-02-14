@@ -1,6 +1,9 @@
 {
   "name": "cr-dc",
   "version": "0.0.0",
+  "engines": {
+    "node": ">=19.2.0"
+  },
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
