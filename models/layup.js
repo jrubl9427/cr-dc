@@ -1,8 +1,14 @@
 const mongoose = require("mongoose");
+const obstacle = require("./obstacle");
 
 const Schema = mongoose.Schema;
 
 const LayupSchema = new Schema({
+    obstacle: [{
+        type: Schema.Types.ObjectId,
+        ref: "Obstacle",
+        required: true
+    }],
     effectiveLengthAdjust: {
         type: Number,
         required: true

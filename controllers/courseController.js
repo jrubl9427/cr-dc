@@ -337,7 +337,7 @@ exports.course_update_get = (req, res, next) => {
                 err.status = 404;
                 return next(err);
             }
-            // Successful, mark our selected genres as checked
+            // Successful, mark our selected holes as checked
             for (const hole of results.holes) {
                 for (const aHole of results.course.hole) {
                     if (hole._id.toString() === aHole._id.toString()) {

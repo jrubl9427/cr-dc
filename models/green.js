@@ -3,11 +3,11 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const GreenSchema = new Schema({
-    hole: {
+    hole: [{
         type: Schema.Types.ObjectId,
         ref: "Hole",
         required: true
-    },
+    }],
     name: {
         type: Number,
         required: true

@@ -1,8 +1,20 @@
 const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
+const green = require("./green");
+const tee = require("./tee");
 
 const RatingZoneSchema = new Schema({
+    green: [{
+        type: Schema.Types.ObjectId,
+        ref: "green",
+        required: true
+    }],
+    tee: [{
+        type: Schema.Types.ObjectId,
+        ref: "tee",
+        required: true
+    }],
     name: {
         type: String,
         required: true

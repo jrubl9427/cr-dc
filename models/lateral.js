@@ -1,8 +1,14 @@
 const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
+const obstacle = require("./obstacle");
 
 const LateralSchema = new Schema({
+    obstacle: [{
+    type: Schema.Types.ObjectId,
+    ref: "Obstacle",
+    required: true
+    }],
     rating: {
         type: Number,
         required: true,

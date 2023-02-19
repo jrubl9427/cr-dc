@@ -1,10 +1,24 @@
 // layupController.js
 
+
+const async = require("async");
 const Layup = require("../models/layup");
+const { body, validationResult } = require("express-validator");
 
 // Display a list of all layups.
-exports.layup_list = (req, res) => {
-    res.send("NOT IMPLEMENTED: layup list");
+exports.layup_list = (req, res, next) => {
+    Layup.find({})
+        // .populate(obstacle)
+        .exec(function (err, list_layups) {
+            if (err) {
+                return next(err);
+            }
+            // Successful, so render
+            res.render("layup_list", {
+                title: "Layup List",
+                layup_list: list_layups
+            });
+        })
 };
 
 // Display detail page for a specific layup.

@@ -1,8 +1,14 @@
 const mongoose = require("mongoose");
+const obstacle = require("./obstacle");
 
 const Schema = mongoose.Schema;
 
 const SurfaceSchema = new Schema({
+    obstacle: [{
+    type: Schema.Types.ObjectId,
+    ref: "Obstacle",
+    required: true
+    }],
     rating: {
         type: Number,
         required: true,
