@@ -3,11 +3,11 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const GreenSchema = new Schema({
-    hole: [{
+    ratingZone: {
         type: Schema.Types.ObjectId,
         ref: "Hole",
         required: true
-    }],
+    },
     name: {
         type: Number,
         required: true
@@ -28,9 +28,9 @@ const GreenSchema = new Schema({
         min: 0,
         max: 100
     },
-    ratingZone: [{
+    greenObstacle: [{
         type: Schema.Types.ObjectId,
-        ref: "RatingZone",
+        ref: "Obstacle",
         required: true
     }]
 });

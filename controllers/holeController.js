@@ -47,7 +47,6 @@ exports.hole_detail = (req, res, next) => {
             if (err) {
                 return next(err);
             }
-            
             if (results.hole == null) {
                 // No, results
                 const err = new Error("Course not found");

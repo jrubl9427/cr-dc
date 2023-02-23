@@ -1,0 +1,20 @@
+extends layout
+
+block content
+    h1 Layup ID Number: #{title}
+
+    div(style="margin-left:20px;margin-top:20px")
+        h4 Layup 
+            
+            div(style="margin-left:40px;")
+                a(href=layup.url)  #{layup._id}
+                | (Adjust: #{layup.effectiveLengthAdjust} yards, Length: #{layup.length} yards, Type: #{layup.typeLayup})
+            
+        hr
+
+        h4 Obstacle
+        each obst in obstacle
+
+            div(style="margin-left:40px;")
+                a(href=obst.url)  Obstacle #{obst._id}
+

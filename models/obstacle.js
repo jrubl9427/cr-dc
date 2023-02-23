@@ -4,66 +4,84 @@ const Schema = mongoose.Schema;
 // const Layup = require("layup")
 
 const ObstacleSchema = new Schema({
-    layup: [{
+    teeObstacle: {
+        type: Schema.Types.ObjectId,
+        ref: "Obstacle",
+        required: true
+    },
+    greenObstacle: {
+        type: Schema.Types.ObjectId,
+        ref: "Obstacle",
+        required: true
+    },
+    lzObstacle: {
+        type: Schema.Types.ObjectId,
+        ref: "Obstacle",
+        required: true
+    },
+    name: {
+        type: String
+    },
+    layup: {
         type: Schema.Types.ObjectId,
         ref: "Layup",
         required: true
-    }],
-    dogleg: [{
+    },
+    dogleg: {
         type: Schema.Types.ObjectId,
         ref: "Dogleg",
         required: true
-    }],
-    roll: [{
+    },
+    roll: {
         type: Schema.Types.ObjectId,
         ref: "Roll",
         required: true
-    }],
-    topo: [{
+    },
+    topo: {
         type: Schema.Types.ObjectId,
         ref: "Topo",
         required: true
-    }],
-    fairway: [{
+    },
+    fairway: {
         type: Schema.Types.ObjectId,
         ref: "Fairway",
         required: true
-    }],
-    target: [{
+    },
+    target: {
         type: Schema.Types.ObjectId,
         ref: "Target",
         required: true
-    }],
-    rR: [{
+    },
+    rR: {
         type: Schema.Types.ObjectId,
         ref: "RR",
         required: true
-    }],
-    bunker: [{
+    },
+    bunker: {
         type: Schema.Types.ObjectId,
         ref: "Bunker",
         required: true
-    }],
-    lateral: [{
+    },
+    lateral: {
         type: Schema.Types.ObjectId,
         ref: "Lateral",
         required: true
-    }],
-    crossing: [{
+    },
+    crossing: {
         type: Schema.Types.ObjectId,
         ref: "Crossing",
         required: true
-    }],
-    tree: [{
+    },
+    tree: {
         type: Schema.Types.ObjectId,
         ref: "Tree",
         required: true
-    }],
-    surface: [{
+    },
+    surface: {
         type: Schema.Types.ObjectId,
         ref: "Surface",
         required: true
-    }]
+    }
 });
 
 // Virtual for obstacle's URL
@@ -72,4 +90,4 @@ ObstacleSchema.virtual("url").get(function (){
 });
 
 // Export the model
-module.exports = mongoose.model("obstacle", ObstacleSchema);
+module.exports = mongoose.model("Obstacle", ObstacleSchema);

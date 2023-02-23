@@ -1,20 +1,13 @@
 const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
-const green = require("./green");
-const tee = require("./tee");
 
 const RatingZoneSchema = new Schema({
-    green: [{
+    hole: {
         type: Schema.Types.ObjectId,
-        ref: "green",
+        ref: "Hole",
         required: true
-    }],
-    tee: [{
-        type: Schema.Types.ObjectId,
-        ref: "tee",
-        required: true
-    }],
+    },
     name: {
         type: String,
         required: true
@@ -28,11 +21,21 @@ const RatingZoneSchema = new Schema({
         required: true,
         default: 0
     },
-    obstacle: [{
+    green: {
         type: Schema.Types.ObjectId,
-        ref: "Obstacle",
+        ref: "Green",
         required: true
-    }]
+    },
+    tee: [{
+        type: Schema.Types.ObjectId,
+        ref: "Tee",
+        required: true
+    }],
+    lz: [{
+        type: Schema.Types.ObjectId,
+        ref: "Lz",
+        required: true
+    }],
 });
 
 // Virtual for rating zone's URL

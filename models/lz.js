@@ -1,9 +1,8 @@
 const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
-const hole = require("./hole");
 
-const TeeSchema = new Schema({
+const LzSchema = new Schema({
     ratingZone: {
         type: Schema.Types.ObjectId,
         ref: "RatingZone",
@@ -15,23 +14,11 @@ const TeeSchema = new Schema({
         minLength: 1,
         maxLength:12
     },
-    length: {
-        type: Number,
-        required: true,
-        min: 50,
-        max: 700
-    },
-    par: {
-        type: Number,
-        required: true,
-        min: 3,
-        max: 6
-    },
     altitude: {
         type: Number,
         required: true
     },
-    teeObstacle: [{
+    lzObstacle: [{
         type: Schema.Types.ObjectId,
         ref: "Obstacle",
         required: true

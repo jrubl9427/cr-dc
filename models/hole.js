@@ -3,23 +3,18 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const HoleSchema = new Schema({
-    course: [{
+    course: {
         type: Schema.Types.ObjectId,
         ref: "Course",
         required: true
-    }],
+    },
     name: {
         type: Number,
         required: true
     },
-    green: [{
+    ratingZone: [{
         type: Schema.Types.ObjectId,
-        ref: "Green",
-        required: true
-    }],
-    tee: [{
-        type: Schema.Types.ObjectId,
-        ref: "Tee",
+        ref: "RatingZone",
         required: true
     }]
 });

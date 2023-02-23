@@ -11,6 +11,7 @@ const Course = require("./models/course");
 const Hole = require("./models/hole");
 const Tee = require("./models/tee");
 const Green = require("./models/green");
+const Lz = require("./models/lz");
 const RatingZone = require("./models/ratingZone");
 const Obstacle = require("./models/obstacle");
 const Layup = require("./models/layup");
@@ -41,6 +42,7 @@ const courses = [];
 const holes = [];
 const tees = [];
 const greens = [];
+const lzs = [];
 const ratingZones = [];
 const obstacles = [];
 const layups = [];
@@ -80,12 +82,11 @@ function courseCreate(name, date, altitude, wind, grassType, greenSpeed, roughHe
     });
 }
 
-function holeCreate(course, name, green, tee, cb) {
+function holeCreate(course, name, ratingZone, cb) {
     holedetail = {
         course: course,
         name: name,
-        green: green,
-        tee: tee
+        ratingZone: ratingZone
     };
     const hole = new Hole(holedetail);
     hole.save(function (err) {
@@ -100,55 +101,15 @@ function holeCreate(course, name, green, tee, cb) {
     });
 }
 
-function teeCreate(name, length, par, altitude, ratingZone, cb) {
-    teedetail = {
-        name: name, 
-        length: length, 
-        par: par, 
-        altitude: altitude,
-        ratingZone: ratingZone
-    };
-    const tee = new Tee(teedetail);
-    tee.save(function (err) {
-        if (err) {
-            console.log(`ERROR CREATING: ${tee}`)
-            cb(err, null);
-            return;
-        }
-        // console.log(`New Tee: ${tee}`);
-        tees.push(tee);
-        cb(null, tee);
-    });
-}
-
-function greenCreate(hole, name, altitude, width, depth, ratingZone, cb) {
-    greendetail = {
-        hole: hole,
-        name: name, 
-        altitude: altitude, 
-        width: width, 
-        depth: depth,
-        ratingZone: ratingZone
-    };
-    const green = new Green(greendetail);
-    green.save(function (err) {
-        if (err) {
-            console.log(`ERROR CREATING: ${green}`)
-            cb(err, null);
-            return;
-        }
-        // console.log(`New Green: ${green}`);
-        greens.push(green);
-        cb(null, green);
-    });
-}
-
-function ratingZoneCreate(name, distanceToGreen, altitude, obstacle, cb) {
+function ratingZoneCreate(hole, name, distanceToGreen, altitude, tee, green, lz, cb) {
     ratingZonedetail = {
+        hole: hole,
         name: name, 
         distanceToGreen: distanceToGreen, 
         altitude: altitude,
-        obstacle: obstacle
+        tee: tee,
+        green: green,
+        lz: lz
     };
     const ratingZone = new RatingZone(ratingZonedetail);
     ratingZone.save(function (err) {
@@ -163,8 +124,75 @@ function ratingZoneCreate(name, distanceToGreen, altitude, obstacle, cb) {
     });
 }
 
-function obstacleCreate(layup, dogleg, roll, topo, fairway, target, rR, bunker, lateral, crossing, tree, surface, cb) {
+function teeCreate(ratingZone, name, length, par, altitude, obstacle, cb) {
+    teedetail = {
+        ratingZone: ratingZone,
+        name: name, 
+        length: length, 
+        par: par, 
+        altitude: altitude,
+        obstacle: obstacle
+    };
+    const tee = new Tee(teedetail);
+    tee.save(function (err) {
+        if (err) {
+            console.log(`ERROR CREATING: ${tee}`)
+            cb(err, null);
+            return;
+        }
+        // console.log(`New Tee: ${tee}`);
+        tees.push(tee);
+        cb(null, tee);
+    });
+}
+
+function greenCreate(ratingZone, name, altitude, width, depth, obstacle, cb) {
+    greendetail = {
+        ratingZone: ratingZone,
+        name: name, 
+        altitude: altitude, 
+        width: width, 
+        depth: depth,
+        obstacle: obstacle
+    };
+    const green = new Green(greendetail);
+    green.save(function (err) {
+        if (err) {
+            console.log(`ERROR CREATING: ${green}`)
+            cb(err, null);
+            return;
+        }
+        // console.log(`New Green: ${green}`);
+        greens.push(green);
+        cb(null, green);
+    });
+}
+
+function lzCreate(ratingZone, name, altitude, width, depth, obstacle, cb) {
+    lzdetail = {
+        ratingZone: ratingZone,
+        name: name, 
+        altitude: altitude, 
+        width: width, 
+        depth: depth,
+        obstacle: obstacle
+    };
+    const lz = new Lz(lzdetail);
+    lz.save(function (err) {
+        if (err) {
+            console.log(`ERROR CREATING: ${lz}`)
+            cb(err, null);
+            return;
+        }
+        // console.log(`New Lz: ${lz}`);
+        lzs.push(lz);
+        cb(null, lz);
+    });
+}
+
+function obstacleCreate(name, layup, dogleg, roll, topo, fairway, target, rR, bunker, lateral, crossing, tree, surface, cb) {
     obstacledetail = {
+        name: name,
         layup: layup,
         dogleg: dogleg, 
         roll: roll, 
