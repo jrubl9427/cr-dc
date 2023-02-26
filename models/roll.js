@@ -4,11 +4,10 @@ const obstacle = require("./obstacle");
 const Schema = mongoose.Schema;
 
 const RollSchema = new Schema({
-    obstacle: [{
-    type: Schema.Types.ObjectId,
-    ref: "Obstacle",
-    required: true
-    }],
+    name: {
+        type: String,
+        required: true
+    },
     rating: {
         type: Number,
         required: true,

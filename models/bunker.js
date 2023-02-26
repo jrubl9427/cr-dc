@@ -1,14 +1,12 @@
 const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
-const obstacle = require("./obstacle");
 
 const BunkerSchema = new Schema({
-    obstacle: [{
-    type: Schema.Types.ObjectId,
-    ref: "Obstacle",
-    required: true
-    }],
+    name: {
+        type: String,
+        required: true
+    },
     rating: {
         type: Number,
         required: true,

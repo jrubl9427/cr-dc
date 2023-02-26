@@ -1,24 +1,8 @@
 const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
-// const Layup = require("layup")
 
 const ObstacleSchema = new Schema({
-    teeObstacle: {
-        type: Schema.Types.ObjectId,
-        ref: "Obstacle",
-        required: true
-    },
-    greenObstacle: {
-        type: Schema.Types.ObjectId,
-        ref: "Obstacle",
-        required: true
-    },
-    lzObstacle: {
-        type: Schema.Types.ObjectId,
-        ref: "Obstacle",
-        required: true
-    },
     name: {
         type: String
     },

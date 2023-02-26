@@ -12,7 +12,7 @@ const hole_controller = require("../controllers/holeController");
 const lateral_controller = require("../controllers/lateralController");
 const layup_controller = require("../controllers/layupController");
 const obstacle_controller = require("../controllers/obstacleController");
-const ratingZone_controller = require("../controllers/ratingZoneController");
+const lz_controller = require("../controllers/lzController");
 const roll_controller = require("../controllers/rollController");
 const rR_controller = require("../controllers/rRController");
 const surface_controller = require("../controllers/surfaceController");
@@ -284,31 +284,31 @@ router.get("/obstacle/:id", obstacle_controller.obstacle_detail);
 // GET request for list of all obstacles.
 router.get("/obstacles", obstacle_controller.obstacle_list);
 
-/// RATINGZONE ROUTES ///
+/// LZ ROUTES ///
 
-// GET request for creating RatingZone. NOTE This must come before route for id (i.e. display bunker).
-router.get("/ratingZone/create", ratingZone_controller.ratingZone_create_get);
+// GET request for creating Lz. NOTE This must come before route for id (i.e. display bunker).
+router.get("/lz/create", lz_controller.lz_create_get);
 
-// POST request for creating ratingZone.
-router.post("/ratingZone/create", ratingZone_controller.ratingZone_create_post);
+// POST request for creating lz.
+router.post("/lz/create", lz_controller.lz_create_post);
 
-// GET request to delete ratingZone.
-router.get("/ratingZone/:id/delete", ratingZone_controller.ratingZone_delete_get);
+// GET request to delete lz.
+router.get("/lz/:id/delete", lz_controller.lz_delete_get);
 
-// POST request to delete ratingZone.
-router.post("/ratingZone/:id/delete", ratingZone_controller.ratingZone_delete_post);
+// POST request to delete lz.
+router.post("/lz/:id/delete", lz_controller.lz_delete_post);
 
-// GET request to update ratingZone.
-router.get("/ratingZone/:id/update", ratingZone_controller.ratingZone_update_get);
+// GET request to update lz.
+router.get("/lz/:id/update", lz_controller.lz_update_get);
 
-// POST request to update ratingZone.
-router.post("/ratingZone/:id/update", ratingZone_controller.ratingZone_update_post);
+// POST request to update lz.
+router.post("/lz/:id/update", lz_controller.lz_update_post);
 
-// GET request for one ratingZone.
-router.get("/ratingZone/:id", ratingZone_controller.ratingZone_detail);
+// GET request for one lz.
+router.get("/lz/:id", lz_controller.lz_detail);
 
-// GET request for list of all ratingZones.
-router.get("/ratingZones", ratingZone_controller.ratingZone_list);
+// GET request for list of all lzs.
+router.get("/lzs", lz_controller.lz_list);
 
 /// ROLL ROUTES ///
 

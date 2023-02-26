@@ -14,7 +14,7 @@ const app = express();
 // Set up mongoose connection
 const mongoose = require ("mongoose");
 mongoose.set("strictQuery", false);
-const dev_db_url = "mongodb+srv://JimR:gohkIq-fushe8-hipfoj@crdata.mg0nclu.mongodb.net/course?retryWrites=true&w=majority";
+const dev_db_url = "mongodb+srv://JimR:gohkIq-fushe8-hipfoj@crdata.mg0nclu.mongodb.net/courseLZ?retryWrites=true&w=majority";
 const mongoDB = process.env.MONGODB_URI || dev_db_url;
 
 main().catch(err => console.log(err));

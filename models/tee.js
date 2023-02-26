@@ -4,16 +4,11 @@ const Schema = mongoose.Schema;
 const hole = require("./hole");
 
 const TeeSchema = new Schema({
-    ratingZone: {
-        type: Schema.Types.ObjectId,
-        ref: "RatingZone",
-        required: true
-    },
     name: {
         type: String,
         required: true,
-        minLength: 1,
-        maxLength:12
+        // minLength: 1,
+        // maxLength:12
     },
     length: {
         type: Number,
@@ -31,7 +26,7 @@ const TeeSchema = new Schema({
         type: Number,
         required: true
     },
-    teeObstacle: [{
+    obstacle: [{
         type: Schema.Types.ObjectId,
         ref: "Obstacle",
         required: true

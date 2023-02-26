@@ -3,6 +3,7 @@
 const Hole = require("../models/hole");
 const Green = require("../models/green");
 const Tee = require("../models/tee");
+const Lz = require("../models/lz");
 const async = require("async");
 
 // Display a list of all holes.
@@ -31,6 +32,7 @@ exports.hole_detail = (req, res, next) => {
                 Hole.findById(req.params.id)
                     .populate("green")
                     .populate("tee")
+                    .populate("lz")
                     .exec(callback);
             },
             greens(callback) {
@@ -39,6 +41,10 @@ exports.hole_detail = (req, res, next) => {
                     .exec(callback);
             },
             tees(callback) {
+                Tee.find({hole: req.params.id})
+                    .exec(callback);
+            },
+            lzs(callback) {
                 Tee.find({hole: req.params.id})
                     .exec(callback);
             },
@@ -58,6 +64,7 @@ exports.hole_detail = (req, res, next) => {
                 hole: results.hole,
                 tees: results.tees,
                 greens: results.greens,
+                lzs: results.lzs,
             });
         }
     );

@@ -1,14 +1,12 @@
 const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
-const obstacle = require("./obstacle");
 
 const DoglegSchema = new Schema({
-    obstacle: [{
-    type: Schema.Types.ObjectId,
-    ref: "Obstacle",
-    required: true
-    }],
+    name: {
+        type: String,
+        required: true
+    },
     effectiveLengthAdjust: {
         type: Number,
         required: true

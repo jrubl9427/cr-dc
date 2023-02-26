@@ -5,7 +5,7 @@ const Course = require("../models/course");
 const Hole = require("../models/hole");
 const Tee = require("../models/tee");
 const Green = require("../models/green");
-const RatingZone = require("../models/ratingZone");
+const Lz = require("../models/lz");
 const Obstacle = require("../models/obstacle");
 const Layup = require("../models/layup");
 const Dogleg = require("../models/dogleg");
@@ -36,8 +36,8 @@ exports.index = (req, res) => {
             green_count(callback) {
                 Green.countDocuments({}, callback);
             },
-            ratingZone_count(callback) {
-                RatingZone.countDocuments({}, callback);
+            lz_count(callback) {
+                Lz.countDocuments({}, callback);
             },
             obstacle_count(callback) {
                 Obstacle.countDocuments({}, callback);

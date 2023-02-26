@@ -3,11 +3,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const LayupSchema = new Schema({
-    obstacle: [{
-        type: Schema.Types.ObjectId,
-        ref: "Obstacle",
+    name: {
+        type: String,
         required: true
-    }],
+    },
     effectiveLengthAdjust: {
         type: Number,
         required: true

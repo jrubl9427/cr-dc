@@ -1,19 +1,17 @@
 const mongoose = require("mongoose");
-const obstacle = require("./obstacle");
 
 const Schema = mongoose.Schema;
 
 const TargetSchema = new Schema({
-    obstacle: [{
-    type: Schema.Types.ObjectId,
-    ref: "Obstacle",
-    required: true
-    }],
+    name: {
+        type: String,
+        required: true
+    },
     rating: {
         type: Number,
         required: true,
-        min: 2,
-        max: 10,
+        // min: 2,
+        // max: 10,
         default: 2
     },
     obstructed_O: {

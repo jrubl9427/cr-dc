@@ -12,7 +12,6 @@ const Hole = require("./models/hole");
 const Tee = require("./models/tee");
 const Green = require("./models/green");
 const Lz = require("./models/lz");
-const RatingZone = require("./models/ratingZone");
 const Obstacle = require("./models/obstacle");
 const Layup = require("./models/layup");
 const Dogleg = require("./models/dogleg");
@@ -35,7 +34,13 @@ const mongoDB = userArgs[0];
 
 main().catch(err => console.log(err));
 async function main() {
-    await mongoose.connect(mongoDB);
+    // await mongoose.connect(mongoDB);
+    await mongoose.connect("mongodb://mongo:hXmNvngOwXVPDOLRzf6W@containers-us-west-76.railway.app:8044", {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
+    .then(() => console.log("Successfully connect to MongoDB."))
+    .catch(err => console.error("connection error", err));
 }
 
 const courses = [];
@@ -43,7 +48,6 @@ const holes = [];
 const tees = [];
 const greens = [];
 const lzs = [];
-const ratingZones = [];
 const obstacles = [];
 const layups = [];
 const doglegs = [];
@@ -72,61 +76,40 @@ function courseCreate(name, date, altitude, wind, grassType, greenSpeed, roughHe
     const course = new Course(coursedetail);
     course.save(function (err) {
         if (err) {
-            console.log(`ERROR CREATING: ${course}`)
+            console.log(`ERROR SAVING COURSE: ${course}`)
             cb(err, null);
             return;
         }
         // console.log(`New Course: ${course}`);
+        console.log(`New Course`);
         courses.push(course);
         cb(null, course);
     });
 }
 
-function holeCreate(course, name, ratingZone, cb) {
+function holeCreate(name, tee, green, lz, cb) {
     holedetail = {
-        course: course,
         name: name,
-        ratingZone: ratingZone
+        tee: tee,
+        green: green,
+        lz: lz
     };
     const hole = new Hole(holedetail);
     hole.save(function (err) {
         if (err) {
-            console.log(`ERROR CREATING: ${hole}`)
+            console.log(`ERROR SAVING HOLE: ${hole}`)
             cb(err, null);
             return;
         }
         // console.log(`New Hole: ${hole}`);
+        console.log(`New Hole`);
         holes.push(hole);
         cb(null, hole);
     });
 }
 
-function ratingZoneCreate(hole, name, distanceToGreen, altitude, tee, green, lz, cb) {
-    ratingZonedetail = {
-        hole: hole,
-        name: name, 
-        distanceToGreen: distanceToGreen, 
-        altitude: altitude,
-        tee: tee,
-        green: green,
-        lz: lz
-    };
-    const ratingZone = new RatingZone(ratingZonedetail);
-    ratingZone.save(function (err) {
-        if (err) {
-            console.log(`ERROR CREATING: ${ratingZone}`)
-            cb(err, null);
-            return;
-        }
-        // console.log(`New RatingZone: ${ratingZone}`);
-        ratingZones.push(ratingZone);
-        cb(null, ratingZone);
-    });
-}
-
-function teeCreate(ratingZone, name, length, par, altitude, obstacle, cb) {
+function teeCreate(name, length, par, altitude, obstacle, cb) {
     teedetail = {
-        ratingZone: ratingZone,
         name: name, 
         length: length, 
         par: par, 
@@ -136,19 +119,19 @@ function teeCreate(ratingZone, name, length, par, altitude, obstacle, cb) {
     const tee = new Tee(teedetail);
     tee.save(function (err) {
         if (err) {
-            console.log(`ERROR CREATING: ${tee}`)
+            console.log(`ERROR SAVING TEE: ${tee}`)
             cb(err, null);
             return;
         }
         // console.log(`New Tee: ${tee}`);
+        console.log(`New Tee`);
         tees.push(tee);
         cb(null, tee);
     });
 }
 
-function greenCreate(ratingZone, name, altitude, width, depth, obstacle, cb) {
+function greenCreate(name, altitude, width, depth, obstacle, cb) {
     greendetail = {
-        ratingZone: ratingZone,
         name: name, 
         altitude: altitude, 
         width: width, 
@@ -158,33 +141,33 @@ function greenCreate(ratingZone, name, altitude, width, depth, obstacle, cb) {
     const green = new Green(greendetail);
     green.save(function (err) {
         if (err) {
-            console.log(`ERROR CREATING: ${green}`)
+            console.log(`ERROR SAVING GREEN: ${green}`)
             cb(err, null);
             return;
         }
         // console.log(`New Green: ${green}`);
+        console.log(`New Green`);
         greens.push(green);
         cb(null, green);
     });
 }
 
-function lzCreate(ratingZone, name, altitude, width, depth, obstacle, cb) {
+function lzCreate(name, altitude, distanceToGreen, obstacle, cb) {
     lzdetail = {
-        ratingZone: ratingZone,
         name: name, 
-        altitude: altitude, 
-        width: width, 
-        depth: depth,
+        altitude: altitude,
+        distanceToGreen: distanceToGreen,
         obstacle: obstacle
     };
     const lz = new Lz(lzdetail);
     lz.save(function (err) {
         if (err) {
-            console.log(`ERROR CREATING: ${lz}`)
+            console.log(`ERROR SAVING LZ: ${lz}`)
             cb(err, null);
             return;
         }
         // console.log(`New Lz: ${lz}`);
+        console.log(`New Lz`);
         lzs.push(lz);
         cb(null, lz);
     });
@@ -209,62 +192,61 @@ function obstacleCreate(name, layup, dogleg, roll, topo, fairway, target, rR, bu
     const obstacle = new Obstacle(obstacledetail);
     obstacle.save(function (err) {
         if (err) {
-            console.log(`ERROR CREATING: ${obstacle}`)
+            console.log(`ERROR SAVING OBSTACLE: ${obstacle}`)
             cb(err, null);
             return;
         }
-        console.log(`New Obstacle: ${obstacle}`);
+        // console.log(`New Obstacle: ${obstacle}`);
+        console.log(`New Obstacle`);
         obstacles.push(obstacle);
         cb(null, obstacle);
     });
 }
 
-function layupCreate(obstacle, effectiveLengthAdjust, length, typeLayup, cb) {
+function layupCreate(name, effectiveLengthAdjust, length, typeLayup, cb) {
     layupdetail = {
-        obstacle: obstacle,
+        name: name,
         effectiveLengthAdjust: effectiveLengthAdjust, 
         length: length, 
         typeLayup: typeLayup
     };
     const layup = new Layup(layupdetail);
-    Layup.findByIdAndUpdate(layup._id,
-        { $push: { obstacles: obstacle._id } },
-        { new: true, useFindAndModify: false }
-    );
     layup.save(function (err) {
         if (err) {
-            console.log(`ERROR CREATING: ${layup}`)
+            console.log(`ERROR SAVING LAYUP: ${layup}`)
             cb(err, null);
             return;
         }
-        console.log(`New Layup: ${layup}`);
+        // console.log(`New Layup: ${layup}`);
+        console.log(`New Layup`);
         layups.push(layup);
         cb(null, layup);
     });
 }
 
-function doglegCreate(obstacle, effectiveLengthAdjust, length, cb) {
+function doglegCreate(name, effectiveLengthAdjust, length, cb) {
     doglegdetail = {
-        obstacle: obstacle,
+        name: name,
         effectiveLengthAdjust: effectiveLengthAdjust, 
         length: length
     };
     const dogleg = new Dogleg(doglegdetail);
     dogleg.save(function (err) {
         if (err) {
-            console.log(`ERROR CREATING: ${dogleg}`)
+            console.log(`ERROR SAVING DOGLEG: ${dogleg}`)
             cb(err, null);
             return;
         }
         // console.log(`New Dogleg: ${dogleg}`);
+        console.log(`New Dogleg`);
         doglegs.push(dogleg);
         cb(null, dogleg);
     });
 }
 
-function rollCreate(obstacle, effectiveLengthAdjust, rating, firm_F, twoTimes_2, cb) {
+function rollCreate(name, effectiveLengthAdjust, rating, firm_F, twoTimes_2, cb) {
     rolldetail = {
-        obstacle: obstacle,
+        name: name,
         effectiveLengthAdjust: effectiveLengthAdjust, 
         rating: rating, 
         firm_F: firm_F, 
@@ -273,37 +255,39 @@ function rollCreate(obstacle, effectiveLengthAdjust, rating, firm_F, twoTimes_2,
     const roll = new Roll(rolldetail);
     roll.save(function (err) {
         if (err) {
-            console.log(`ERROR CREATING: ${roll}`)
+            console.log(`ERROR SAVING ROLL: ${roll}`)
             cb(err, null);
             return;
         }
         // console.log(`New Roll: ${roll}`);
+        console.log(`New Roll`);
         rolls.push(roll);
         cb(null, roll);
     });
 }
 
-function topoCreate(obstacle, rating, cb) {
+function topoCreate(name, rating, cb) {
     topodetail = {
-        obstacle: obstacle,
+        name: name,
         rating: rating
     };
     const topo = new Topo(topodetail);
     topo.save(function (err) {
         if (err) {
-            console.log(`ERROR CREATING: ${topo}`)
+            console.log(`ERROR SAVING TOPO: ${topo}`)
             cb(err, null);
             return;
         }
         // console.log(`New Topo: ${topo}`);
+        console.log(`New Topo`);
         topos.push(topo);
         cb(null, topo);
     });
 }
 
-function fairwayCreate(obstacle, rating, layup_L, visibility_V, width_W, unpleasant_U, cb) {
+function fairwayCreate(name, rating, layup_L, visibility_V, width_W, unpleasant_U, cb) {
     fairwaydetail = {
-        obstacle: obstacle,
+        name: name,
         rating: rating, 
         layup_L: layup_L, 
         visibility_V: visibility_V, 
@@ -313,19 +297,20 @@ function fairwayCreate(obstacle, rating, layup_L, visibility_V, width_W, unpleas
     const fairway = new Fairway(fairwaydetail);
     fairway.save(function (err) {
         if (err) {
-            console.log(`ERROR CREATING: ${fairway}`)
+            console.log(`ERROR SAVING FAIRWAY: ${fairway}`)
             cb(err, null);
             return;
         }
         // console.log(`New Fairway: ${fairway}`);
+        console.log(`New Fairway`);
         fairways.push(fairway);
         cb(null, fairway);
     });
 }
 
-function targetCreate(obstacle, rating, obstructed_O, visibility_V, cb) {
+function targetCreate(name, rating, obstructed_O, visibility_V, cb) {
     targetdetail = {
-        obstacle: obstacle,
+        name: name,
         rating: rating, 
         obstructed_O: obstructed_O, 
         visibility_V: visibility_V
@@ -333,19 +318,20 @@ function targetCreate(obstacle, rating, obstructed_O, visibility_V, cb) {
     const target = new Target(targetdetail);
     target.save(function (err) {
         if (err) {
-            console.log(`ERROR CREATING: ${target}`)
+            console.log(`ERROR SAVING TARGET: ${target}`)
             cb(err, null);
             return;
         }
         // console.log(`New Target: ${target}`);
+        console.log(`New Target`);
         targets.push(target);
         cb(null, target);
     });
 }
 
-function rRCreate(obstacle, rating, carry_C, layup_L, inconsistent_I, mounds_M, unpleasant_U, twoTimes_2, parThree_3, surrounded_S, cb) {
+function rRCreate(name, rating, carry_C, layup_L, inconsistent_I, mounds_M, unpleasant_U, twoTimes_2, parThree_3, surrounded_S, cb) {
     rRdetail = {
-        obstacle: obstacle,
+        name: name,
         rating: rating,
         carry_C: carry_C,
         layup_L: layup_L, 
@@ -359,19 +345,20 @@ function rRCreate(obstacle, rating, carry_C, layup_L, inconsistent_I, mounds_M, 
     const rR = new RR(rRdetail);
     rR.save(function (err) {
         if (err) {
-            console.log(`ERROR CREATING: ${rR}`)
+            console.log(`ERROR SAVING RR: ${rR}`)
             cb(err, null);
             return;
         }
         // console.log(`New RR: ${rR}`);
+        console.log(`New RR`);
         rRs.push(rR);
         cb(null, rR);
     });
 }
 
-function bunkerCreate(obstacle, rating, bounce_B, carry_C, depth_D, extreme_E, no_N, squeeze_Q, cb) {
+function bunkerCreate(name, rating, bounce_B, carry_C, depth_D, extreme_E, no_N, squeeze_Q, cb) {
     bunkerdetail = {
-        obstacle: obstacle,
+        name: name,
         rating: rating,
         bounce_B: bounce_B, 
         carry_C: carry_C, 
@@ -383,19 +370,20 @@ function bunkerCreate(obstacle, rating, bounce_B, carry_C, depth_D, extreme_E, n
     const bunker = new Bunker(bunkerdetail);
     bunker.save(function (err) {
         if (err) {
-            console.log(`ERROR CREATING: ${bunker}`)
+            console.log(`ERROR SAVING BUNKER: ${bunker}`)
             cb(err, null);
             return;
         }
         // console.log(`New Bunker: ${bunker}`);
+        console.log(`New Bunker`);
         bunkers.push(bunker);
         cb(null, bunker);
     });
 }
 
-function lateralCreate(obstacle, rating, percentage_P, bounce_B, squeeze_Q, stroke_K, twoTimes_2, surrounded_S, cb) {
+function lateralCreate(name, rating, percentage_P, bounce_B, squeeze_Q, stroke_K, twoTimes_2, surrounded_S, cb) {
     lateraldetail = {
-        obstacle: obstacle,
+        name: name,
         rating: rating, 
         percentage_P: percentage_P, 
         bounce_B: bounce_B, 
@@ -407,19 +395,20 @@ function lateralCreate(obstacle, rating, percentage_P, bounce_B, squeeze_Q, stro
     const lateral = new Lateral(lateraldetail);
     lateral.save(function (err) {
         if (err) {
-            console.log(`ERROR CREATING: ${lateral}`)
+            console.log(`ERROR SAVING LATERAL: ${lateral}`)
             cb(err, null);
             return;
         }
         // console.log(`New Lateral: ${lateral}`);
+        console.log(`New Lateral`);
         laterals.push(lateral);
         cb(null, lateral);
     });
 }
 
-function crossingCreate(obstacle, rating, percentage_P, carry_C, twoTimes_2, cb) {
+function crossingCreate(name, rating, percentage_P, carry_C, twoTimes_2, cb) {
     crossingdetail = {
-        obstacle: obstacle,
+        name: name,
         rating: rating, 
         percentage_P: percentage_P,
         carry_C: carry_C, 
@@ -428,19 +417,20 @@ function crossingCreate(obstacle, rating, percentage_P, carry_C, twoTimes_2, cb)
     const crossing = new Crossing(crossingdetail);
     crossing.save(function (err) {
         if (err) {
-            console.log(`ERROR CREATING: ${crossing}`)
+            console.log(`ERROR SAVING CROSSING: ${crossing}`)
             cb(err, null);
             return;
         }
         // console.log(`New crossing: ${crossing}`);
+        console.log(`New crossing`);
         crossings.push(crossing);
         cb(null, crossing);
     });
 }
 
-function treeCreate(obstacle, rating, obstructed_O, chute_H, cb) {
+function treeCreate(name, rating, obstructed_O, chute_H, cb) {
     treedetail = {
-        obstacle: obstacle,
+        name: name,
         rating: rating, 
         obstructed_O: obstructed_O, 
         chute_H: chute_H
@@ -448,19 +438,20 @@ function treeCreate(obstacle, rating, obstructed_O, chute_H, cb) {
     const tree = new Tree(treedetail);
     tree.save(function (err) {
         if (err) {
-            console.log(`ERROR CREATING: ${tree}`)
+            console.log(`ERROR SAVING TREE: ${tree}`)
             cb(err, null);
             return;
         }
         // console.log(`New Tree: ${tree}`);
+        console.log(`New Tree`);
         trees.push(tree);
         cb(null, tree);
     });
 }
 
-function surfaceCreate(obstacle, rating, tiered_T, firm_F, unpleasant_U, cb) {
+function surfaceCreate(name, rating, tiered_T, firm_F, unpleasant_U, cb) {
     surfacedetail = {
-        obstacle: obstacle,
+        name: name,
         rating: rating, 
         tiered_T: tiered_T, 
         firm_F: firm_F, 
@@ -469,11 +460,12 @@ function surfaceCreate(obstacle, rating, tiered_T, firm_F, unpleasant_U, cb) {
     const surface = new Surface(surfacedetail);
     surface.save(function (err) {
         if (err) {
-            console.log(`ERROR CREATING: ${surface}`)
+            console.log(`ERROR SAVING SURFACE: ${surface}`)
             cb(err, null);
             return;
         }
         // console.log(`New Surface: ${surface}`);
+        console.log(`New Surface`);
         surfaces.push(surface);
         cb(null, surface);
     });
@@ -490,10 +482,10 @@ function createCourses(cb) {
 function createHoles(cb) {
     async.parallel([
         function(callback) {
-            holeCreate(courses[0], 1, greens[0], [tees[0], tees[1]], callback);
+            holeCreate(1, [tees[0], tees[1]], greens[1], [lzs[0]], callback);
         },
         function(callback) {
-            holeCreate(courses[0], 2, greens[1], [tees[0], tees[1]], callback);
+            holeCreate(2, [tees[2], tees[3]], greens[0], [lzs[1], lzs[2], lzs[3]], callback);
         },
     ], cb);
 }
@@ -501,16 +493,16 @@ function createHoles(cb) {
 function createTees(cb) {
     async.parallel([
         function(callback) {
-            teeCreate("Black-Men", 336, 4, 300, [ratingZones[0], ratingZones[1]],callback);
+            teeCreate("Black-Men-1-Tee", 336, 4, 300, [obstacles[0]], callback);
         },
         function(callback) {
-            teeCreate("Red-Women", 152, 4, 295, ratingZones[2], callback);
+            teeCreate("Red-Women-1-Tee", 152, 4, 295, [obstacles[2]], callback);
         },
         function(callback) {
-            teeCreate("Black-Men", 553, 5, 350, [ratingZones[3], ratingZones[4], ratingZones[5]], callback);
+            teeCreate("Black-Men-2-Tee", 553, 5, 350, [obstacles[3]], callback);
         },
         function(callback) {
-            teeCreate("Red-Women", 303, 5, 340, [ratingZones[6], ratingZones[7]], callback);
+            teeCreate("Red-Women-2-Tee", 303, 5, 340, [obstacles[6]], callback);
         },
     ], cb);
 }
@@ -518,51 +510,27 @@ function createTees(cb) {
 function createGreens(cb) {
     async.parallel([
         function(callback) {
-            greenCreate(holes[1], 2, 350, 28, 33, [ratingZones[8],ratingZones[9]], callback);
+            greenCreate(2, 350, 28, 33, [obstacles[8]], callback);
         },
         function(callback) {
-            greenCreate(holes[0], 1, 305, 25, 42, [ratingZones[10], ratingZones[11]],callback);
+            greenCreate(1, 305, 25, 42, [obstacles[9]], callback);
         },
     ], cb);
 }
 
-function createRatingZones(cb) {
+function createLzs(cb) {
     async.parallel([
         function(callback) {
-            ratingZoneCreate("Black-Men-1-Scratch-Tee", 326, 305, obstacles[0], callback);
+            lzCreate("Black-Men-1-Scratch-1", 350, 86, [obstacles[1]],  callback);
         },
         function(callback) {
-            ratingZoneCreate("Black-Men-1-Scratch-1", 86, 340, obstacles[1], callback);
+            lzCreate("Black-Men-2-Scratch-1", 320, 303, [obstacles[4]],  callback);
         },
         function(callback) {
-            ratingZoneCreate("Red-Women-1-Scratch-Tee", 152, 310, obstacles[2], callback);
+            lzCreate("Black-Men-2-Scratch-2", 305, 83, [obstacles[5]],  callback);
         },
         function(callback) {
-            ratingZoneCreate("Black-Men-2-Scratch-Tee", 553, 340, obstacles[3], callback);
-        },
-        function(callback) {
-            ratingZoneCreate("Black-Men-2-Scratch-1", 303, 320, obstacles[4], callback);
-        },
-        function(callback) {
-            ratingZoneCreate("Black-Men-2-Scratch-2", 83, 305, obstacles[5], callback);
-        },
-        function(callback) {
-            ratingZoneCreate("Red-Women-2-Scratch-Tee", 374, 330, obstacles[6], callback);
-        },
-        function(callback) {
-            ratingZoneCreate("Red-Women-2-Scratch-1", 164, 310, obstacles[7], callback);
-        },
-        function(callback) {
-            ratingZoneCreate("Men-Scratch-1-Green", 0, 295, obstacles[8], callback);
-        },
-        function(callback) {
-            ratingZoneCreate("Women-Scratch-1-Green", 0, 295, obstacles[9], callback);
-        },
-        function(callback) {
-            ratingZoneCreate("Men-Scratch-2-Green", 0, 295, obstacles[10], callback);
-        },
-        function(callback) {
-            ratingZoneCreate("Women-Scratch-2-Green", 0, 295, obstacles[11], callback);
+            lzCreate("Red-Women-2-Scratch-1", 350, 164, [obstacles[7]],  callback);
         },
     ], cb);
 }
@@ -570,93 +538,85 @@ function createRatingZones(cb) {
 function createObstacles(cb) {
     async.series([
         function(callback) {
-            obstacleCreate(layups[0], doglegs[0], rolls [0], topos[0], fairways[0], targets[0], rRs[0], 
+            obstacleCreate("Black-Men-1-Tee", layups[0], doglegs[0], rolls [0], topos[0], fairways[0], targets[0], rRs[0], 
             bunkers[0], laterals[0], crossings[0], trees[0], surfaces[0], callback);
         },
         function(callback) {
-            obstacleCreate(layups[1], doglegs[1], rolls [1], topos[1], fairways[1], targets[1], rRs[1], 
+            obstacleCreate("Black-Men-1-Scratch-1", layups[1], doglegs[1], rolls [1], topos[1], fairways[1], targets[1], rRs[1], 
             bunkers[1], laterals[1], crossings[1], trees[1], surfaces[1], callback);
         },
         function(callback) {
-            obstacleCreate(layups[2], doglegs[2], rolls [2], topos[2], fairways[2], targets[2], rRs[2], 
+            obstacleCreate("Red-Women-1-Tee", layups[2], doglegs[2], rolls [2], topos[2], fairways[2], targets[2], rRs[2], 
             bunkers[2], laterals[2], crossings[2], trees[2], surfaces[2], callback);
         },
         function(callback) {
-            obstacleCreate(layups[3], doglegs[3], rolls [3], topos[3], fairways[3], targets[3], rRs[3], 
+            obstacleCreate("Black-Men-2-Tee", layups[3], doglegs[3], rolls [3], topos[3], fairways[3], targets[3], rRs[3], 
             bunkers[3], laterals[3], crossings[3], trees[3], surfaces[3], callback);
         },
         function(callback) {
-            obstacleCreate(layups[4], doglegs[4], rolls [4], topos[4], fairways[4], targets[4], rRs[4], 
+            obstacleCreate("Black-Men-2-Scratch-1", layups[4], doglegs[4], rolls [4], topos[4], fairways[4], targets[4], rRs[4], 
             bunkers[4], laterals[4], crossings[4], trees[4], surfaces[4], callback);
         },
         function(callback) {
-            obstacleCreate(layups[5], doglegs[5], rolls [5], topos[5], fairways[5], targets[5], rRs[5], 
+            obstacleCreate("Black-Men-2-Scratch-2", layups[5], doglegs[5], rolls [5], topos[5], fairways[5], targets[5], rRs[5], 
             bunkers[5], laterals[5], crossings[5], trees[5], surfaces[5], callback);
         },
         function(callback) {
-            obstacleCreate(layups[6], doglegs[6], rolls [6], topos[6], fairways[6], targets[6], rRs[6], 
+            obstacleCreate("Red-Women-2-Tee", layups[6], doglegs[6], rolls [6], topos[6], fairways[6], targets[6], rRs[6], 
             bunkers[6], laterals[6], crossings[6], trees[6], surfaces[6], callback);
         },
         function(callback) {
-            obstacleCreate(layups[7], doglegs[7], rolls [7], topos[7], fairways[7], targets[7], rRs[7], 
+            obstacleCreate("Red-Women-2-Scratch-1", layups[7], doglegs[7], rolls [7], topos[7], fairways[7], targets[7], rRs[7], 
             bunkers[7], laterals[7], crossings[7], trees[7], surfaces[7], callback);
         },
         function(callback) {
-            obstacleCreate(layups[8], doglegs[8], rolls [8], topos[8], fairways[8], targets[8], rRs[8], 
+            obstacleCreate("Hole 2", layups[8], doglegs[8], rolls [8], topos[8], fairways[8], targets[8], rRs[8], 
             bunkers[8], laterals[8], crossings[8], trees[8], surfaces[8], callback);
         },
         function(callback) {
-            obstacleCreate(layups[9], doglegs[9], rolls [9], topos[9], fairways[9], targets[9], rRs[9], 
+            obstacleCreate("Hole 1", layups[9], doglegs[9], rolls [9], topos[9], fairways[9], targets[9], rRs[9], 
             bunkers[9], laterals[9], crossings[9], trees[9], surfaces[9], callback);
-        },
-        function(callback) {
-            obstacleCreate(layups[10], doglegs[10], rolls [10], topos[10], fairways[10], targets[10], rRs[10], 
-            bunkers[10], laterals[10], crossings[10], trees[10], surfaces[10], callback);
-        },
-        function(callback) {
-            obstacleCreate(layups[11], doglegs[11], rolls [11], topos[11], fairways[11], targets[11], rRs[11], 
-            bunkers[11], laterals[11], crossings[11], trees[11], surfaces[11], callback);
-        },
+        }
     ], cb);
 }
 
 function createLayups(cb) {
     async.series([
         function(callback) {
-            layupCreate(0, 0, "forced", callback);
+            layupCreate("layup", 0, 0, "forced", callback);
         },
         function(callback) {
-            layupCreate(0, 0, "forced", callback);
+            layupCreate("layup", 0, 0, "forced", callback);
         },
         function(callback) {
-            layupCreate(0, 0, "forced", callback);
+            layupCreate("layup", 0, 0, "forced", callback);
         },
         function(callback) {
-            layupCreate(0, 0, "forced", callback);
+            layupCreate("layup", 0, 0, "forced", callback);
         },
         function(callback) {
-            layupCreate(0, 0, "forced", callback);
+            layupCreate("layup", 0, 0, "forced", callback);
         },
         function(callback) {
-            layupCreate(0, 0, "forced", callback);
+            layupCreate("layup", 0, 0, "forced", callback);
         },
         function(callback) {
-            layupCreate(0, 0, "forced", callback);
+            layupCreate("layup", 0, 0, "forced", callback);
         },
         function(callback) {
-            layupCreate(0, 0, "forced", callback);
+            layupCreate("layup", 0, 0, "forced", callback);
         },
         function(callback) {
-            layupCreate(0, 0, "forced", callback);
+            layupCreate("layup", 0, 0, "forced", callback);
         },
         function(callback) {
-            layupCreate(0, 0, "forced", callback);
+            layupCreate("layup", 0, 0, "forced", callback);
         },
         function(callback) {
-            layupCreate(0, 0, "forced", callback);
+            layupCreate("layup", 0, 0, "forced", callback);
         },
         function(callback) {
-            layupCreate(0, 0, "forced", callback);
+            layupCreate("layup", 0, 0, "forced", callback);
         }
     ], cb);
 }
@@ -664,40 +624,40 @@ function createLayups(cb) {
 function createDoglegs(cb) {
     async.series([
         function(callback) {
-            doglegCreate(obstacles[0], 0, callback);
+            doglegCreate("dogleg", 0, 0, callback);
         },
         function(callback) {
-            doglegCreate(obstacles[1], 0, callback);
+            doglegCreate("dogleg", 0, 0, callback);
         },
         function(callback) {
-            doglegCreate(obstacles[2], 0, callback);
+            doglegCreate("dogleg", 0, 0, callback);
         },
         function(callback) {
-            doglegCreate(obstacles[3], 0, callback);
+            doglegCreate("dogleg", 0, 0, callback);
         },
         function(callback) {
-            doglegCreate(obstacles[4], 0, callback);
+            doglegCreate("dogleg", 0, 0, callback);
         },
         function(callback) {
-            doglegCreate(obstacles[5], 0, callback);
+            doglegCreate("dogleg", 0, 0, callback);
         },
         function(callback) {
-            doglegCreate(obstacles[6], 0, callback);
+            doglegCreate("dogleg", 0, 0, callback);
         },
         function(callback) {
-            doglegCreate(obstacles[7], 0, callback);
+            doglegCreate("dogleg", 0, 0, callback);
         },
         function(callback) {
-            doglegCreate(obstacles[8], 0, callback);
+            doglegCreate("dogleg", 0, 0, callback);
         },
         function(callback) {
-            doglegCreate(obstacles[9], 0, callback);
+            doglegCreate("dogleg", 0, 0, callback);
         },
         function(callback) {
-            doglegCreate(obstacles[10], 0, callback);
+            doglegCreate("dogleg", 0, 0, callback);
         },
         function(callback) {
-            doglegCreate(obstacles[11], 0, callback);
+            doglegCreate("dogleg", 0, 0, callback);
         }
     ], cb);
 }
@@ -705,40 +665,40 @@ function createDoglegs(cb) {
 function createRolls(cb) {
     async.series([
         function(callback) {
-            rollCreate(obstacles[0], 0, 0, 0, 0, callback);
+            rollCreate("roll", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rollCreate(obstacles[1], 0, 0, 0, 0, callback);
+            rollCreate("roll", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rollCreate(obstacles[2], 0, 0, 0, 0, callback);
+            rollCreate("roll", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rollCreate(obstacles[3], 0, 0, 0, 0, callback);
+            rollCreate("roll", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rollCreate(obstacles[4], 0, 0, 0, 0, callback);
+            rollCreate("roll", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rollCreate(obstacles[5], 0, 0, 0, 0, callback);
+            rollCreate("roll", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rollCreate(obstacles[6], 0, 0, 0, 0, callback);
+            rollCreate("roll", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rollCreate(obstacles[7], 0, 0, 0, 0, callback);
+            rollCreate("roll", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rollCreate(obstacles[8], 0, 0, 0, 0, callback);
+            rollCreate("roll", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rollCreate(obstacles[9], 0, 0, 0, 0, callback);
+            rollCreate("roll", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rollCreate(obstacles[10], 0, 0, 0, 0, callback);
+            rollCreate("roll", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rollCreate(obstacles[11], 0, 0, 0, 0, callback);
+            rollCreate( "roll", 0, 0, 0, 0, callback);
         }
     ], cb);
 }
@@ -746,40 +706,40 @@ function createRolls(cb) {
 function createTopos(cb) {
     async.series([
         function(callback) {
-            topoCreate(obstacles[0], 0, callback);
+            topoCreate("topo", 0, callback);
         },
         function(callback) {
-            topoCreate(obstacles[1], 0, callback);
+            topoCreate("topo", 0, callback);
         },
         function(callback) {
-            topoCreate(obstacles[2], 0, callback);
+            topoCreate("topo", 0, callback);
         },
         function(callback) {
-            topoCreate(obstacles[3], 0, callback);
+            topoCreate("topo", 0, callback);
         },
         function(callback) {
-            topoCreate(obstacles[4], 0, callback);
+            topoCreate("topo", 0, callback);
         },
         function(callback) {
-            topoCreate(obstacles[5], 0, callback);
+            topoCreate("topo", 0, callback);
         },
         function(callback) {
-            topoCreate(obstacles[6], 0, callback);
+            topoCreate("topo", 0, callback);
         },
         function(callback) {
-            topoCreate(obstacles[7], 0, callback);
+            topoCreate("topo", 0, callback);
         },
         function(callback) {
-            topoCreate(obstacles[8], 0, callback);
+            topoCreate("topo", 0, callback);
         },
         function(callback) {
-            topoCreate(obstacles[9], 0, callback);
+            topoCreate("topo", 0, callback);
         },
         function(callback) {
-            topoCreate(obstacles[10], 0, callback);
+            topoCreate("topo", 0, callback);
         },
         function(callback) {
-            topoCreate(obstacles[11], 0, callback);
+            topoCreate("topo", 0, callback);
         }
     ], cb);
 }
@@ -787,40 +747,40 @@ function createTopos(cb) {
 function createFairways(cb) {
     async.series([
         function(callback) {
-            fairwayCreate(obstacles[0], 0, 0, 0, 0, 0, callback);
+            fairwayCreate("fairway", 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            fairwayCreate(obstacles[1], 0, 0, 0, 0, 0, callback);
+            fairwayCreate("fairway", 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            fairwayCreate(obstacles[2], 0, 0, 0, 0, 0, callback);
+            fairwayCreate("fairway", 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            fairwayCreate(obstacles[3], 0, 0, 0, 0, 0, callback);
+            fairwayCreate("fairway", 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            fairwayCreate(obstacles[4], 0, 0, 0, 0, 0, callback);
+            fairwayCreate("fairway", 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            fairwayCreate(obstacles[5], 0, 0, 0, 0, 0, callback);
+            fairwayCreate("fairway", 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            fairwayCreate(obstacles[6], 0, 0, 0, 0, 0, callback);
+            fairwayCreate("fairway", 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            fairwayCreate(obstacles[7], 0, 0, 0, 0, 0, callback);
+            fairwayCreate("fairway", 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            fairwayCreate(obstacles[8], 0, 0, 0, 0, 0, callback);
+            fairwayCreate("fairway", 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            fairwayCreate(obstacles[9], 0, 0, 0, 0, 0, callback);
+            fairwayCreate("fairway", 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            fairwayCreate(obstacles[10], 0, 0, 0, 0, 0, callback);
+            fairwayCreate("fairway", 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            fairwayCreate(obstacles[11], 0, 0, 0, 0, 0, callback);
+            fairwayCreate("fairway", 0, 0, 0, 0, 0, callback);
         }
     ], cb);
 }
@@ -828,40 +788,40 @@ function createFairways(cb) {
 function createTargets(cb) {
     async.series([
         function(callback) {
-            targetCreate(obstacles[0], 0, 0, 0, callback);
+            targetCreate("target", 0, 0, 0, callback);
         },
         function(callback) {
-            targetCreate(obstacles[1], 0, 0, 0, callback);
+            targetCreate("target", 0, 0, 0, callback);
         },
         function(callback) {
-            targetCreate(obstacles[2], 0, 0, 0, callback);
+            targetCreate("target", 0, 0, 0, callback);
         },
         function(callback) {
-            targetCreate(obstacles[3], 0, 0, 0, callback);
+            targetCreate("target", 0, 0, 0, callback);
         },
         function(callback) {
-            targetCreate(obstacles[4], 0, 0, 0, callback);
+            targetCreate("target", 0, 0, 0, callback);
         },
         function(callback) {
-            targetCreate(obstacles[5], 0, 0, 0, callback);
+            targetCreate("target", 0, 0, 0, callback);
         },
         function(callback) {
-            targetCreate(obstacles[6], 0, 0, 0, callback);
+            targetCreate("target", 0, 0, 0, callback);
         },
         function(callback) {
-            targetCreate(obstacles[7], 0, 0, 0, callback);
+            targetCreate("target", 0, 0, 0, callback);
         },
         function(callback) {
-            targetCreate(obstacles[8], 0, 0, 0, callback);
+            targetCreate("target", 0, 0, 0, callback);
         },
         function(callback) {
-            targetCreate(obstacles[9], 0, 0, 0, callback);
+            targetCreate("target", 0, 0, 0, callback);
         },
         function(callback) {
-            targetCreate(obstacles[10], 0, 0, 0, callback);
+            targetCreate("target", 0, 0, 0, callback);
         },
         function(callback) {
-            targetCreate(obstacles[11], 0, 0, 0, callback);
+            targetCreate("target", 0, 0, 0, callback);
         }
     ], cb);
 }
@@ -869,40 +829,40 @@ function createTargets(cb) {
 function createRRs(cb) {
     async.series([
         function(callback) {
-            rRCreate(obstacles[0], 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
+            rRCreate("rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rRCreate(obstacles[1], 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
+            rRCreate("rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rRCreate(obstacles[2], 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
+            rRCreate("rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rRCreate(obstacles[3], 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
+            rRCreate("rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rRCreate(obstacles[4], 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
+            rRCreate("rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rRCreate(obstacles[5], 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
+            rRCreate("rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rRCreate(obstacles[6], 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
+            rRCreate("rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rRCreate(obstacles[7], 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
+            rRCreate("rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rRCreate(obstacles[8], 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
+            rRCreate("rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rRCreate(obstacles[9], 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
+            rRCreate("rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rRCreate(obstacles[10], 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
+            rRCreate("rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rRCreate(obstacles[11], 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
+            rRCreate("rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
         }
     ], cb);
 }
@@ -910,40 +870,40 @@ function createRRs(cb) {
 function createBunkers(cb) {
     async.series([
         function(callback) {
-            bunkerCreate(obstacles[0], 0, 0, 0, 0, 0, 0, 0, callback);
+            bunkerCreate("bunker", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            bunkerCreate(obstacles[1], 0, 0, 0, 0, 0, 0, 0, callback);
+            bunkerCreate("bunker", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            bunkerCreate(obstacles[2], 0, 0, 0, 0, 0, 0, 0, callback);
+            bunkerCreate("bunker", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            bunkerCreate(obstacles[3], 0, 0, 0, 0, 0, 0, 0, callback);
+            bunkerCreate("bunker", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            bunkerCreate(obstacles[4], 0, 0, 0, 0, 0, 0, 0, callback);
+            bunkerCreate("bunker", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            bunkerCreate(obstacles[5], 0, 0, 0, 0, 0, 0, 0, callback);
+            bunkerCreate("bunker", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            bunkerCreate(obstacles[6], 0, 0, 0, 0, 0, 0, 0, callback);
+            bunkerCreate("bunker", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            bunkerCreate(obstacles[7], 0, 0, 0, 0, 0, 0, 0, callback);
+            bunkerCreate("bunker", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            bunkerCreate(obstacles[8], 0, 0, 0, 0, 0, 0, 0, callback);
+            bunkerCreate("bunker", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            bunkerCreate(obstacles[9], 0, 0, 0, 0, 0, 0, 0, callback);
+            bunkerCreate("bunker", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            bunkerCreate(obstacles[10], 0, 0, 0, 0, 0, 0, 0, callback);
+            bunkerCreate("bunker", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            bunkerCreate(obstacles[11], 0, 0, 0, 0, 0, 0, 0, callback);
+            bunkerCreate("bunker", 0, 0, 0, 0, 0, 0, 0, callback);
         }
     ], cb);
 }
@@ -951,40 +911,40 @@ function createBunkers(cb) {
 function createLaterals(cb) {
     async.series([
         function(callback) {
-            lateralCreate(obstacles[0], 0, 0, 0, 0, 0, 0, 0, callback);
+            lateralCreate("lateral", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            lateralCreate(obstacles[1], 0, 0, 0, 0, 0, 0, 0, callback);
+            lateralCreate("lateral", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            lateralCreate(obstacles[2], 0, 0, 0, 0, 0, 0, 0, callback);
+            lateralCreate("lateral", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            lateralCreate(obstacles[3], 0, 0, 0, 0, 0, 0, 0, callback);
+            lateralCreate("lateral", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            lateralCreate(obstacles[4], 0, 0, 0, 0, 0, 0, 0, callback);
+            lateralCreate("lateral", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            lateralCreate(obstacles[5], 0, 0, 0, 0, 0, 0, 0, callback);
+            lateralCreate("lateral", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            lateralCreate(obstacles[6], 0, 0, 0, 0, 0, 0, 0, callback);
+            lateralCreate("lateral", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            lateralCreate(obstacles[7], 0, 0, 0, 0, 0, 0, 0, callback);
+            lateralCreate("lateral", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            lateralCreate(obstacles[8], 0, 0, 0, 0, 0, 0, 0, callback);
+            lateralCreate("lateral", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            lateralCreate(obstacles[9], 0, 0, 0, 0, 0, 0, 0, callback);
+            lateralCreate("lateral", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            lateralCreate(obstacles[10], 0, 0, 0, 0, 0, 0, 0, callback);
+            lateralCreate("lateral", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            lateralCreate(obstacles[11], 0, 0, 0, 0, 0, 0, 0, callback);
+            lateralCreate("lateral", 0, 0, 0, 0, 0, 0, 0, callback);
         }
     ], cb);
 }
@@ -992,40 +952,40 @@ function createLaterals(cb) {
 function createCrossings(cb) {
     async.series([
         function(callback) {
-            crossingCreate(obstacles[0], 0, 0, 0, 0, callback);
+            crossingCreate("crossing", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            crossingCreate(obstacles[1], 0, 0, 0, 0, callback);
+            crossingCreate("crossing", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            crossingCreate(obstacles[2], 0, 0, 0, 0, callback);
+            crossingCreate("crossing", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            crossingCreate(obstacles[3], 0, 0, 0, 0, callback);
+            crossingCreate("crossing", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            crossingCreate(obstacles[4], 0, 0, 0, 0, callback);
+            crossingCreate("crossing", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            crossingCreate(obstacles[5], 0, 0, 0, 0, callback);
+            crossingCreate("crossing", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            crossingCreate(obstacles[6], 0, 0, 0, 0, callback);
+            crossingCreate("crossing", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            crossingCreate(obstacles[7], 0, 0, 0, 0, callback);
+            crossingCreate("crossing", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            crossingCreate(obstacles[8], 0, 0, 0, 0, callback);
+            crossingCreate("crossing", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            crossingCreate(obstacles[9], 0, 0, 0, 0, callback);
+            crossingCreate("crossing", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            crossingCreate(obstacles[10], 0, 0, 0, 0, callback);
+            crossingCreate("crossing", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            crossingCreate(obstacles[11], 0, 0, 0, 0, callback);
+            crossingCreate("crossing", 0, 0, 0, 0, callback);
         }
     ], cb);
 }
@@ -1033,40 +993,40 @@ function createCrossings(cb) {
 function createTrees(cb) {
     async.series([
         function(callback) {
-            treeCreate(obstacles[0], 0, 0, 0, callback);
+            treeCreate("tree", 0, 0, 0, callback);
         },
         function(callback) {
-            treeCreate(obstacles[1], 0, 0, 0, callback);
+            treeCreate("tree", 0, 0, 0, callback);
         },
         function(callback) {
-            treeCreate(obstacles[2], 0, 0, 0, callback);
+            treeCreate("tree", 0, 0, 0, callback);
         },
         function(callback) {
-            treeCreate(obstacles[3], 0, 0, 0, callback);
+            treeCreate("tree", 0, 0, 0, callback);
         },
         function(callback) {
-            treeCreate(obstacles[4], 0, 0, 0, callback);
+            treeCreate("tree", 0, 0, 0, callback);
         },
         function(callback) {
-            treeCreate(obstacles[5], 0, 0, 0, callback);
+            treeCreate("tree", 0, 0, 0, callback);
         },
         function(callback) {
-            treeCreate(obstacles[6], 0, 0, 0, callback);
+            treeCreate("tree", 0, 0, 0, callback);
         },
         function(callback) {
-            treeCreate(obstacles[7], 0, 0, 0, callback);
+            treeCreate("tree", 0, 0, 0, callback);
         },
         function(callback) {
-            treeCreate(obstacles[8], 0, 0, 0, callback);
+            treeCreate("tree", 0, 0, 0, callback);
         },
         function(callback) {
-            treeCreate(obstacles[9], 0, 0, 0, callback);
+            treeCreate("tree", 0, 0, 0, callback);
         },
         function(callback) {
-            treeCreate(obstacles[10], 0, 0, 0, callback);
+            treeCreate("tree", 0, 0, 0, callback);
         },
         function(callback) {
-            treeCreate(obstacles[11], 0, 0, 0, callback);
+            treeCreate("tree", 0, 0, 0, callback);
         }
     ], cb);
 }
@@ -1074,63 +1034,63 @@ function createTrees(cb) {
 function createSurfaces(cb) {
     async.series([
         function(callback) {
-            surfaceCreate(obstacles[0], 0, 0, 0, 0, callback);
+            surfaceCreate("surface", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate(obstacles[1], 0, 0, 0, 0, callback);
+            surfaceCreate("surface", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate(obstacles[2], 0, 0, 0, 0, callback);
+            surfaceCreate("surface", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate(obstacles[3], 0, 0, 0, 0, callback);
+            surfaceCreate("surface", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate(obstacles[4], 0, 0, 0, 0, callback);
+            surfaceCreate("surface", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate(obstacles[5], 0, 0, 0, 0, callback);
+            surfaceCreate("surface", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate(obstacles[6], 0, 0, 0, 0, callback);
+            surfaceCreate("surface", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate(obstacles[7], 0, 0, 0, 0, callback);
+            surfaceCreate("surface", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate(obstacles[8], 0, 0, 0, 0, callback);
+            surfaceCreate("surface", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate(obstacles[9], 0, 0, 0, 0, callback);
+            surfaceCreate("surface", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate(obstacles[10], 0, 0, 0, 0, callback);
+            surfaceCreate("surface", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate(obstacles[11], 0, 0, 0, 0, callback);
+            surfaceCreate("surface", 0, 0, 0, 0, callback);
         }
     ], cb);
 }
 
 async.series([
     createLayups,
-    // createDoglegs,
-    // createRolls,
-    // createTopos,
-    // createFairways,
-    // createTargets,
-    // createRRs,
-    // createBunkers,
-    // createLaterals,
-    // createCrossings,
-    // createTrees,
-    // createSurfaces,
+    createDoglegs,
+    createRolls,
+    createTopos,
+    createFairways,
+    createTargets,
+    createRRs,
+    createBunkers,
+    createLaterals,
+    createCrossings,
+    createTrees,
+    createSurfaces,
     createObstacles,
-    // createRatingZones,
-    // createGreens,
-    // createTees,
-    // createHoles,
-    // createCourses
+    createTees,
+    createGreens,
+    createLzs,
+    createHoles,
+    createCourses
 ],
 // Optional callback
     function (err, results) {
