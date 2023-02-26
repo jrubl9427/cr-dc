@@ -20,18 +20,22 @@ block content
             div(style="margin-left:40px;")
                 a(href=hole.url) #[strong Hole:] #{hole.name}
 
-            each green in hole.green.sort((a,b) => a.name - b.name)
+                each tee in hole.tee.sort((a,b) => b.length - a.length)
+                    
+                    div(style="margin-left:40px;")
+                        a(href=tee.url) #[strong Tee] #{tee.name}
+                        | (#{tee.length} yard par #{tee.par} altitude: #{tee.altitude} feet)
+
+                each lz in hole.lz.sort((a,b) => b.distanceToGreen - a.distanceToGreen)
+                    
+                    div(style="margin-left:40px;")
+                        a(href=lz.url) #[strong LZ] #{lz.name}
+                        | (#{lz.name} distanceToGreen #{lz.distanceToGreen} altitude: #{lz.altitude} feet)
 
                 div(style="margin-left:40px;")
-                    a(href=green.url) #[strong Green] #{green.name}
-                    | (altitude: #{green.altitude} feet diameter: #{green.diameter} yards)
+                    a(href=hole.green.url) #[strong Green] #{hole.green.name}
+                    | (altitude: #{hole.green.altitude} feet diameter: #{hole.green.diameter} yards)
 
-            each tee in hole.tee.sort((a,b) => b.length - a.length)
-                
-                div(style="margin-left:40px;")
-                    a(href=tee.url) #[strong Tee] #{tee.name}
-                    | (#{tee.length} yard par #{tee.par} altitude: #{tee.altitude} feet)
-             
     hr
     p 
         a(href=course.url+'/delete') Delete Course

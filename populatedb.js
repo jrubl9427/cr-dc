@@ -34,13 +34,13 @@ const mongoDB = userArgs[0];
 
 main().catch(err => console.log(err));
 async function main() {
-    // await mongoose.connect(mongoDB);
-    await mongoose.connect("mongodb://mongo:hXmNvngOwXVPDOLRzf6W@containers-us-west-76.railway.app:8044", {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    })
-    .then(() => console.log("Successfully connect to MongoDB."))
-    .catch(err => console.error("connection error", err));
+    await mongoose.connect(mongoDB);
+    // await mongoose.connect("mongodb://mongo:o3opmtz5RRjeXvhNaBAG@containers-us-west-146.railway.app:5808", {
+    //     useNewUrlParser: true,
+    //     useUnifiedTopology: true
+    // })
+    // .then(() => console.log("Successfully connect to MongoDB."))
+    // .catch(err => console.error("connection error", err));
 }
 
 const courses = [];

@@ -77,7 +77,7 @@ block content
                 
         div.form-group
             label Holes:
-            for hole in holes 
+            for hole in holes.sort((a,b) => a.name - b.name)
                 div(style="display: inline; padding-right:10px;")
                     input.checkbox-input(
                         type="checkbox", 

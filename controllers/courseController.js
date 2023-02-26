@@ -93,6 +93,7 @@ exports.index = (req, res) => {
 exports.course_list = (req, res, next) => {
     Course.find({})
         .sort({name: 1 })
+        // .populate({path: "hole", strictPopulate: false})
         .populate("hole")
         .exec(function (err, list_courses) {
             if (err) {
@@ -116,8 +117,9 @@ exports.course_detail = (req, res, next) => {
                     .exec(callback);
             },
             hole(callback) {
-                Hole.find({course: req.params.id})
+                Hole.find({})
                     .populate("green")
+                    .populate("lz")
                     .populate("tee")
                     .exec(callback);
             },
@@ -133,7 +135,6 @@ exports.course_detail = (req, res, next) => {
                 err.status = 404;
                 return next(err);
             }
-
             res.render("course_detail", {
                 title: results.course.name,
                 course: results.course,
@@ -252,7 +253,7 @@ exports.course_delete_get = (req, res, next) => {
                 Course.findById(req.params.id).populate("hole").exec(callback);
             },
             holes: function (callback) {
-                Hole.find({ course: req.params.id }).exec(callback);
+                Hole.find({}).exec(callback);
             }
         },
         function (err, results) {
