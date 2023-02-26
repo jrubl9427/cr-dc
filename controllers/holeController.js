@@ -10,7 +10,7 @@ const async = require("async");
 exports.hole_list = (req, res, next) => {
     Hole.find({})
         .sort({ name: 1 })
-        .populate("course")
+        // .populate("course")
         .exec(function (err, list_holes) {
             if (err) {
                 return next(err);
@@ -35,19 +35,19 @@ exports.hole_detail = (req, res, next) => {
                     .populate("lz")
                     .exec(callback);
             },
-            greens(callback) {
-                Green.find({hole: req.params.id})
-                    // .populate("hole")
-                    .exec(callback);
-            },
-            tees(callback) {
-                Tee.find({hole: req.params.id})
-                    .exec(callback);
-            },
-            lzs(callback) {
-                Tee.find({hole: req.params.id})
-                    .exec(callback);
-            },
+            // greens(callback) {
+            //     Green.find({hole: req.params.id})
+            //         // .populate("hole")
+            //         .exec(callback);
+            // },
+            // tees(callback) {
+            //     Tee.find({hole: req.params.id})
+            //         .exec(callback);
+            // },
+            // lzs(callback) {
+            //     Tee.find({hole: req.params.id})
+            //         .exec(callback);
+            // },
         },
         (err, results) => {
             if (err) {
@@ -62,9 +62,9 @@ exports.hole_detail = (req, res, next) => {
             res.render("hole_detail", {
                 title: results.hole.name,
                 hole: results.hole,
-                tees: results.tees,
-                greens: results.greens,
-                lzs: results.lzs,
+                // tees: results.tees,
+                // greens: results.greens,
+                // lzs: results.lzs,
             });
         }
     );

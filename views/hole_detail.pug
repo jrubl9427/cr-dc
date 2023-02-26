@@ -4,19 +4,30 @@ block content
     h1 Hole Number: #{hole.name}
 
     div(style="margin-left:20px;margin-top:20px")
-        h4 Green 
-        each green in hole.green.sort((a,b) => b.length - a.length)
-            
-            div(style="margin-left:40px;")
-                a(href=green.url)  #{green.name}
-                | (Diameter #{green.diameter} yards, Altitude: #{green.altitude})
-            
-        hr
-
         h4 Tees
         each tee in hole.tee.sort((a,b) => b.length - a.length)
 
             div(style="margin-left:40px;")
                 a(href=tee.url)  #{tee.name}
                 | (#{tee.length} yard, par #{tee.par})
+        hr
+        h4 Lzs 
+        each lz in hole.lz.sort((a,b) => b.distanceToGreen - a.distanceToGreen)
+
+            div(style="margin-left:40px;")
+                a(href=lz.url)  #{lz.name}
+                | (#{lz.distanceToGreen } yard, altitude #{lz.altitude})
+        hr
+        h4 Green 
+        div(style="margin-left:40px;")
+            a(href=hole.green.url)  #{hole.green.name}
+            | (Diameter #{hole.green.diameter} yards, Altitude: #{hole.green.altitude})
+            
+        hr
+
+    p 
+        a(href=hole.url+'/delete') Delete Hole
+    p
+        a(href=hole.url+'/update') Update Hole
+        
 
