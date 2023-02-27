@@ -45,7 +45,7 @@ exports.layup_detail = (req, res, next) => {
                 return next(err);
             }
             res.render("layup_detail", {
-                title: results.layup._id,
+                title: results.layup.name,
                 layup: results.layup,
                 obstacle: results.obstacle,
             });

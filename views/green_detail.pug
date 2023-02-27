@@ -1,0 +1,26 @@
+extends layout
+
+block content
+    h1 Green Number: #{green.name}
+
+    p #[strong Altitude:] #{green.altitude}
+    p #[strong Width:] #{green.width}
+    p #[strong Depth:] #{green.depth}
+
+    div(style="margin-left:20px;margin-top:20px")
+
+        h4 Obstacle
+        each obst in green.obstacle
+
+            div(style="margin-left:40px;")
+            
+                a(href=obst.url)  #{obst.name}
+
+    hr
+
+    p 
+        a(href=green.url+'/delete') Delete Green
+    p
+        a(href=green.url+'/update') Update Green
+        
+

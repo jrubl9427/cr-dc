@@ -1,0 +1,26 @@
+extends layout
+
+block content
+    h1 Tee: #{tee.name}
+
+    p #[strong Length:] #{tee.length}
+    p #[strong Par:] #{tee.par}
+    p #[strong Altitude:] #{tee.altitude}
+
+    div(style="margin-left:20px;margin-top:20px")
+
+        h4 Obstacle
+        each obst in tee.obstacle
+
+            div(style="margin-left:40px;")
+            
+                a(href=obst.url)  #{obst.name}
+
+    hr
+
+    p 
+        a(href=tee.url+'/delete') Delete Tee
+    p
+        a(href=tee.url+'/update') Update Tee
+        
+

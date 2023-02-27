@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    h1= title
+    
+    ul
+        each tee in tee_list
+            li
+                a(href=tee.url) Tee: #{tee.name}
+                
+        else
+            li There are no tees.

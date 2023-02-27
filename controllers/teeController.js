@@ -1,15 +1,52 @@
 // teeController.js
 
 const Tee = require("../models/tee");
+const async = require("async");
+
 
 // Display a list of all tees.
-exports.tee_list = (req, res) => {
-    res.send("NOT IMPLEMENTED: tee list");
+exports.tee_list = (req, res, next) => {
+    Tee.find({})
+        .sort({ length: -1 })
+        .exec(function (err, list_tees) {
+            if (err) {
+                return next(err);
+            } else {
+                // Successful, so render
+                res.render("tee_list", {
+                    title: "Tee List",
+                    tee_list: list_tees
+                });
+            }
+        });
 };
 
 // Display detail page for a specific tee.
-exports.tee_detail = (req, res) => {
-    res.send(`NOT IMPLEMENTED: tee detail: ${req.params.id}`);
+exports.tee_detail = (req, res, next) => {
+    async.parallel(
+        {
+            tee(callback) {
+                Tee.findById(req.params.id)
+                    .populate("obstacle")
+                    .exec(callback);
+            },
+        },
+        (err, results) => {
+            if (err) {
+                return next(err);
+            }
+            if (results.tee == null) {
+                // No, results
+                const err = new Error("Tee not found");
+                err.status = 404;
+                return next(err);
+            }
+            res.render("tee_detail", {
+                title: results.tee.name,
+                tee: results.tee
+            });
+        }
+    );
 };
 
 // Display tee create form on GET.

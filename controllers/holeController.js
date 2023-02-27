@@ -1,9 +1,6 @@
 // holeController.js
 
 const Hole = require("../models/hole");
-const Green = require("../models/green");
-const Tee = require("../models/tee");
-const Lz = require("../models/lz");
 const async = require("async");
 
 // Display a list of all holes.
@@ -42,11 +39,10 @@ exports.hole_detail = (req, res, next) => {
             }
             if (results.hole == null) {
                 // No, results
-                const err = new Error("Course not found");
+                const err = new Error("Hole not found");
                 err.status = 404;
                 return next(err);
             }
-            console.log("Results", results);
             res.render("hole_detail", {
                 title: results.hole.name,
                 hole: results.hole

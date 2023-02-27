@@ -1,0 +1,25 @@
+extends layout
+
+block content
+    h1 Lz: #{lz.name}
+
+    p #[strong Altitude:] #{lz.altitude}
+    p #[strong Distance To Green:] #{lz.distanceToGreen}
+
+    div(style="margin-left:20px;margin-top:20px")
+
+        h4 Obstacle
+        each obst in lz.obstacle
+
+            div(style="margin-left:40px;")
+            
+                a(href=obst.url)  #{obst.name}
+
+    hr
+
+    p 
+        a(href=lz.url+'/delete') Delete Lz
+    p
+        a(href=lz.url+'/update') Update Lz
+        
+

@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    h1= title
+    
+    ul
+        each green in green_list
+            li
+                a(href=green.url) Green: #{green.name}
+                
+        else
+            li There are no greens.

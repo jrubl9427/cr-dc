@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    h1= title
+    
+    ul
+        each lz in lz_list
+            li
+                a(href=lz.url) Lz: #{lz.name}
+                
+        else
+            li There are no lzs.

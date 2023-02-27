@@ -1,15 +1,51 @@
 // lzController.js
 
 const Lz = require("../models/lz");
+const async = require("async");
 
 // Display a list of all lzs.
-exports.lz_list = (req, res) => {
-    res.send("NOT IMPLEMENTED: lz list");
+exports.lz_list = (req, res, next) => {
+    Lz.find({})
+        .sort({ distanceToGreen: -1 })
+        .exec(function (err, list_lzs) {
+            if (err) {
+                return next(err);
+            } else {
+                // Successful, so render
+                res.render("lz_list", {
+                    title: "Lz List",
+                    lz_list: list_lzs
+                });
+            }
+        });
 };
 
 // Display detail page for a specific lz.
-exports.lz_detail = (req, res) => {
-    res.send(`NOT IMPLEMENTED: lz detail: ${req.params.id}`);
+exports.lz_detail = (req, res, next) => {
+    async.parallel(
+        {
+            lz(callback) {
+                Lz.findById(req.params.id)
+                    .populate("obstacle")
+                    .exec(callback);
+            },
+        },
+        (err, results) => {
+            if (err) {
+                return next(err);
+            }
+            if (results.lz == null) {
+                // No, results
+                const err = new Error("Lz not found");
+                err.status = 404;
+                return next(err);
+            }
+            res.render("lz_detail", {
+                title: results.lz.name,
+                lz: results.lz
+            });
+        }
+    );
 };
 
 // Display lz create form on GET.

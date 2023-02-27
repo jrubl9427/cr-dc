@@ -1,7 +1,7 @@
 extends layout
 
 block content
-    h1 Layup Name: #{layup.name}
+    h1 Layup: #{layup.name}
 
     p #[strong Effective Length Adjust:] #{layup.effectiveLengthAdjust}
     p #[strong Distance To Green:] #{layup.length}
@@ -9,9 +9,17 @@ block content
 
     div(style="margin-left:20px;margin-top:20px")
 
-           h4 Obstacle
-                each obst in obstacle
+        h4 Obstacle
+        each obst in obstacle
 
-                    div(style="margin-left:40px;")
-                        a(href=obst.url)  Obstacle: #{obst.name}
+            div(style="margin-left:40px;")
+            
+                a(href=obstacle.url) #{obst.name}
+            
+    hr
+
+    p 
+        a(href=layup.url+'/delete') Delete Layup
+    p
+        a(href=layup.url+'/update') Update Layup
 

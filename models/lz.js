@@ -26,7 +26,7 @@ const LzSchema = new Schema({
 
 // Virtual for tee's URL
 LzSchema.virtual("url").get(function () {
-    return `/catalog/tee/${this._id}`;
+    return `/catalog/lz/${this._id}`;
 });
 
 // Export the model
