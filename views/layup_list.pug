@@ -6,8 +6,8 @@ block content
     ul
         each layup in layup_list
             li
-                a(href=layup.url) layup id: #{layup._id}
-                | (obstacle id: #{layup.obstacle[0]._id}, adjust = #{layup.effectiveLengthAdjust}, length = #{layup.length}, type = #{layup.typeLayup})
+                a(href=layup.url) name: #{layup.name}
+                //- | (adjust = #{layup.effectiveLengthAdjust}, length = #{layup.length}, type = #{layup.typeLayup})
                 
         else
             li There are no layups.

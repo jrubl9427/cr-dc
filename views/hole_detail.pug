@@ -10,6 +10,7 @@ block content
             div(style="margin-left:40px;")
                 a(href=tee.url)  #{tee.name}
                 | (#{tee.length} yard, par #{tee.par})
+
         hr
         h4 Lzs 
         each lz in hole.lz.sort((a,b) => b.distanceToGreen - a.distanceToGreen)

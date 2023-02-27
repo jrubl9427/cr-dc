@@ -35,19 +35,6 @@ exports.hole_detail = (req, res, next) => {
                     .populate("lz")
                     .exec(callback);
             },
-            // greens(callback) {
-            //     Green.find({hole: req.params.id})
-            //         // .populate("hole")
-            //         .exec(callback);
-            // },
-            // tees(callback) {
-            //     Tee.find({hole: req.params.id})
-            //         .exec(callback);
-            // },
-            // lzs(callback) {
-            //     Tee.find({hole: req.params.id})
-            //         .exec(callback);
-            // },
         },
         (err, results) => {
             if (err) {
@@ -59,12 +46,10 @@ exports.hole_detail = (req, res, next) => {
                 err.status = 404;
                 return next(err);
             }
+            console.log("Results", results);
             res.render("hole_detail", {
                 title: results.hole.name,
-                hole: results.hole,
-                // tees: results.tees,
-                // greens: results.greens,
-                // lzs: results.lzs,
+                hole: results.hole
             });
         }
     );

@@ -1,20 +1,17 @@
 extends layout
 
 block content
-    h1 Layup ID Number: #{title}
+    h1 Layup Name: #{layup.name}
+
+    p #[strong Effective Length Adjust:] #{layup.effectiveLengthAdjust}
+    p #[strong Distance To Green:] #{layup.length}
+    p #[strong Type Layup:] #{layup.typeLayup}
 
     div(style="margin-left:20px;margin-top:20px")
-        h4 Layup 
-            
-            div(style="margin-left:40px;")
-                a(href=layup.url)  #{layup._id}
-                | (Adjust: #{layup.effectiveLengthAdjust} yards, Length: #{layup.length} yards, Type: #{layup.typeLayup})
-            
-        hr
 
-        h4 Obstacle
-        each obst in obstacle
+           h4 Obstacle
+                each obst in obstacle
 
-            div(style="margin-left:40px;")
-                a(href=obst.url)  Obstacle #{obst._id}
+                    div(style="margin-left:40px;")
+                        a(href=obst.url)  Obstacle: #{obst.name}
 

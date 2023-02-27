@@ -472,7 +472,7 @@ function surfaceCreate(name, rating, tiered_T, firm_F, unpleasant_U, cb) {
 }
 
 function createCourses(cb) {
-    async.parallel([
+    async.series([
         function(callback) {
             courseCreate("VNCC", "2023-01-26", 345, 15, "CoolSeason", "10.4", "2.25", [holes[0], holes[1]], callback);
         },
@@ -480,7 +480,7 @@ function createCourses(cb) {
 }
 
 function createHoles(cb) {
-    async.parallel([
+    async.series([
         function(callback) {
             holeCreate(1, [tees[0], tees[1]], greens[1], [lzs[0]], callback);
         },
@@ -491,7 +491,7 @@ function createHoles(cb) {
 }
 
 function createTees(cb) {
-    async.parallel([
+    async.series([
         function(callback) {
             teeCreate("Black-Men-1-Tee", 336, 4, 300, [obstacles[0]], callback);
         },
@@ -508,7 +508,7 @@ function createTees(cb) {
 }
 
 function createGreens(cb) {
-    async.parallel([
+    async.series([
         function(callback) {
             greenCreate(2, 350, 28, 33, [obstacles[8]], callback);
         },
@@ -519,7 +519,7 @@ function createGreens(cb) {
 }
 
 function createLzs(cb) {
-    async.parallel([
+    async.series([
         function(callback) {
             lzCreate("Black-Men-1-Scratch-1", 350, 86, [obstacles[1]],  callback);
         },
