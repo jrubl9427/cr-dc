@@ -44,7 +44,7 @@ const LateralSchema = new Schema({
         max: 1,
         default: 0
     },
-    surroiunded_S: {
+    surrounded_S: {
         type: Number,
         min: 0,
         max: 3,
