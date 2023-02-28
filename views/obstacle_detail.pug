@@ -5,51 +5,115 @@ block content
 
     div(style="margin-left:20px;margin-top:20px")                    
         a(href=obstacle.layup.url)  #{obstacle.layup.name}
-        | (Adjust: #{obstacle.layup.effectiveLengthAdjust}, Length: #{obstacle.layup.length}, Type: #{obstacle.layup.typeLayup})                    
+
+        ul 
+            li Adjust: #{obstacle.layup.effectiveLengthAdjust}
+            li Length: #{obstacle.layup.length}
+            li Type: #{obstacle.layup.typeLayup}      
  
     div(style="margin-left:20px;margin-top:20px")       
         a(href=obstacle.dogleg.url)  #{obstacle.dogleg.name}
-        | (Adjust: #{obstacle.dogleg.effectiveLengthAdjust}, Length: #{obstacle.dogleg.length})
+
+        ul 
+            li Adjust: #{obstacle.dogleg.effectiveLengthAdjust}
+            li Length: #{obstacle.dogleg.length}
 
     div(style="margin-left:20px;margin-top:20px")       
         a(href=obstacle.roll.url)  #{obstacle.roll.name}
-        | (Rating: #{obstacle.roll.rating}, Adjust: #{obstacle.roll.effectiveLengthAdjust}, Firm Adjust: #{obstacle.roll.firm_F}, Two Adjust: #{obstacle.roll.twoTimes_2})
+
+        ul 
+            li Rating: #{obstacle.roll.rating}
+            li Adjust: #{obstacle.roll.effectiveLengthAdjust}
+            li Firm Adjust: #{obstacle.roll.firm_F}
+            li Two Adjust: #{obstacle.roll.twoTimes_2}
 
     div(style="margin-left:20px;margin-top:20px")       
         a(href=obstacle.topo.url)  #{obstacle.topo.name}
-        | (Rating: #{obstacle.topo.rating})
+
+        ul 
+            li Rating: #{obstacle.topo.rating}
 
     div(style="margin-left:20px;margin-top:20px")       
         a(href=obstacle.fairway.url)  #{obstacle.fairway.name}
-        | (Rating: #{obstacle.fairway.rating}, Layup Adjust: #{obstacle.fairway.layup_L}, Visibility Adjust: #{obstacle.fairway.visibility_V}, Width Adjust: #{obstacle.fairway.width_W}, Unpleasant Adjust: #{obstacle.fairway.unpleasant_U})
+
+        ul 
+            li Rating: #{obstacle.fairway.rating}
+            li Layup Adjust: #{obstacle.fairway.layup_L}
+            li Visibility Adjust: #{obstacle.fairway.visibility_V}
+            li Width Adjust: #{obstacle.fairway.width_W}
+            li Unpleasant Adjust: #{obstacle.fairway.unpleasant_U}
 
     div(style="margin-left:20px;margin-top:20px")       
         a(href=obstacle.target.url)  #{obstacle.target.name}
-        | (Rating: #{obstacle.target.rating}, Obstructed Adjust: #{obstacle.target.obstructed_O}, Visibility Adjust: #{obstacle.target.visibility_V})
+
+        ul 
+            li Rating: #{obstacle.target.rating}
+            li Obstructed Adjust: #{obstacle.target.obstructed_O}
+            li Visibility Adjust: #{obstacle.target.visibility_V}
 
     div(style="margin-left:20px;margin-top:20px")       
         a(href=obstacle.rR.url)  #{obstacle.rR.name}
-        | (Rating: #{obstacle.rR.rating}, Carry Adjust: #{obstacle.rR.carry_C}, Layup Adjust: #{obstacle.rR.layup_L}, Inconsistent Adjust: #{obstacle.rR.inconsistent_I}, Mounds Adjust: #{obstacle.rR.mounds_M}, Unpleasant Adjust: #{obstacle.rR.unpleasant_U}, Two Adjust: #{obstacle.rR.twoTimes_2}, Par 3 Adjust: #{obstacle.rR.parThree_3}, Surrounded Adjust: #{obstacle.rR.surrounded_S})
+
+        ul 
+            li Rating: #{obstacle.rR.rating}
+            li Carry Adjust: #{obstacle.rR.carry_C}
+            li Layup Adjust: #{obstacle.rR.layup_L}
+            li Inconsistent Adjust: #{obstacle.rR.inconsistent_I}
+            li Mounds Adjust: #{obstacle.rR.mounds_M}
+            li Unpleasant Adjust: #{obstacle.rR.unpleasant_U}
+            li Two Adjust: #{obstacle.rR.twoTimes_2}
+            li Par 3 Adjust: #{obstacle.rR.parThree_3}
+            li Surrounded Adjust: #{obstacle.rR.surrounded_S}
 
     div(style="margin-left:20px;margin-top:20px")       
         a(href=obstacle.bunker.url)  #{obstacle.bunker.name}
-        | (Rating: #{obstacle.bunker.rating}, Bounce Adjust: #{obstacle.bunker.bounce_B}, Carry Adjust: #{obstacle.bunker.carry_C}, Depth Adjust: #{obstacle.bunker.depth_D}, Extreme Adjust: #{obstacle.bunker.extreme_E}, No Adjust: #{obstacle.bunker.no_N}, Squeeze Adjust: #{obstacle.bunker.squeeze_Q})
+
+        ul 
+            li Rating: #{obstacle.bunker.rating}
+            li Bounce Adjust: #{obstacle.bunker.bounce_B}
+            li Carry Adjust: #{obstacle.bunker.carry_C}
+            li Depth Adjust: #{obstacle.bunker.depth_D}
+            li Extreme Adjust: #{obstacle.bunker.extreme_E}
+            li No Adjust: #{obstacle.bunker.no_N}
+            li Squeeze Adjust: #{obstacle.bunker.squeeze_Q}
 
     div(style="margin-left:20px;margin-top:20px")       
         a(href=obstacle.lateral.url)  #{obstacle.lateral.name}
-        | (Rating: #{obstacle.lateral.rating}, Percentage Adjust: #{obstacle.lateral.percentage_P}, Bounce Adjust: #{obstacle.lateral.bounce_B}, Squeeze Adjust: #{obstacle.lateral.squeeze_Q}, Stroke Adjust: #{obstacle.lateral.stroke_K}, Two Adjust: #{obstacle.lateral.twoTimes_2},Surrounded: #{obstacle.lateral.surrounded_S})
+
+        ul 
+            li Rating: #{obstacle.lateral.rating}
+            li Percentage Adjust: #{obstacle.lateral.percentage_P}
+            li Bounce Adjust: #{obstacle.lateral.bounce_B}
+            li Squeeze Adjust: #{obstacle.lateral.squeeze_Q}
+            li Stroke Adjust: #{obstacle.lateral.stroke_K}
+            li Two Adjust: #{obstacle.lateral.twoTimes_2}
+            li Surrounded: #{obstacle.lateral.surrounded_S}
 
     div(style="margin-left:20px;margin-top:20px")       
         a(href=obstacle.crossing.url)  #{obstacle.crossing.name}
-        | (Rating: #{obstacle.crossing.rating}, Percentage Adjust: #{obstacle.crossing.percentage_P}, Carry Adjust: #{obstacle.crossing.carry_C}, Two Adjust: #{obstacle.crossing.twoTimes_2})
+
+        ul 
+            li Rating: #{obstacle.crossing.rating}
+            li Percentage Adjust: #{obstacle.crossing.percentage_P}
+            li Carry Adjust: #{obstacle.crossing.carry_C}
+            li Two Adjust: #{obstacle.crossing.twoTimes_2}
 
     div(style="margin-left:20px;margin-top:20px")       
         a(href=obstacle.tree.url)  #{obstacle.tree.name}
-        | (Rating: #{obstacle.tree.rating}, Obstructed Adjust: #{obstacle.tree.obstructed_O}, Chute Adjust: #{obstacle.tree.chute_H})
+
+        ul 
+            li Rating: #{obstacle.tree.rating}
+            li Obstructed Adjust: #{obstacle.tree.obstructed_O}
+            li Chute Adjust: #{obstacle.tree.chute_H}
 
     div(style="margin-left:20px;margin-top:20px")       
         a(href=obstacle.surface.url)  #{obstacle.surface.name}
-        | (Rating: #{obstacle.surface.rating}, Tiered Adjust: #{obstacle.surface.tiered_T}, Firm Adjust: #{obstacle.surface.firm_F}, Unpleasant Adjust: #{obstacle.surface.unpleasant_U})
+
+        ul 
+            li Rating: #{obstacle.surface.rating}
+            li Tiered Adjust: #{obstacle.surface.tiered_T}
+            li Firm Adjust: #{obstacle.surface.firm_F}
+            li Unpleasant Adjust: #{obstacle.surface.unpleasant_U}
         
     hr
 
