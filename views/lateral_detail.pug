@@ -1,0 +1,31 @@
+extends layout
+
+block content
+    h1 Lateral: #{lateral.name}
+    
+    div(style="margin-left:20px;margin-top:20px")
+
+        p #[strong rating: ] #{lateral.rating}
+        p #[strong Percentage Adjust: ] #{lateral.percentage_P}
+        p #[strong Bounce Adjust: ] #{lateral.bounce_B}
+        p #[strong Squeeze Adjust: ] #{lateral.squeeze_Q}
+        p #[strong Stroke Adjust: ] #{lateral.stroke_K}
+        p #[strong Two Adjust: ] #{lateral.twoTimes_2}
+        p #[strong Surrounded: ] #{lateral.surrounded_S}
+
+    div(style="margin-left:20px;margin-top:20px")
+
+        h4 Obstacle
+        each obst in obstacle
+
+            div(style="margin-left:40px;")
+            
+                a(href=obst.url) #{obst.name}
+            
+    hr
+
+    p 
+        a(href=lateral.url+'/delete') Delete Lateral
+    p
+        a(href=lateral.url+'/update') Update Lateral
+

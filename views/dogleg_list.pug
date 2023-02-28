@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    h1= title
+    
+    ul
+        each dogleg in dogleg_list
+            li
+                a(href=dogleg.url) name: #{dogleg.name}
+                | (adjust = #{dogleg.effectiveLengthAdjust}, length = #{dogleg.length})
+                
+        else
+            li There are no doglegs.

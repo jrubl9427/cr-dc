@@ -1,0 +1,31 @@
+extends layout
+
+block content
+    h1 Bunker: #{bunker.name}
+    
+    div(style="margin-left:20px;margin-top:20px")
+
+        p #[strong rating: ] #{bunker.rating}
+        p #[strong Bounce Adjust: ] {bunker.bounce_B}
+        p #[strong Carry Adjust: ] {bunker.carry_C}
+        p #[strong Depth Adjust: ] {bunker.depth_D}
+        p #[strong Extreme Adjust: ] {bunker.extreme_E}
+        p #[strong No Adjust: ] {bunker.no_N}
+        p #[strong Squeeze Adjust: ] {bunker.squeeze_Q}
+
+    div(style="margin-left:20px;margin-top:20px")
+
+        h4 Obstacle
+        each obst in obstacle
+
+            div(style="margin-left:40px;")
+            
+                a(href=obst.url) #{obst.name}
+            
+    hr
+
+    p 
+        a(href=bunker.url+'/delete') Delete Bunker
+    p
+        a(href=bunker.url+'/update') Update Bunker
+

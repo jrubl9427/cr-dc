@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    h1= title
+    
+    ul
+        each tree in tree_list
+            li
+                a(href=tree.url) name: #{tree.name}
+                | (Rating: #{tree.rating}, Obstructed Adjust: #{tree.obstructed_O}, Chute Adjust: #{tree.chute_H})
+                
+        else
+            li There are no trees.

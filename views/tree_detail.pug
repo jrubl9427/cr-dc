@@ -1,13 +1,13 @@
 extends layout
 
 block content
-    h1 Layup: #{layup.name}
-
+    h1 Tree: #{tree.name}
+    
     div(style="margin-left:20px;margin-top:20px")
 
-        p #[strong Effective Length Adjust:] #{layup.effectiveLengthAdjust}
-        p #[strong Distance To Green:] #{layup.length}
-        p #[strong Type Layup:] #{layup.typeLayup}
+        p #[strong rating: ] #{tree.rating}
+        p #[strong Obstructed Adjust: ] #{tree.obstructed_O}
+        p #[strong Chute Adjust: ] #{tree.chute_H}
 
     div(style="margin-left:20px;margin-top:20px")
 
@@ -21,7 +21,7 @@ block content
     hr
 
     p 
-        a(href=layup.url+'/delete') Delete Layup
+        a(href=tree.url+'/delete') Delete Tree
     p
-        a(href=layup.url+'/update') Update Layup
+        a(href=tree.url+'/update') Update Tree
 

@@ -25,18 +25,18 @@ exports.obstacle_detail = (req, res, next) => {
         {
             obstacle(callback) {
                 Obstacle.findById(req.params.id)
-                .populate("layup")
-                .populate("dogleg")
-                .populate("roll")
-                .populate("topo")
-                .populate("fairway")
-                .populate("target")
-                .populate("rR")
-                .populate("bunker")
-                .populate("lateral")
-                .populate("crossing")
-                .populate("tree")
-                .populate("surface")
+                    .populate("layup")
+                    .populate("dogleg")
+                    .populate("roll")
+                    .populate("topo")
+                    .populate("fairway")
+                    .populate("target")
+                    .populate("rR")
+                    .populate("bunker")
+                    .populate("lateral")
+                    .populate("crossing")
+                    .populate("tree")
+                    .populate("surface")
                     .exec(callback);
             },
         },
@@ -50,7 +50,6 @@ exports.obstacle_detail = (req, res, next) => {
                 err.status = 404;
                 return next(err);
             }
-            console.log("Results", results);
             res.render("obstacle_detail", {
                 title: results.obstacle.name,
                 obstacle: results.obstacle

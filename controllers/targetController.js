@@ -1,15 +1,55 @@
 // targetController.js
 
+const async = require("async");
 const Target = require("../models/target");
+const Obstacle = require("../models/obstacle");
+const { body, validationResult } = require("express-validator");
 
 // Display a list of all targets.
-exports.target_list = (req, res) => {
-    res.send("NOT IMPLEMENTED: target list");
+exports.target_list = (req, res, next) => {
+    Target.find({})
+        .exec(function (err, list_targets) {
+            if (err) {
+                return next(err);
+            }
+            // Successful, so render
+            res.render("target_list", {
+                title: "Target List",
+                target_list: list_targets
+            });
+        })
 };
 
 // Display detail page for a specific target.
-exports.target_detail = (req, res) => {
-    res.send(`NOT IMPLEMENTED: target detail: ${req.params.id}`);
+exports.target_detail = (req, res, next) => {
+    async.parallel(
+        {
+            target(callback) {
+                Target.findById(req.params.id)
+                    .exec(callback);
+            },
+            obstacle(callback) {
+                Obstacle.find({target: req.params.id})
+                    .exec(callback);
+            },
+        },
+        (err, results) => {
+            if (err) {
+                return next(err);
+            }
+            if (results.target == null) {
+                // No, results
+                const err = new Error("Target not found");
+                err.status = 404;
+                return next(err);
+            }
+            res.render("target_detail", {
+                title: results.target.name,
+                target: results.target,
+                obstacle: results.obstacle,
+            });
+        }
+    )
 };
 
 // Display target create form on GET.

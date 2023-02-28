@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    h1= title
+    
+    ul
+        each crossing in crossing_list
+            li
+                a(href=crossing.url) name: #{crossing.name}
+                | (Rating: #{crossing.rating}, Percentage Adjust: #{crossing.percentage_P}, Carry Adjust: #{crossing.carry_C}, Two Adjust: #{crossing.twoTimes_2})
+                
+        else
+            li There are no crossings.

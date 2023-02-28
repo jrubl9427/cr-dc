@@ -1,15 +1,55 @@
 // bunkerController.js
 
+const async = require("async");
 const Bunker = require("../models/bunker");
+const Obstacle = require("../models/obstacle");
+const { body, validationResult } = require("express-validator");
 
 // Display a list of all bunkers.
-exports.bunker_list = (req, res) => {
-    res.send("NOT IMPLEMENTED: Bunker list");
+exports.bunker_list = (req, res, next) => {
+    Bunker.find({})
+        .exec(function (err, list_bunkers) {
+            if (err) {
+                return next(err);
+            }
+            // Successful, so render
+            res.render("bunker_list", {
+                title: "Bunker List",
+                bunker_list: list_bunkers
+            });
+        })
 };
 
-// Display detail page for a specific Bunker.
-exports.bunker_detail = (req, res) => {
-    res.send(`NOT IMPLEMENTED: Bunker detail: ${req.params.id}`);
+// Display detail page for a specific bunker.
+exports.bunker_detail = (req, res, next) => {
+    async.parallel(
+        {
+            bunker(callback) {
+                Bunker.findById(req.params.id)
+                    .exec(callback);
+            },
+            obstacle(callback) {
+                Obstacle.find({bunker: req.params.id})
+                    .exec(callback);
+            },
+        },
+        (err, results) => {
+            if (err) {
+                return next(err);
+            }
+            if (results.bunker == null) {
+                // No, results
+                const err = new Error("Bunker not found");
+                err.status = 404;
+                return next(err);
+            }
+            res.render("bunker_detail", {
+                title: results.bunker.name,
+                bunker: results.bunker,
+                obstacle: results.obstacle,
+            });
+        }
+    )
 };
 
 // Display Bunker create form on GET.

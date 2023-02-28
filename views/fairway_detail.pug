@@ -1,0 +1,29 @@
+extends layout
+
+block content
+    h1 Fairway: #{fairway.name}
+    
+    div(style="margin-left:20px;margin-top:20px")
+
+        p #[strong rating: ] #{fairway.rating}
+        p #[strong Layup Adjust:] #{fairway.layup_L}
+        p #[strong Visibility Adjust:] #{fairway.visibility_V}
+        p #[strong Width Adjust:] #{fairway.width_W}
+        p #[strong Unpleasant Adjust:] #{fairway.unpleasant_U}
+
+    div(style="margin-left:20px;margin-top:20px")
+
+        h4 Obstacle
+        each obst in obstacle
+
+            div(style="margin-left:40px;")
+            
+                a(href=obst.url) #{obst.name}
+            
+    hr
+
+    p 
+        a(href=fairway.url+'/delete') Delete Fairway
+    p
+        a(href=fairway.url+'/update') Update Fairway
+

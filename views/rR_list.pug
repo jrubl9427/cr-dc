@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    h1= title
+    
+    ul
+        each rR in rR_list
+            li
+                a(href=rR.url) name: #{rR.name}
+                | (Rating: #{rR.rating}, Carry Adjust: #{rR.carry_C}, Layup Adjust: #{rR.layup_L}, Inconsistent Adjust: #{rR.inconsistent_I}, Mounds Adjust: #{rR.mounds_M}, Unpleasant Adjust: #{rR.unpleasant_U}, Two Adjust: #{rR.twoTimes_2}, Par 3 Adjust: #{rR.parThree_3}, Surrounded Adjust: #{rR.surrounded_S})
+                
+        else
+            li There are no rRs.

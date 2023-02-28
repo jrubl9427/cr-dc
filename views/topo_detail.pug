@@ -1,13 +1,11 @@
 extends layout
 
 block content
-    h1 Layup: #{layup.name}
-
+    h1 Topo: #{topo.name}
+    
     div(style="margin-left:20px;margin-top:20px")
 
-        p #[strong Effective Length Adjust:] #{layup.effectiveLengthAdjust}
-        p #[strong Distance To Green:] #{layup.length}
-        p #[strong Type Layup:] #{layup.typeLayup}
+        p #[strong rating: ] #{topo.rating}
 
     div(style="margin-left:20px;margin-top:20px")
 
@@ -21,7 +19,7 @@ block content
     hr
 
     p 
-        a(href=layup.url+'/delete') Delete Layup
+        a(href=topo.url+'/delete') Delete Topo
     p
-        a(href=layup.url+'/update') Update Layup
+        a(href=topo.url+'/update') Update Topo
 

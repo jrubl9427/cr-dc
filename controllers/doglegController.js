@@ -1,15 +1,55 @@
 // doglegController.js
 
+const async = require("async");
 const Dogleg = require("../models/dogleg");
+const Obstacle = require("../models/obstacle");
+const { body, validationResult } = require("express-validator");
 
 // Display a list of all doglegs.
-exports.dogleg_list = (req, res) => {
-    res.send("NOT IMPLEMENTED: dogleg list");
+exports.dogleg_list = (req, res, next) => {
+    Dogleg.find({})
+        .exec(function (err, list_doglegs) {
+            if (err) {
+                return next(err);
+            }
+            // Successful, so render
+            res.render("dogleg_list", {
+                title: "Dogleg List",
+                dogleg_list: list_doglegs
+            });
+        })
 };
 
 // Display detail page for a specific dogleg.
-exports.dogleg_detail = (req, res) => {
-    res.send(`NOT IMPLEMENTED: dogleg detail: ${req.params.id}`);
+exports.dogleg_detail = (req, res, next) => {
+    async.parallel(
+        {
+            dogleg(callback) {
+                Dogleg.findById(req.params.id)
+                    .exec(callback);
+            },
+            obstacle(callback) {
+                Obstacle.find({dogleg: req.params.id})
+                    .exec(callback);
+            },
+        },
+        (err, results) => {
+            if (err) {
+                return next(err);
+            }
+            if (results.dogleg == null) {
+                // No, results
+                const err = new Error("Dogleg not found");
+                err.status = 404;
+                return next(err);
+            }
+            res.render("dogleg_detail", {
+                title: results.dogleg.name,
+                dogleg: results.dogleg,
+                obstacle: results.obstacle,
+            });
+        }
+    )
 };
 
 // Display dogleg create form on GET.

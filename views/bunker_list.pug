@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    h1= title
+    
+    ul
+        each bunker in bunker_list
+            li
+                a(href=bunker.url) name: #{bunker.name}
+                | (Rating: #{bunker.rating}, Bounce Adjust: #{bunker.bounce_B}, Carry Adjust: #{bunker.carry_C}, Depth Adjust: #{bunker.depth_D}, Extreme Adjust: #{bunker.extreme_E}, No Adjust: #{bunker.no_N}, Squeeze Adjust: #{bunker.squeeze_Q})
+                
+        else
+            li There are no bunkers.

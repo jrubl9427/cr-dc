@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    h1= title
+    
+    ul
+        each lateral in lateral_list
+            li
+                a(href=lateral.url) name: #{lateral.name}
+                | (Rating: #{lateral.rating}, Percentage Adjust: #{lateral.percentage_P}, Bounce Adjust: #{lateral.bounce_B}, Squeeze Adjust: #{lateral.squeeze_Q}, Stroke Adjust: #{lateral.stroke_K}, Two Adjust: #{lateral.twoTimes_2},Surrounded: #{lateral.surrounded_S})
+                
+        else
+            li There are no laterals.

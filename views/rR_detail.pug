@@ -1,0 +1,33 @@
+extends layout
+
+block content
+    h1 RR: #{rR.name}
+    
+    div(style="margin-left:20px;margin-top:20px")
+
+        p #[strong rating: ] #{rR.rating}
+        p #[strong Carry Adjust: ] #{rR.carry_C}
+        p #[strong Layup Adjust: ] #{rR.layup_L}
+        p #[strong Inconsistent Adjust: ] #{rR.inconsistent_I}
+        p #[strong Mounds Adjust: ] #{rR.mounds_M}
+        p #[strong Unpleasant Adjust: ] #{rR.unpleasant_U}
+        p #[strong Two Adjust: ] #{rR.twoTimes_2}
+        p #[strong Par 3 Adjust: ] #{rR.parThree_3}
+        p #[strong Surrounded Adjust: ] #{rR.surrounded_S}
+
+    div(style="margin-left:20px;margin-top:20px")
+
+        h4 Obstacle
+        each obst in obstacle
+
+            div(style="margin-left:40px;")
+            
+                a(href=obst.url) #{obst.name}
+            
+    hr
+
+    p 
+        a(href=rR.url+'/delete') Delete RR
+    p
+        a(href=rR.url+'/update') Update RR
+

@@ -1,15 +1,55 @@
 // rRController.js
 
+const async = require("async");
 const RR = require("../models/rR");
+const Obstacle = require("../models/obstacle");
+const { body, validationResult } = require("express-validator");
 
 // Display a list of all rRs.
-exports.rR_list = (req, res) => {
-    res.send("NOT IMPLEMENTED: rR list");
+exports.rR_list = (req, res, next) => {
+    RR.find({})
+        .exec(function (err, list_rRs) {
+            if (err) {
+                return next(err);
+            }
+            // Successful, so render
+            res.render("rR_list", {
+                title: "RR List",
+                rR_list: list_rRs
+            });
+        })
 };
 
 // Display detail page for a specific rR.
-exports.rR_detail = (req, res) => {
-    res.send(`NOT IMPLEMENTED: rR detail: ${req.params.id}`);
+exports.rR_detail = (req, res, next) => {
+    async.parallel(
+        {
+            rR(callback) {
+                RR.findById(req.params.id)
+                    .exec(callback);
+            },
+            obstacle(callback) {
+                Obstacle.find({rR: req.params.id})
+                    .exec(callback);
+            },
+        },
+        (err, results) => {
+            if (err) {
+                return next(err);
+            }
+            if (results.rR == null) {
+                // No, results
+                const err = new Error("RR not found");
+                err.status = 404;
+                return next(err);
+            }
+            res.render("rR_detail", {
+                title: results.rR.name,
+                rR: results.rR,
+                obstacle: results.obstacle,
+            });
+        }
+    )
 };
 
 // Display rR create form on GET.

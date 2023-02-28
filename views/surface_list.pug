@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    h1= title
+    
+    ul
+        each surface in surface_list
+            li
+                a(href=surface.url) name: #{surface.name}
+                | (Rating: #{surface.rating}, Tiered Adjust: #{surface.tiered_T}, Firm Adjust: #{surface.firm_F}, Unpleasant Adjust: #{surface.unpleasant_U})
+                
+        else
+            li There are no surfaces.

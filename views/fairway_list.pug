@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    h1= title
+    
+    ul
+        each fairway in fairway_list
+            li
+                a(href=fairway.url) name: #{fairway.name}
+                | (Rating: #{fairway.rating}, Layup Adjust: #{fairway.layup_L}, Visibility Adjust: #{fairway.visibility_V}, Width Adjust: #{fairway.width_W}, Unpleasant Adjust: #{fairway.unpleasant_U})
+                
+        else
+            li There are no fairways.

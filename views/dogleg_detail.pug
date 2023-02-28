@@ -1,0 +1,24 @@
+extends layout
+
+block content
+    h1 Dogleg: #{dogleg.name}
+
+    p #[strong Effective Length Adjust:] #{dogleg.effectiveLengthAdjust}
+    p #[strong Distance To Green:] #{dogleg.length}
+
+    div(style="margin-left:20px;margin-top:20px")
+
+        h4 Obstacle
+        each obst in obstacle
+
+            div(style="margin-left:40px;")
+            
+                a(href=obst.url) #{obst.name}
+            
+    hr
+
+    p 
+        a(href=dogleg.url+'/delete') Delete Dogleg
+    p
+        a(href=dogleg.url+'/update') Update Dogleg
+

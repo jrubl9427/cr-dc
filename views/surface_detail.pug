@@ -1,0 +1,28 @@
+extends layout
+
+block content
+    h1 Surface: #{surface.name}
+    
+    div(style="margin-left:20px;margin-top:20px")
+
+        p #[strong rating: ] #{surface.rating}
+        p #[strong Tiered Adjust: ] #{surface.tiered_T}
+        p #[strong Firm Adjust: ] #{surface.firm_F} 
+        p #[strong Unpleasant Adjust: ] #{surface.unpleasant_U}
+
+    div(style="margin-left:20px;margin-top:20px")
+
+        h4 Obstacle
+        each obst in obstacle
+
+            div(style="margin-left:40px;")
+            
+                a(href=obst.url) #{obst.name}
+            
+    hr
+
+    p 
+        a(href=surface.url+'/delete') Delete Surface
+    p
+        a(href=surface.url+'/update') Update Surface
+

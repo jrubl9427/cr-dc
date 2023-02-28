@@ -1,0 +1,28 @@
+extends layout
+
+block content
+    h1 Crossing: #{crossing.name}
+    
+    div(style="margin-left:20px;margin-top:20px")
+
+        p #[strong rating: ] #{crossing.rating}
+        p #[strong Percentage Adjust: ] #{crossing.percentage_P}
+        p #[strong Carry Adjust: ] #{crossing.carry_C}
+        p #[strong Two Adjust: ] #{crossing.twoTimes_2}
+
+    div(style="margin-left:20px;margin-top:20px")
+
+        h4 Obstacle
+        each obst in obstacle
+
+            div(style="margin-left:40px;")
+            
+                a(href=obst.url) #{obst.name}
+            
+    hr
+
+    p 
+        a(href=crossing.url+'/delete') Delete Crossing
+    p
+        a(href=crossing.url+'/update') Update Crossing
+
