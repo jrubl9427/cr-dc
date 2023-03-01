@@ -306,7 +306,7 @@ exports.course_delete_post = (req, res, next) => {
                         return next(err);
                     }
                     // Success - go to courses list.
-                    res.redirect("/catalog/coursess");
+                    res.redirect("/catalog/courses");
                 });
             }
         }

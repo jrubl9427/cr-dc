@@ -1,0 +1,61 @@
+extends layout
+
+block content
+    h1= title
+    
+    form(method='POST' action='')
+        div.form-group
+            label(for='name') Name:
+            input#name.form-control(
+                type='number'
+                placeholder='Hole Number'
+                name='name' 
+                required='true' 
+                value=(undefined===hole ? '' : hole.name)
+            )
+                
+        div.form-group
+            label Tees:
+            for tee in tees.sort((a,b) => b.length - a.length)
+                div(style="display: inline; padding-right:10px;")
+                    input.checkbox-input(
+                        type="checkbox", 
+                        name="tee", 
+                        id=tee._id, 
+                        value=tee._id, 
+                        checked=tee.checked )
+                    label(for=tee._id) #{tee.name}
+
+        div.form-group
+            label Lzs:
+            for lz in lzs.sort((a,b) => b.distanceToGreen - a.distanceToGreen)
+                div(style="display: inline; padding-right:10px;")
+                    input.checkbox-input(
+                        type="checkbox", 
+                        name="lz", 
+                        id=lz._id, 
+                        value=lz._id, 
+                        checked=lz.checked )
+                    label(for=lz._id) #{lz.name}
+
+        div.form-group
+            label Green:
+                div(style="display: inline; padding-right:10px;")
+                    select#green.form-control(type="select",
+                        placeholder="select green",
+                        name="green", 
+                        required="true" )
+                        - greens.sort((a,b) => a.name - b.name)
+                        for green in greens 
+                            if hole 
+                                option(value=green._id
+                                selected=(green._id.toString()===hole.green._id.toString() ? "selected" : false)) #{green.name}
+                            else 
+                                option(value=green._id) #{green.name}
+
+        button.btn.btn-primary(type='submit') Submit
+        
+    if errors
+        ul
+            for error in errors
+                li!= error.msg

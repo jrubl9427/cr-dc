@@ -1,7 +1,12 @@
 // holeController.js
 
 const Hole = require("../models/hole");
+const Tee = require("../models/tee");
+const Lz = require("../models/lz");
+const Green = require("../models/green");
 const async = require("async");
+const { body, validationResult } = require("express-validator");
+const { ObjectID, ObjectId } = require("bson");
 
 // Display a list of all holes.
 exports.hole_list = (req, res, next) => {
@@ -52,23 +57,230 @@ exports.hole_detail = (req, res, next) => {
 };
 
 // Display hole create form on GET.
-exports.hole_create_get = (req, res) => {
-    res.send("NOT IMPLEMENTED: hole create GET");
+exports.hole_create_get = (req, res, next) => {
+    // Get all tees, lzs and greens .
+    async.parallel(
+        {
+            tees(callback) {
+                Tee.find(callback);
+            },
+            lzs(callback) {
+                Lz.find(callback);
+            },
+            greens(callback) {
+                Green.find(callback);
+            },
+        },
+        (err, results) => {
+            if (err) {
+                return next(err);
+            }
+            res.render("hole_form", {
+                title: "Create Hole",
+                tees: results.tees,
+                lzs: results.lzs,
+                greens: results.greens,
+            });
+        }
+    );
 };
 
 // Handle hole create on POST.
-exports.hole_create_post = (req, res) => {
-    res.send("NOT IMPLEMENTED: hole create POST");
-};
+exports.hole_create_post = [
+    // Convert tee, lz and green to arrays.
+    (req, res, next) => {
+        if (!Array.isArray(req.body.tee)) {
+            req.body.tee = typeof req.body.tee === "undefined" ? [] : [req.body.tee];
+        }
+        next();
+    },
+    (req, res, next) => {
+        if (!Array.isArray(req.body.lz)) {
+            req.body.lz = typeof req.body.lz === "undefined" ? [] : [req.body.lz];
+        }
+        next();
+    },
+    // (req, res, next) => {
+    //     if (!Array.isArray(req.body.green)) {
+    //         req.body.green = typeof req.body.green === "undefined" ? ObjectId : req.body.green;
+    //     }
+    //     next();
+    // },
+
+    // Validate and sanitize the fields.
+    body("name", "Name must not be empty.").trim().escape(),
+    body("tee.*").escape(),
+    body("lz.*").escape(),
+    body("green", "Green must not be empty.").trim().isLength({min: 1 }).escape(),
+
+    // Process request after validation and sanitation
+    (req, res, next) => {
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+
+        // Create a Course object with escaped and trimmed data.
+        const hole = new Hole({
+            name: req.body.name,
+            tee: req.body.tee,
+            lz: req.body.lz,
+            green: req.body.green,
+        });
+
+        if (!errors.isEmpty()) {
+            //There are errors. Render form again with sanitized values/error messages. Get all authors and genres for form.
+            
+            // Get all tees, lzs and greens for the form
+            async.parallel(
+                {
+                    tees(callback) {
+                        Tee.find(callback);
+                    },
+                },
+                {
+                    lzs(callback) {
+                        Lz.find(callback);
+                    },
+                },
+                {
+                    greens(callback) {
+                        Green.find(callback);
+                    },
+                },
+                (err, results) => {
+                    if (err) {
+                        return next(err);
+                    }
+
+                    // Mark selected tees as checked and render.
+                    for (const tee of results.tees) {
+                        if (course.tee.includes(tee._id)) {
+                            tee.checked = "true";
+                        }
+                    }// Mark selected lzs as checked and render.
+                    for (const lz of results.lzs) {
+                        if (course.lz.includes(lz._id)) {
+                            lz.checked = "true";
+                        }
+                    }// Mark selected greens as checked and render.
+                    for (const green of results.greens) {
+                        if (course.green.includes(green._id)) {
+                            green.checked = "true";
+                        }
+                    }
+                    res.render("hole_form", {
+                        title: "Create Hole",
+                        tees: results.tees,
+                        lzs: results.lzs,
+                        greens: results.greens,
+                        hole,
+                        errors: errors.array(),
+                    });
+                }
+            );
+            return;
+        }
+
+        // Data from form is valid. Save Hole.
+        hole.save((err) => {
+            if (err) {
+                return next(err);
+            }
+            // Successful save: redirect to new course record.
+            res.redirect(hole.url);
+        });
+    },
+];
 
 // Display hole delete form on GET.
-exports.hole_delete_get = (req, res) => {
-    res.send("NOT IMPLEMENTED: hole delete GET");
+exports.hole_delete_get = (req, res, next) => {
+    async.parallel(
+        {
+            hole: function (callback) {
+                Hole.findById(req.params.id)
+                .populate("tee")
+                .populate("lz")
+                .populate("green")
+                    .exec(callback);
+            },
+            tees: function (callback) {
+                Tee.find({}).exec(callback);
+            },
+            lzs: function (callback) {
+                Lz.find({}).exec(callback);
+            },
+            greens: function (callback) {
+                Green.find({}).exec(callback);
+            }
+        },
+        function (err, results) {
+            if (err) {
+                return next(err);
+            }
+            if (results.hole == null) {
+                // No results
+                res.redirect("/catalog/holes");
+            }
+            // Sucessful, so render
+            res.render("hole_delete", {
+                title: "Delete Hole",
+                hole: results.hole,
+                tees: results.tees,
+                lzs: results.lzs,
+                greens: results.greens
+            });
+        }
+    );
 };
 
-// Handle hole delete on POST.
-exports.hole_delete_post = (req, res) => {
-    res.send("NOT IMPLEMENTED: hole delete POST");
+// Handle course delete on POST.
+exports.hole_delete_post = (req, res, next) => {
+    // Assume the poat has valid id (ie no validation/sanitization).
+    
+    async.parallel(
+        {
+            hole: function (callback) {
+                Hole.findById(req.body.id)
+                    .populate("tee")
+                    .populate("lz")
+                    .populate("green")
+                    .exec(callback);
+            },
+            tees: function (callback) {
+                Tee.find({ hole: req.params.id }).exec(callback);
+            },
+            lzs: function (callback) {
+                Lz.find({ hole: req.params.id }).exec(callback);
+            },
+            greens: function (callback) {
+                Green.find({ hole: req.params.id }).exec(callback);
+            }
+        },
+        function (err, results) {
+            if (err) {
+                return next(err);
+            }
+            // Success
+            // if (results.tees.length > 0 || results.lzs.length > 0 || results.greens.length > 0) {
+            //     res.render("hole_delete", {
+            //         title: "Delete hole",
+            //         hole: results.hole,
+            //         tees: results.tees,
+            //         lzs: results.lzs,
+            //         greens: results.greens
+            //     });
+            //     return;
+            // } else {
+                // hole has no Hole objects. Delete object and redirect to the list of holes.
+                Hole.findByIdAndRemove(req.body.holeid, function deleteHole(err) {
+                    if (err) {
+                        return next(err);
+                    }
+                    // Success - go to holes list.
+                    res.redirect("/catalog/holes");
+                });
+            // }
+        }
+    );
 };
 
 // Display hole update form on GET.
