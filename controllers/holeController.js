@@ -87,7 +87,7 @@ exports.hole_create_get = (req, res, next) => {
 
 // Handle hole create on POST.
 exports.hole_create_post = [
-    // Convert tee, lz and green to arrays.
+    // Convert tee and lz to arrays.
     (req, res, next) => {
         if (!Array.isArray(req.body.tee)) {
             req.body.tee = typeof req.body.tee === "undefined" ? [] : [req.body.tee];
@@ -100,12 +100,6 @@ exports.hole_create_post = [
         }
         next();
     },
-    // (req, res, next) => {
-    //     if (!Array.isArray(req.body.green)) {
-    //         req.body.green = typeof req.body.green === "undefined" ? ObjectId : req.body.green;
-    //     }
-    //     next();
-    // },
 
     // Validate and sanitize the fields.
     body("name", "Name must not be empty.").trim().escape(),
@@ -284,11 +278,140 @@ exports.hole_delete_post = (req, res, next) => {
 };
 
 // Display hole update form on GET.
-exports.hole_update_get = (req, res) => {
-    res.send("NOT IMPLEMENTED: hole update GET");
+exports.hole_update_get = (req, res, next) => {
+    // get the hole and holes for the form.
+    async.parallel(
+        {
+            hole(callback) {
+                Hole.findById(req.params.id)
+                    .populate("tee")
+                    .populate("lz")
+                    .populate("lz")
+                    .exec(callback);
+            },
+            tees(callback) {
+                Tee.find(callback)
+            },
+            lzs(callback) {
+                Lz.find(callback)
+            },
+            greens(callback) {
+                Green.find(callback)
+            },
+        },
+        (err, results) => {
+            if (err) {
+                return next(err);
+            }
+                        
+            if (results.hole == null) {
+                // No, results
+                const err = new Error("Hole not found");
+                err.status = 404;
+                return next(err);
+            }
+            // Successful, mark our selected tees as checked
+            for (const tee of results.tees) {
+                for (const aTee of results.hole.tee) {
+                    if (tee._id.toString() === aTee._id.toString()) {
+                        tee.checked = "true";
+                    }
+                }
+            }for (const lz of results.lzs) {
+                for (const aLz of results.hole.lz) {
+                    if (lz._id.toString() === aLz._id.toString()) {
+                        lz.checked = "true";
+                    }
+                }
+            }
+            res.render("hole_form", {
+                title: "Update Hole",
+                tees: results.tees,
+                lzs: results.lzs,
+                greens: results.greens,
+                hole: results.hole,
+            });
+        }
+    );
 };
 
 // Handle hole update on POST.
-exports.hole_update_post = (req, res) => {
-    res.send("NOT IMPLEMENTED: hole update POST");
-};
+exports.hole_update_post = [
+    // Convert tee and lz to arrays.
+    (req, res, next) => {
+        if (!Array.isArray(req.body.tee)) {
+            req.body.tee = typeof req.body.tee === "undefined" ? [] : [req.body.tee];
+        }
+        next();
+    },
+    (req, res, next) => {
+        if (!Array.isArray(req.body.lz)) {
+            req.body.lz = typeof req.body.lz === "undefined" ? [] : [req.body.lz];
+        }
+        next();
+    },
+
+    // Validate and sanitize the fields.
+    body("name", "Name must not be empty.").trim().escape(),
+    body("tee.*").escape(),
+    body("lz.*").escape(),
+    body("green", "Green must not be empty.").trim().isLength({min: 1 }).escape(),
+    
+    // Process request after validation and sanitation
+    (req, res, next) => {
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+
+        // Create a Hole object with escaped and trimmed data.
+        const hole = new Hole({
+            name: req.body.name,
+            tee: typeof req.body.tee === "undefined" ? [] : req.body.tee,
+            lz: typeof req.body.lz === "undefined" ? [] : req.body.lz,
+            green: req.body.green,
+            _id: req.params.id, // This is required, or a new ID will be assigned!
+        });
+
+        if (!errors.isEmpty()) {
+            //There are errors. Render form again with sanitized values/error messages. Get all authors and genres for form.
+            
+            // Get all tees, lzs and greens for the form
+            async.parallel(
+                {
+                    tees(callback) {
+                        Tee.find(callback);
+                    },
+                    lzs(callback) {
+                        Lz.find(callback);
+                    },
+                    greens(callback) {
+                        Green.find(callback);
+                    },
+                },
+                (err, results) => {
+                    if (err) {
+                        return next(err);
+                    }
+                    res.render("hole_form", {
+                        title: "Update Hole",
+                        tees: results.tees,
+                        lzs: results.lzs,
+                        greens: results.greens,
+                        hole,
+                        errors: errors.array(),
+                    });
+                }
+            );
+            return;
+        }
+        
+        // Data from form is valid. Update the record.
+        Hole.findByIdAndUpdate(req.params.id, hole, {}, (err, thehole) => {
+            if (err) {
+                return next(err);
+            }
+            
+            // Successful: redirect to book detail page.
+            res.redirect(thehole.url);
+        });
+    },
+]
