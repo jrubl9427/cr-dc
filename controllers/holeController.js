@@ -193,20 +193,11 @@ exports.hole_delete_get = (req, res, next) => {
         {
             hole: function (callback) {
                 Hole.findById(req.params.id)
-                .populate("tee")
-                .populate("lz")
-                .populate("green")
+                    .populate("tee")
+                    .populate("lz")
+                    .populate("green")
                     .exec(callback);
             },
-            // tees: function (callback) {
-            //     Tee.find({}).exec(callback);
-            // },
-            // lzs: function (callback) {
-            //     Lz.find({}).exec(callback);
-            // },
-            // greens: function (callback) {
-            //     Green.find({}).exec(callback);
-            // }
         },
         function (err, results) {
             if (err) {
@@ -220,9 +211,6 @@ exports.hole_delete_get = (req, res, next) => {
             res.render("hole_delete", {
                 title: "Delete Hole",
                 hole: results.hole,
-                // tees: results.tees,
-                // lzs: results.lzs,
-                // greens: results.greens
             });
         }
     );
@@ -235,34 +223,22 @@ exports.hole_delete_post = (req, res, next) => {
     async.parallel(
         {
             hole: function (callback) {
-                Hole.findById(req.body.id)
+                Hole.findById(req.params.id)
                     .populate("tee")
                     .populate("lz")
                     .populate("green")
                     .exec(callback);
             },
-            // tees: function (callback) {
-            //     Tee.find({ hole: req.params.id }).exec(callback);
-            // },
-            // lzs: function (callback) {
-            //     Lz.find({ hole: req.params.id }).exec(callback);
-            // },
-            // greens: function (callback) {
-            //     Green.find({ hole: req.params.id }).exec(callback);
-            // }
         },
         function (err, results) {
             if (err) {
                 return next(err);
             }
-            Success
+            // Success
             if (results.hole.tee.length > 0 || results.hole.lz.length > 0 || results.hole.green != null) {
                 res.render("hole_delete", {
                     title: "Delete Hole",
                     hole: results.hole,
-                    // tees: results.tees,
-                    // lzs: results.lzs,
-                    // greens: results.greens
                 });
                 return;
             } else {

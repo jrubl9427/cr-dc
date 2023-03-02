@@ -177,11 +177,11 @@ exports.tee_delete_get = (req, res, next) => {
 // Handle course delete on POST.
 exports.tee_delete_post = (req, res, next) => {
     // Assume the post has valid id (ie no validation/sanitization).
-    
+    console.log("ID", req.params.id);
     async.parallel(
         {
             tee: function (callback) {
-                Tee.findById(req.body.id)
+                Tee.findById(req.params.id)
                     .populate("obstacle")
                     .exec(callback);
             },
@@ -190,7 +190,8 @@ exports.tee_delete_post = (req, res, next) => {
             if (err) {
                 return next(err);
             }
-            Success
+            // Success
+            console.log("results", results, results.tee)
             if (results.tee.obstacle.length > 0) {
                 res.render("tee_delete", {
                     title: "Delete Tee",
@@ -310,7 +311,7 @@ exports.tee_update_post = [
                 return next(err);
             }
             
-            // Successful: redirect to book detail page.
+            // Successful: redirect to tee detail page.
             res.redirect(thetee.url);
         });
     },

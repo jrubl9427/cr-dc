@@ -281,7 +281,7 @@ exports.course_delete_post = (req, res, next) => {
     async.parallel(
         {
             course: function (callback) {
-                Course.findById(req.body.id).populate("hole").exec(callback);
+                Course.findById(req.params.id).populate("hole").exec(callback);
             },
             holes: function (callback) {
                 Hole.find({ course: req.params.id }).exec(callback);
