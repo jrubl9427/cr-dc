@@ -1,8 +1,6 @@
 const { DateTime } = require("luxon");
 const mongoose = require("mongoose");
 
-// const Hole = require("../models/hole");
-
 const Schema = mongoose.Schema;
 
 const CourseSchema = new Schema({

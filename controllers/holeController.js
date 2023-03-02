@@ -102,7 +102,7 @@ exports.hole_create_post = [
     },
 
     // Validate and sanitize the fields.
-    body("name", "Name must not be empty.").trim().escape(),
+    body("name", "Name must be an integer.").trim().isInt().escape(),
     body("tee.*").escape(),
     body("lz.*").escape(),
     body("green", "Green must not be empty.").trim().isLength({min: 1 }).escape(),
@@ -112,7 +112,7 @@ exports.hole_create_post = [
         // Extract the validation errors from a request.
         const errors = validationResult(req);
 
-        // Create a Course object with escaped and trimmed data.
+        // Create a Hole object with escaped and trimmed data.
         const hole = new Hole({
             name: req.body.name,
             tee: req.body.tee,
@@ -147,17 +147,19 @@ exports.hole_create_post = [
 
                     // Mark selected tees as checked and render.
                     for (const tee of results.tees) {
-                        if (course.tee.includes(tee._id)) {
+                        if (hole.tee.includes(tee._id)) {
                             tee.checked = "true";
                         }
-                    }// Mark selected lzs as checked and render.
+                    }
+                    // Mark selected lzs as checked and render.
                     for (const lz of results.lzs) {
-                        if (course.lz.includes(lz._id)) {
+                        if (hole.lz.includes(lz._id)) {
                             lz.checked = "true";
                         }
-                    }// Mark selected greens as checked and render.
+                    }
+                    // Mark selected greens as checked and render.
                     for (const green of results.greens) {
-                        if (course.green.includes(green._id)) {
+                        if (hole.green.includes(green._id)) {
                             green.checked = "true";
                         }
                     }
@@ -196,15 +198,15 @@ exports.hole_delete_get = (req, res, next) => {
                 .populate("green")
                     .exec(callback);
             },
-            tees: function (callback) {
-                Tee.find({}).exec(callback);
-            },
-            lzs: function (callback) {
-                Lz.find({}).exec(callback);
-            },
-            greens: function (callback) {
-                Green.find({}).exec(callback);
-            }
+            // tees: function (callback) {
+            //     Tee.find({}).exec(callback);
+            // },
+            // lzs: function (callback) {
+            //     Lz.find({}).exec(callback);
+            // },
+            // greens: function (callback) {
+            //     Green.find({}).exec(callback);
+            // }
         },
         function (err, results) {
             if (err) {
@@ -218,9 +220,9 @@ exports.hole_delete_get = (req, res, next) => {
             res.render("hole_delete", {
                 title: "Delete Hole",
                 hole: results.hole,
-                tees: results.tees,
-                lzs: results.lzs,
-                greens: results.greens
+                // tees: results.tees,
+                // lzs: results.lzs,
+                // greens: results.greens
             });
         }
     );
@@ -228,7 +230,7 @@ exports.hole_delete_get = (req, res, next) => {
 
 // Handle course delete on POST.
 exports.hole_delete_post = (req, res, next) => {
-    // Assume the poat has valid id (ie no validation/sanitization).
+    // Assume the post has valid id (ie no validation/sanitization).
     
     async.parallel(
         {
@@ -239,32 +241,32 @@ exports.hole_delete_post = (req, res, next) => {
                     .populate("green")
                     .exec(callback);
             },
-            tees: function (callback) {
-                Tee.find({ hole: req.params.id }).exec(callback);
-            },
-            lzs: function (callback) {
-                Lz.find({ hole: req.params.id }).exec(callback);
-            },
-            greens: function (callback) {
-                Green.find({ hole: req.params.id }).exec(callback);
-            }
+            // tees: function (callback) {
+            //     Tee.find({ hole: req.params.id }).exec(callback);
+            // },
+            // lzs: function (callback) {
+            //     Lz.find({ hole: req.params.id }).exec(callback);
+            // },
+            // greens: function (callback) {
+            //     Green.find({ hole: req.params.id }).exec(callback);
+            // }
         },
         function (err, results) {
             if (err) {
                 return next(err);
             }
-            // Success
-            // if (results.tees.length > 0 || results.lzs.length > 0 || results.greens.length > 0) {
-            //     res.render("hole_delete", {
-            //         title: "Delete hole",
-            //         hole: results.hole,
-            //         tees: results.tees,
-            //         lzs: results.lzs,
-            //         greens: results.greens
-            //     });
-            //     return;
-            // } else {
-                // hole has no Hole objects. Delete object and redirect to the list of holes.
+            Success
+            if (results.hole.tee.length > 0 || results.hole.lz.length > 0 || results.hole.green != null) {
+                res.render("hole_delete", {
+                    title: "Delete Hole",
+                    hole: results.hole,
+                    // tees: results.tees,
+                    // lzs: results.lzs,
+                    // greens: results.greens
+                });
+                return;
+            } else {
+                // Hole has no Hole objects. Delete object and redirect to the list of holes.
                 Hole.findByIdAndRemove(req.body.holeid, function deleteHole(err) {
                     if (err) {
                         return next(err);
@@ -272,7 +274,7 @@ exports.hole_delete_post = (req, res, next) => {
                     // Success - go to holes list.
                     res.redirect("/catalog/holes");
                 });
-            // }
+            }
         }
     );
 };
@@ -286,7 +288,7 @@ exports.hole_update_get = (req, res, next) => {
                 Hole.findById(req.params.id)
                     .populate("tee")
                     .populate("lz")
-                    .populate("lz")
+                    .populate("green")
                     .exec(callback);
             },
             tees(callback) {
@@ -317,7 +319,8 @@ exports.hole_update_get = (req, res, next) => {
                         tee.checked = "true";
                     }
                 }
-            }for (const lz of results.lzs) {
+            }
+            for (const lz of results.lzs) {
                 for (const aLz of results.hole.lz) {
                     if (lz._id.toString() === aLz._id.toString()) {
                         lz.checked = "true";
@@ -352,7 +355,7 @@ exports.hole_update_post = [
     },
 
     // Validate and sanitize the fields.
-    body("name", "Name must not be empty.").trim().escape(),
+    body("name", "Name must be an integer.").trim().isInt().escape(),
     body("tee.*").escape(),
     body("lz.*").escape(),
     body("green", "Green must not be empty.").trim().isLength({min: 1 }).escape(),

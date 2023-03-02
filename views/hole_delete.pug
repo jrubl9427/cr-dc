@@ -3,44 +3,43 @@ extends layout
 block content
     h1 Hole: #{hole.name} Delete
     
-    //- p #[strong Tees:] #{tees.length}
-        //- ul
-            each tee in tees.sort((a,b) => b.length - a.length)
+    p #[strong Tees:]
+        ul
+            each tee in hole.tee.sort((a,b) => b.length - a.length)
                 li 
                     a(href=tee.url) #[strong Tee: ] #{tee.name}
     hr
     
-    //- p #[strong Lzs:] #{lzs.length}
+    p #[strong Lzs:]
         ul
-            each lz in lzs.sort((a,b) => b.distanceToGreen - a.distanceToGreen)
+            each lz in hole.lz.sort((a,b) => b.distanceToGreen - a.distanceToGreen)
                 li 
                     a(href=lz.url) #[strong lz: ] #{lz.name}
     hr
     
-    //- p #[strong Greens:] #{greens.length}
+    p #[strong Green:] 
         ul
-            each green in greens.sort((a,b) => a.name - b.name)
-                li 
-                    a(href=green.url) #[strong green: ] #{green.name}
+            li 
+                a(href=hole.green.url) #[strong green: ] #{hole.green.name}
     hr
     
-    //- if tees.length
+    if hole.tee.length
     
         p #[strong Delete all tees before attempting to delete this hole.]
 
-    //- if lzs.length
+    if hole.lz.length
     
         p #[strong Delete all lzs before attempting to delete this hole.]
 
-    //- if greens.length
+    if hole.green != null
     
         p #[strong Delete all greens before attempting to delete this hole.]
         
-    //- else 
-    p Do you really want to delete this hole?
-    
-    form(method='POST' action='')
-        div.form-group
-            input#id.form-control(type='hidden' name='holeid', required='true' value=hole._id)
+    else 
+        p Do you really want to delete this hole?
+        
+        form(method='POST' action='')
+            div.form-group
+                input#id.form-control(type='hidden' name='holeid', required='true' value=hole._id)
 
-        button.btn.btn-primary(type='submit') Delete
+            button.btn.btn-primary(type='submit') Delete

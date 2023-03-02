@@ -1,0 +1,24 @@
+extends layout
+
+block content
+    h1 Tee: #{tee.name} Delete
+    
+    p #[strong Obstacles:]
+        ul
+            each obstacle in tee.obstacle.sort((a,b) => b.distanceToGreen - a.distanceToGreen)
+                li 
+                    a(href=obstacle.url) #[strong Obstacle: ] #{obstacle.name}
+    hr
+    
+    if tee.obstacle.length
+    
+        p #[strong Delete all obstacles before attempting to delete this tee.]
+    
+    else 
+        p Do you really want to delete this tee?
+        
+        form(method='POST' action='')
+            div.form-group
+                input#id.form-control(type='hidden' name='teeid', required='true' value=tee._id)
+
+            button.btn.btn-primary(type='submit') Delete

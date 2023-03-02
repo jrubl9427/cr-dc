@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
-const hole = require("./hole");
 
 const TeeSchema = new Schema({
     name: {

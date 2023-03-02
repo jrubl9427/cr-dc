@@ -1,0 +1,65 @@
+extends layout
+
+block content
+    h1= title
+    
+    form(method='POST' action='')
+        div.form-group
+            label(for='name') Name:
+            input#name.form-control(
+                type='text'
+                placeholder='Tee name e.g name-Men/Women-hole#-Tee'
+                name='name' 
+                required='true' 
+                value=(undefined===tee ? '' : tee.name)
+            )
+
+        div.form-group
+            label(for='length') Length of tee to green:
+            input#length.form-control(
+                type='number'
+                placeholder='Length of tee to green in yards'
+                name='length' 
+                required='true' 
+                value=(undefined===tee ? '' : tee.length)
+            )
+
+        div.form-group
+            label(for='par') Par from this tee:
+            input#par.form-control(
+                type='number'
+                placeholder='par value'
+                name='par' 
+                required='true' 
+                value=(undefined===tee ? '' : tee.par)
+            )
+
+        div.form-group
+            label(for='altitude') Altitude of tee:
+            input#altitude.form-control(
+                type='number'
+                placeholder='Altitude of tee in feet'
+                name='altitude' 
+                required='true' 
+                value=(undefined===tee ? '' : tee.altitude)
+            )
+                
+        div.form-group
+            label Obstacles:
+            for obstacle in obstacles
+                if obstacle.name.includes("Tee")
+                    div("margin-left:20px;margin-top:20px")
+                        input.checkbox-input(
+                            type="checkbox", 
+                            name="obstacle", 
+                            id=obstacle._id, 
+                            value=obstacle._id, 
+                            checked=obstacle.checked )
+                        label(for=obstacle._id) #{obstacle.name}
+                    
+        button.btn.btn-primary(type='submit') Submit
+        
+    if errors
+        ul
+            for error in errors
+                li!= error.msg
