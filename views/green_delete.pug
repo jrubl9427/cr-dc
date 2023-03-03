@@ -1,0 +1,24 @@
+extends layout
+
+block content
+    h1 Green: #{green.name} Delete
+    
+    p #[strong Obstacles:]
+        ul
+            each obstacle in green.obstacle.sort((a,b) => b.distanceToGreen - a.distanceToGreen)
+                li 
+                    a(href=obstacle.url) #[strong Obstacle: ] #{obstacle.name}
+    hr
+    
+    if green.obstacle.length
+    
+        p #[strong Delete all obstacles before attempting to delete this green.]
+    
+    else 
+        p Do you really want to delete this green?
+        
+        form(method='POST' action='')
+            div.form-group
+                input#id.form-control(type='hidden' name='greenid', required='true' value=green._id)
+
+            button.btn.btn-primary(type='submit') Delete

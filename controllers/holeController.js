@@ -127,17 +127,23 @@ exports.hole_create_post = [
             async.parallel(
                 {
                     tees(callback) {
-                        Tee.find(callback);
+                        Tee.find({})
+                            .sort({ name: 1 })
+                            .exec(callback);
                     },
                 },
                 {
                     lzs(callback) {
-                        Lz.find(callback);
+                        Lz.find({})
+                            .sort({ name: 1 })
+                            .exec(callback);
                     },
                 },
                 {
                     greens(callback) {
-                        Green.find(callback);
+                        Green.find({})
+                            .sort({ name: 1 })
+                            .exec(callback);
                     },
                 },
                 (err, results) => {

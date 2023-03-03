@@ -47,15 +47,15 @@ block content
         div.form-group
             label Obstacles:
             for obstacle in obstacles
-                if obstacle.name.includes("Tee")
-                    div("margin-left:20px;margin-top:20px")
-                        input.checkbox-input(
-                            type="checkbox", 
-                            name="obstacle", 
-                            id=obstacle._id, 
-                            value=obstacle._id, 
-                            checked=obstacle.checked )
-                        label(for=obstacle._id) #{obstacle.name}
+                //- if obstacle.name.includes("Tee")
+                div("margin-left:20px;margin-top:20px")
+                    input.checkbox-input(
+                        type="checkbox", 
+                        name="obstacle", 
+                        id=obstacle._id, 
+                        value=obstacle._id, 
+                        checked=obstacle.checked )
+                    label(for=obstacle._id) #{obstacle.name}
                     
         button.btn.btn-primary(type='submit') Submit
         

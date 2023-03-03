@@ -13,11 +13,11 @@ block content
                 required='true' 
                 value=(undefined===hole ? '' : hole.name)
             )
-                
+        
         div.form-group
             label Tees:
             for tee in tees.sort((a,b) => b.length - a.length)
-                div(style="display: inline; padding-right:10px;")
+                div()
                     input.checkbox-input(
                         type="checkbox", 
                         name="tee", 
@@ -29,7 +29,7 @@ block content
         div.form-group
             label Lzs:
             for lz in lzs.sort((a,b) => b.distanceToGreen - a.distanceToGreen)
-                div(style="display: inline; padding-right:10px;")
+                div()
                     input.checkbox-input(
                         type="checkbox", 
                         name="lz", 

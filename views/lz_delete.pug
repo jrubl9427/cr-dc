@@ -1,0 +1,24 @@
+extends layout
+
+block content
+    h1 Lz: #{lz.name} Delete
+    
+    p #[strong Obstacles:]
+        ul
+            each obstacle in lz.obstacle.sort((a,b) => b.distanceToGreen - a.distanceToGreen)
+                li 
+                    a(href=obstacle.url) #[strong Obstacle: ] #{obstacle.name}
+    hr
+    
+    if lz.obstacle.length
+    
+        p #[strong Delete all obstacles before attempting to delete this lz.]
+    
+    else 
+        p Do you really want to delete this lz?
+        
+        form(method='POST' action='')
+            div.form-group
+                input#id.form-control(type='hidden' name='lzid', required='true' value=lz._id)
+
+            button.btn.btn-primary(type='submit') Delete

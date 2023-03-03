@@ -1,0 +1,64 @@
+extends layout
+
+block content
+    h1= title
+    
+    form(method='POST' action='')
+        div.form-group
+            label(for='name') Name:
+            input#name.form-control(
+                type='number'
+                placeholder='Green number'
+                name='name' 
+                required='true' 
+                value=(undefined===green ? '' : green.name)
+            )
+        div.form-group
+            label(for='altitude') Altitude of green:
+            input#altitude.form-control(
+                type='number'
+                placeholder='Altitude of green in feet'
+                name='altitude' 
+                required='true' 
+                value=(undefined===green ? '' : green.altitude)
+            )
+
+        div.form-group
+            label(for='width') Width of green:
+            input#width.form-control(
+                type='number'
+                placeholder='width of green in yards'
+                name='width' 
+                required='true' 
+                value=(undefined===green ? '' : green.width)
+            )
+
+        div.form-group
+            label(for='depth') Depth of green:
+            input#depth.form-control(
+                type='number'
+                placeholder='depth of green in yards'
+                name='depth' 
+                required='true' 
+                value=(undefined===green ? '' : green.depth)
+            )
+                
+        div.form-group
+            label Obstacles:
+            for obstacle in obstacles
+                if obstacle.name.includes("Green")
+                    div("margin-left:20px;margin-top:20px")
+                        input.checkbox-input(
+                            type="checkbox", 
+                            name="obstacle", 
+                            id=obstacle._id, 
+                            value=obstacle._id, 
+                            checked=obstacle.checked )
+                        label(for=obstacle._id) #{obstacle.name}
+                    
+        button.btn.btn-primary(type='submit') Submit
+        
+    if errors
+        ul
+            for error in errors
+                li!= error.msg

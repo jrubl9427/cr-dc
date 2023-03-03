@@ -4,7 +4,7 @@ block content
     h1= title
     
     ul
-        each lz in lz_list
+        each lz in lz_list.sort((a,b) => a.name - b.name)
             li
                 a(href=lz.url) Lz: #{lz.name}
                 

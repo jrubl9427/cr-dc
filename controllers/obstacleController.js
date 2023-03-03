@@ -6,6 +6,7 @@ const async = require("async");
 // Display a list of all obstacles.
 exports.obstacle_list = (req, res, next) => {
     Obstacle.find({})
+        .sort({ name: 1 })
         .exec(function (err, list_obstacles) {
             if (err) {
                 return next(err);

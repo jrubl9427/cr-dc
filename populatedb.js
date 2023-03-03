@@ -482,10 +482,10 @@ function createCourses(cb) {
 function createHoles(cb) {
     async.series([
         function(callback) {
-            holeCreate(1, [tees[0], tees[1]], greens[1], [lzs[0]], callback);
+            holeCreate(1, [tees[0], tees[1]], greens[0], [lzs[0]], callback);
         },
         function(callback) {
-            holeCreate(2, [tees[2], tees[3]], greens[0], [lzs[1], lzs[2], lzs[3]], callback);
+            holeCreate(2, [tees[2], tees[3]], greens[1], [lzs[1], lzs[2], lzs[3]], callback);
         },
     ], cb);
 }
@@ -510,10 +510,10 @@ function createTees(cb) {
 function createGreens(cb) {
     async.series([
         function(callback) {
-            greenCreate(2, 350, 28, 33, [obstacles[8]], callback);
+            greenCreate(1, 350, 28, 33, [obstacles[8]], callback);
         },
         function(callback) {
-            greenCreate(1, 305, 25, 42, [obstacles[9]], callback);
+            greenCreate(2, 305, 25, 42, [obstacles[9]], callback);
         },
     ], cb);
 }
@@ -570,11 +570,11 @@ function createObstacles(cb) {
             bunkers[7], laterals[7], crossings[7], trees[7], surfaces[7], callback);
         },
         function(callback) {
-            obstacleCreate("Hole 2", layups[8], doglegs[8], rolls [8], topos[8], fairways[8], targets[8], rRs[8], 
+            obstacleCreate("Green-1", layups[8], doglegs[8], rolls [8], topos[8], fairways[8], targets[8], rRs[8], 
             bunkers[8], laterals[8], crossings[8], trees[8], surfaces[8], callback);
         },
         function(callback) {
-            obstacleCreate("Hole 1", layups[9], doglegs[9], rolls [9], topos[9], fairways[9], targets[9], rRs[9], 
+            obstacleCreate("Green-2", layups[9], doglegs[9], rolls [9], topos[9], fairways[9], targets[9], rRs[9], 
             bunkers[9], laterals[9], crossings[9], trees[9], surfaces[9], callback);
         }
     ], cb);
@@ -583,34 +583,34 @@ function createObstacles(cb) {
 function createLayups(cb) {
     async.series([
         function(callback) {
-            layupCreate("layup", 0, 0, "forced", callback);
+            layupCreate("Black-Men-1-Tee layup", 0, 0, "forced", callback);
         },
         function(callback) {
-            layupCreate("layup", 0, 0, "forced", callback);
+            layupCreate("Black-Men-1-Scratch-1 layup", 0, 0, "forced", callback);
         },
         function(callback) {
-            layupCreate("layup", 0, 0, "forced", callback);
+            layupCreate("Red-Women-1-Tee layup", 0, 0, "forced", callback);
         },
         function(callback) {
-            layupCreate("layup", 0, 0, "forced", callback);
+            layupCreate("Black-Men-2-Tee layup", 0, 0, "forced", callback);
         },
         function(callback) {
-            layupCreate("layup", 0, 0, "forced", callback);
+            layupCreate("Black-Men-2-Scratch-1 layup", 0, 0, "forced", callback);
         },
         function(callback) {
-            layupCreate("layup", 0, 0, "forced", callback);
+            layupCreate("Black-Men-2-Scratch-2 layup", 0, 0, "forced", callback);
         },
         function(callback) {
-            layupCreate("layup", 0, 0, "forced", callback);
+            layupCreate("Red-Women-2-Tee layup", 0, 0, "forced", callback);
         },
         function(callback) {
-            layupCreate("layup", 0, 0, "forced", callback);
+            layupCreate("Red-Women-2-Scratch-1 layup", 0, 0, "forced", callback);
         },
         function(callback) {
-            layupCreate("layup", 0, 0, "forced", callback);
+            layupCreate("Green-1 layup", 0, 0, "forced", callback);
         },
         function(callback) {
-            layupCreate("layup", 0, 0, "forced", callback);
+            layupCreate("Green-2 layup", 0, 0, "forced", callback);
         },
         function(callback) {
             layupCreate("layup", 0, 0, "forced", callback);
@@ -624,34 +624,34 @@ function createLayups(cb) {
 function createDoglegs(cb) {
     async.series([
         function(callback) {
-            doglegCreate("dogleg", 0, 0, callback);
+            doglegCreate("Black-Men-1-Tee dogleg", 0, 0, callback);
         },
         function(callback) {
-            doglegCreate("dogleg", 0, 0, callback);
+            doglegCreate("Black-Men-1-Scratch-1 dogleg", 0, 0, callback);
         },
         function(callback) {
-            doglegCreate("dogleg", 0, 0, callback);
+            doglegCreate("Red-Women-1-Tee dogleg", 0, 0, callback);
         },
         function(callback) {
-            doglegCreate("dogleg", 0, 0, callback);
+            doglegCreate("Black-Men-2-Tee dogleg", 0, 0, callback);
         },
         function(callback) {
-            doglegCreate("dogleg", 0, 0, callback);
+            doglegCreate("Black-Men-2-Scratch-1 dogleg", 0, 0, callback);
         },
         function(callback) {
-            doglegCreate("dogleg", 0, 0, callback);
+            doglegCreate("Black-Men-2-Scratch-2 dogleg", 0, 0, callback);
         },
         function(callback) {
-            doglegCreate("dogleg", 0, 0, callback);
+            doglegCreate("Red-Women-2-Tee dogleg", 0, 0, callback);
         },
         function(callback) {
-            doglegCreate("dogleg", 0, 0, callback);
+            doglegCreate("Red-Women-2-Scratch-1 dogleg", 0, 0, callback);
         },
         function(callback) {
-            doglegCreate("dogleg", 0, 0, callback);
+            doglegCreate("Green-1 dogleg", 0, 0, callback);
         },
         function(callback) {
-            doglegCreate("dogleg", 0, 0, callback);
+            doglegCreate("Green-2 dogleg", 0, 0, callback);
         },
         function(callback) {
             doglegCreate("dogleg", 0, 0, callback);
@@ -665,34 +665,34 @@ function createDoglegs(cb) {
 function createRolls(cb) {
     async.series([
         function(callback) {
-            rollCreate("roll", 0, 0, 0, 0, callback);
+            rollCreate("Black-Men-1-Tee roll", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rollCreate("roll", 0, 0, 0, 0, callback);
+            rollCreate("Black-Men-1-Scratch-1 roll", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rollCreate("roll", 0, 0, 0, 0, callback);
+            rollCreate("Red-Women-1-Tee roll", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rollCreate("roll", 0, 0, 0, 0, callback);
+            rollCreate("Black-Men-2-Tee roll", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rollCreate("roll", 0, 0, 0, 0, callback);
+            rollCreate("Black-Men-2-Scratch-1 roll", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rollCreate("roll", 0, 0, 0, 0, callback);
+            rollCreate("Black-Men-2-Scratch-2 roll", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rollCreate("roll", 0, 0, 0, 0, callback);
+            rollCreate("Red-Women-2-Tee roll", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rollCreate("roll", 0, 0, 0, 0, callback);
+            rollCreate("Red-Women-2-Scratch-1 roll", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rollCreate("roll", 0, 0, 0, 0, callback);
+            rollCreate("Green-1 roll", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rollCreate("roll", 0, 0, 0, 0, callback);
+            rollCreate("Green-2 roll", 0, 0, 0, 0, callback);
         },
         function(callback) {
             rollCreate("roll", 0, 0, 0, 0, callback);
@@ -706,34 +706,34 @@ function createRolls(cb) {
 function createTopos(cb) {
     async.series([
         function(callback) {
-            topoCreate("topo", 0, callback);
+            topoCreate("Black-Men-1-Tee topo", 0, callback);
         },
         function(callback) {
-            topoCreate("topo", 0, callback);
+            topoCreate("Black-Men-1-Scratch-1 topo", 0, callback);
         },
         function(callback) {
-            topoCreate("topo", 0, callback);
+            topoCreate("Red-Women-1-Tee topo", 0, callback);
         },
         function(callback) {
-            topoCreate("topo", 0, callback);
+            topoCreate("Black-Men-2-Tee topo", 0, callback);
         },
         function(callback) {
-            topoCreate("topo", 0, callback);
+            topoCreate("Black-Men-2-Scratch-1 topo", 0, callback);
         },
         function(callback) {
-            topoCreate("topo", 0, callback);
+            topoCreate("Black-Men-2-Scratch-2 topo", 0, callback);
         },
         function(callback) {
-            topoCreate("topo", 0, callback);
+            topoCreate("Red-Women-2-Tee topo", 0, callback);
         },
         function(callback) {
-            topoCreate("topo", 0, callback);
+            topoCreate("Red-Women-2-Scratch-1 topo", 0, callback);
         },
         function(callback) {
-            topoCreate("topo", 0, callback);
+            topoCreate("Green-1 topo", 0, callback);
         },
         function(callback) {
-            topoCreate("topo", 0, callback);
+            topoCreate("Green-2 topo", 0, callback);
         },
         function(callback) {
             topoCreate("topo", 0, callback);
@@ -747,34 +747,34 @@ function createTopos(cb) {
 function createFairways(cb) {
     async.series([
         function(callback) {
-            fairwayCreate("fairway", 0, 0, 0, 0, 0, callback);
+            fairwayCreate("Black-Men-1-Tee fairway", 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            fairwayCreate("fairway", 0, 0, 0, 0, 0, callback);
+            fairwayCreate("Black-Men-1-Scratch-1 fairway", 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            fairwayCreate("fairway", 0, 0, 0, 0, 0, callback);
+            fairwayCreate("Red-Women-1-Tee fairway", 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            fairwayCreate("fairway", 0, 0, 0, 0, 0, callback);
+            fairwayCreate("Black-Men-2-Tee fairway", 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            fairwayCreate("fairway", 0, 0, 0, 0, 0, callback);
+            fairwayCreate("Black-Men-2-Scratch-1 fairway", 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            fairwayCreate("fairway", 0, 0, 0, 0, 0, callback);
+            fairwayCreate("Black-Men-2-Scratch-2 fairway", 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            fairwayCreate("fairway", 0, 0, 0, 0, 0, callback);
+            fairwayCreate("Red-Women-2-Tee fairway", 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            fairwayCreate("fairway", 0, 0, 0, 0, 0, callback);
+            fairwayCreate("Red-Women-2-Scratch-1 fairway", 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            fairwayCreate("fairway", 0, 0, 0, 0, 0, callback);
+            fairwayCreate("Green-1 fairway", 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            fairwayCreate("fairway", 0, 0, 0, 0, 0, callback);
+            fairwayCreate("Green-2 fairway", 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
             fairwayCreate("fairway", 0, 0, 0, 0, 0, callback);
@@ -788,34 +788,34 @@ function createFairways(cb) {
 function createTargets(cb) {
     async.series([
         function(callback) {
-            targetCreate("target", 0, 0, 0, callback);
+            targetCreate("Black-Men-1-Tee target", 0, 0, 0, callback);
         },
         function(callback) {
-            targetCreate("target", 0, 0, 0, callback);
+            targetCreate("Black-Men-1-Scratch-1 target", 0, 0, 0, callback);
         },
         function(callback) {
-            targetCreate("target", 0, 0, 0, callback);
+            targetCreate("Red-Women-1-Tee target", 0, 0, 0, callback);
         },
         function(callback) {
-            targetCreate("target", 0, 0, 0, callback);
+            targetCreate("Black-Men-2-Tee target", 0, 0, 0, callback);
         },
         function(callback) {
-            targetCreate("target", 0, 0, 0, callback);
+            targetCreate("Black-Men-2-Scratch-1 target", 0, 0, 0, callback);
         },
         function(callback) {
-            targetCreate("target", 0, 0, 0, callback);
+            targetCreate("Black-Men-2-Scratch-2 target", 0, 0, 0, callback);
         },
         function(callback) {
-            targetCreate("target", 0, 0, 0, callback);
+            targetCreate("Red-Women-2-Tee target", 0, 0, 0, callback);
         },
         function(callback) {
-            targetCreate("target", 0, 0, 0, callback);
+            targetCreate("Red-Women-2-Scratch-1 target", 0, 0, 0, callback);
         },
         function(callback) {
-            targetCreate("target", 0, 0, 0, callback);
+            targetCreate("Green-1 target", 0, 0, 0, callback);
         },
         function(callback) {
-            targetCreate("target", 0, 0, 0, callback);
+            targetCreate("Green-2 target", 0, 0, 0, callback);
         },
         function(callback) {
             targetCreate("target", 0, 0, 0, callback);
@@ -829,34 +829,34 @@ function createTargets(cb) {
 function createRRs(cb) {
     async.series([
         function(callback) {
-            rRCreate("rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
+            rRCreate("Black-Men-1-Tee rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rRCreate("rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
+            rRCreate("Black-Men-1-Scratch-1 rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rRCreate("rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
+            rRCreate("Red-Women-1-Tee rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rRCreate("rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
+            rRCreate("Black-Men-2-Tee rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rRCreate("rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
+            rRCreate("Black-Men-2-Scratch-1 rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rRCreate("rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
+            rRCreate("Black-Men-2-Scratch-2 rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rRCreate("rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
+            rRCreate("Red-Women-2-Tee rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rRCreate("rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
+            rRCreate("Red-Women-2-Scratch-1 rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rRCreate("rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
+            rRCreate("Green-1 rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            rRCreate("rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
+            rRCreate("Green-2 rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
             rRCreate("rR", 0, 0, 0, 0, 0, 0, 0, 0, 0, callback);
@@ -870,34 +870,34 @@ function createRRs(cb) {
 function createBunkers(cb) {
     async.series([
         function(callback) {
-            bunkerCreate("bunker", 0, 0, 0, 0, 0, 0, 0, callback);
+            bunkerCreate("Black-Men-1-Tee bunker", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            bunkerCreate("bunker", 0, 0, 0, 0, 0, 0, 0, callback);
+            bunkerCreate("Black-Men-1-Scratch-1 bunker", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            bunkerCreate("bunker", 0, 0, 0, 0, 0, 0, 0, callback);
+            bunkerCreate("Red-Women-1-Tee bunker", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            bunkerCreate("bunker", 0, 0, 0, 0, 0, 0, 0, callback);
+            bunkerCreate("Black-Men-2-Tee bunker", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            bunkerCreate("bunker", 0, 0, 0, 0, 0, 0, 0, callback);
+            bunkerCreate("Black-Men-2-Scratch-1 bunker", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            bunkerCreate("bunker", 0, 0, 0, 0, 0, 0, 0, callback);
+            bunkerCreate("Black-Men-2-Scratch-2 bunker", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            bunkerCreate("bunker", 0, 0, 0, 0, 0, 0, 0, callback);
+            bunkerCreate("Red-Women-2-Tee bunker", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            bunkerCreate("bunker", 0, 0, 0, 0, 0, 0, 0, callback);
+            bunkerCreate("Red-Women-2-Scratch-1 bunker", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            bunkerCreate("bunker", 0, 0, 0, 0, 0, 0, 0, callback);
+            bunkerCreate("Green-1 bunker", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            bunkerCreate("bunker", 0, 0, 0, 0, 0, 0, 0, callback);
+            bunkerCreate("Green-2 bunker", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
             bunkerCreate("bunker", 0, 0, 0, 0, 0, 0, 0, callback);
@@ -911,34 +911,34 @@ function createBunkers(cb) {
 function createLaterals(cb) {
     async.series([
         function(callback) {
-            lateralCreate("lateral", 0, 0, 0, 0, 0, 0, 0, callback);
+            lateralCreate("Black-Men-1-Tee lateral", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            lateralCreate("lateral", 0, 0, 0, 0, 0, 0, 0, callback);
+            lateralCreate("Black-Men-1-Scratch-1 lateral", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            lateralCreate("lateral", 0, 0, 0, 0, 0, 0, 0, callback);
+            lateralCreate("Red-Women-1-Tee lateral", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            lateralCreate("lateral", 0, 0, 0, 0, 0, 0, 0, callback);
+            lateralCreate("Black-Men-2-Tee lateral", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            lateralCreate("lateral", 0, 0, 0, 0, 0, 0, 0, callback);
+            lateralCreate("Black-Men-2-Scratch-1 lateral", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            lateralCreate("lateral", 0, 0, 0, 0, 0, 0, 0, callback);
+            lateralCreate("Black-Men-2-Scratch-2 lateral", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            lateralCreate("lateral", 0, 0, 0, 0, 0, 0, 0, callback);
+            lateralCreate("Red-Women-2-Tee lateral", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            lateralCreate("lateral", 0, 0, 0, 0, 0, 0, 0, callback);
+            lateralCreate("Red-Women-2-Scratch-1 lateral", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            lateralCreate("lateral", 0, 0, 0, 0, 0, 0, 0, callback);
+            lateralCreate("Green-1 lateral", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
-            lateralCreate("lateral", 0, 0, 0, 0, 0, 0, 0, callback);
+            lateralCreate("Green-2 lateral", 0, 0, 0, 0, 0, 0, 0, callback);
         },
         function(callback) {
             lateralCreate("lateral", 0, 0, 0, 0, 0, 0, 0, callback);
@@ -952,34 +952,34 @@ function createLaterals(cb) {
 function createCrossings(cb) {
     async.series([
         function(callback) {
-            crossingCreate("crossing", 0, 0, 0, 0, callback);
+            crossingCreate("Black-Men-1-Tee crossing", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            crossingCreate("crossing", 0, 0, 0, 0, callback);
+            crossingCreate("Black-Men-1-Scratch-1 crossing", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            crossingCreate("crossing", 0, 0, 0, 0, callback);
+            crossingCreate("Red-Women-1-Tee crossing", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            crossingCreate("crossing", 0, 0, 0, 0, callback);
+            crossingCreate("Black-Men-2-Tee crossing", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            crossingCreate("crossing", 0, 0, 0, 0, callback);
+            crossingCreate("Black-Men-2-Scratch-1 crossing", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            crossingCreate("crossing", 0, 0, 0, 0, callback);
+            crossingCreate("Black-Men-2-Scratch-2 crossing", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            crossingCreate("crossing", 0, 0, 0, 0, callback);
+            crossingCreate("Red-Women-2-Tee crossing", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            crossingCreate("crossing", 0, 0, 0, 0, callback);
+            crossingCreate("Red-Women-2-Scratch-1 crossing", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            crossingCreate("crossing", 0, 0, 0, 0, callback);
+            crossingCreate("Green-1 crossing", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            crossingCreate("crossing", 0, 0, 0, 0, callback);
+            crossingCreate("Green-2 crossing", 0, 0, 0, 0, callback);
         },
         function(callback) {
             crossingCreate("crossing", 0, 0, 0, 0, callback);
@@ -993,34 +993,34 @@ function createCrossings(cb) {
 function createTrees(cb) {
     async.series([
         function(callback) {
-            treeCreate("tree", 0, 0, 0, callback);
+            treeCreate("Black-Men-1-Tee tree", 0, 0, 0, callback);
         },
         function(callback) {
-            treeCreate("tree", 0, 0, 0, callback);
+            treeCreate("Black-Men-1-Scratch-1 tree", 0, 0, 0, callback);
         },
         function(callback) {
-            treeCreate("tree", 0, 0, 0, callback);
+            treeCreate("Red-Women-1-Tee tree", 0, 0, 0, callback);
         },
         function(callback) {
-            treeCreate("tree", 0, 0, 0, callback);
+            treeCreate("Black-Men-2-Tee tree", 0, 0, 0, callback);
         },
         function(callback) {
-            treeCreate("tree", 0, 0, 0, callback);
+            treeCreate("Black-Men-2-Scratch-1 tree", 0, 0, 0, callback);
         },
         function(callback) {
-            treeCreate("tree", 0, 0, 0, callback);
+            treeCreate("Black-Men-2-Scratch-2 tree", 0, 0, 0, callback);
         },
         function(callback) {
-            treeCreate("tree", 0, 0, 0, callback);
+            treeCreate("Red-Women-2-Tee tree", 0, 0, 0, callback);
         },
         function(callback) {
-            treeCreate("tree", 0, 0, 0, callback);
+            treeCreate("Red-Women-2-Scratch-1 tree", 0, 0, 0, callback);
         },
         function(callback) {
-            treeCreate("tree", 0, 0, 0, callback);
+            treeCreate("Green-1 tree", 0, 0, 0, callback);
         },
         function(callback) {
-            treeCreate("tree", 0, 0, 0, callback);
+            treeCreate("Green-2 tree", 0, 0, 0, callback);
         },
         function(callback) {
             treeCreate("tree", 0, 0, 0, callback);
@@ -1034,34 +1034,34 @@ function createTrees(cb) {
 function createSurfaces(cb) {
     async.series([
         function(callback) {
-            surfaceCreate("surface", 0, 0, 0, 0, callback);
+            surfaceCreate("Black-Men-1-Tee surface", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate("surface", 0, 0, 0, 0, callback);
+            surfaceCreate("Black-Men-1-Scratch-1 surface", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate("surface", 0, 0, 0, 0, callback);
+            surfaceCreate("Red-Women-1-Tee surface", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate("surface", 0, 0, 0, 0, callback);
+            surfaceCreate("Black-Men-2-Tee surface", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate("surface", 0, 0, 0, 0, callback);
+            surfaceCreate("Black-Men-2-Scratch-1 surface", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate("surface", 0, 0, 0, 0, callback);
+            surfaceCreate("Black-Men-2-Scratch-2 surface", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate("surface", 0, 0, 0, 0, callback);
+            surfaceCreate("Red-Women-2-Tee surface", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate("surface", 0, 0, 0, 0, callback);
+            surfaceCreate("Red-Women-2-Scratch-1 surface", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate("surface", 0, 0, 0, 0, callback);
+            surfaceCreate("Green-1 surface", 0, 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate("surface", 0, 0, 0, 0, callback);
+            surfaceCreate("Green-2 surface", 0, 0, 0, 0, callback);
         },
         function(callback) {
             surfaceCreate("surface", 0, 0, 0, 0, callback);

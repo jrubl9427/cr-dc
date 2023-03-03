@@ -10,7 +10,7 @@ const { ObjectID, ObjectId } = require("bson");
 // Display a list of all tees.
 exports.tee_list = (req, res, next) => {
     Tee.find({})
-        .sort({ length: -1 })
+        .sort({ name: 1 })
         .exec(function (err, list_tees) {
             if (err) {
                 return next(err);
@@ -58,7 +58,9 @@ exports.tee_create_get = (req, res, next) => {
     async.parallel(
         {
             obstacles(callback) {
-                Obstacle.find(callback);
+                Obstacle.find({})
+                    .sort({ name: 1 })
+                    .exec(callback);;
             },
         },
         (err, results) => {
@@ -174,10 +176,9 @@ exports.tee_delete_get = (req, res, next) => {
     );
 };
 
-// Handle course delete on POST.
+// Handle tee delete on POST.
 exports.tee_delete_post = (req, res, next) => {
     // Assume the post has valid id (ie no validation/sanitization).
-    console.log("ID", req.params.id);
     async.parallel(
         {
             tee: function (callback) {
@@ -214,7 +215,7 @@ exports.tee_delete_post = (req, res, next) => {
 
 // Display tee update form on GET.
 exports.tee_update_get = (req, res, next) => {
-    // get the hole and holes for the form.
+    // get the tee and obstacles for the form.
     async.parallel(
         {
             tee(callback) {
@@ -258,7 +259,7 @@ exports.tee_update_get = (req, res, next) => {
 exports.tee_update_post = [
     // Convert obstacleto array.
     (req, res, next) => {
-        if (!Array.isArray(req.body.tee)) {
+        if (!Array.isArray(req.body.obstacle)) {
             req.body.obstacle = typeof req.body.obstacle === "undefined" ? [] : [req.body.obstacle];
         }
         next();
@@ -266,6 +267,9 @@ exports.tee_update_post = [
 
     // Validate and sanitize the fields.
     body("name", "Name must not be empty.").trim().isLength({ min: 1 }).escape(),
+    body("length", "Length must be integer.").trim().isInt().escape(),
+    body("par", "Par must be integer.").trim().isInt().escape(),
+    body("altitude", "Altitude must be integer.").trim().isInt().escape(),
     body("obstacle.*").escape(),
     
     // Process request after validation and sanitation
@@ -276,12 +280,15 @@ exports.tee_update_post = [
         // Create a Tee object with escaped and trimmed data.
         const tee = new Tee({
             name: req.body.name,
+            length: req.body.length,
+            par: req.body.par,
+            altitude: req.body.altitude,
             obstacle: typeof req.body.obstacle === "undefined" ? [] : req.body.obstacle,
             _id: req.params.id, // This is required, or a new ID will be assigned!
         });
 
         if (!errors.isEmpty()) {
-            //There are errors. Render form again with sanitized values/error messages. Get all authors and genres for form.
+            //There are errors. Render form again with sanitized values/error messages. Get all obstacles for form.
             
             // Get all obstacles for the form
             async.parallel(
