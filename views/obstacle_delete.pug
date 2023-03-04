@@ -1,0 +1,130 @@
+extends layout
+
+block content
+    h1 Obstacle: #{obstacle.name} Delete
+    
+    p #[strong Layups:]
+        ul
+            li 
+                a(href=obstacle.layup.url) #[strong Layup: ] #{obstacle.layup.name}
+    hr
+    
+    p #[strong Doglegs:]
+        ul
+            li 
+                a(href=obstacle.dogleg.url) #[strong Dogleg: ] #{obstacle.dogleg.name}
+    hr
+    
+    p #[strong Rolls:] 
+        ul
+            li    
+                a(href=obstacle.roll.url) #[strong Roll: ] #{obstacle.roll.name}
+    hr
+    
+    p #[strong Topos:]
+        ul
+            li 
+                a(href=obstacle.topo.url) #[strong Topo: ] #{obstacle.topo.name}
+    hr
+    
+    p #[strong Fairways:]
+        ul
+            li 
+                a(href=obstacle.fairway.url) #[strong Fairway: ] #{obstacle.fairway.name}
+    hr
+    
+    p #[strong Targets:] 
+        ul
+            li 
+                a(href=obstacle.target.url) #[strong Target: ] #{obstacle.target.name}
+
+    p #[strong RRs:]
+        ul
+            li 
+                a(href=obstacle.rR.url) #[strong RR: ] #{obstacle.rR.name}
+    hr
+    
+    p #[strong Bunkers:]
+        ul
+            li 
+                a(href=obstacle.bunker.url) #[strong Bunker: ] #{obstacle.bunker.name}
+    hr
+    
+    p #[strong Laterals:] 
+        ul
+            li 
+                a(href=obstacle.lateral.url) #[strong Lateral: ] #{obstacle.lateral.name}
+
+    p #[strong Crossings:]
+        ul
+            li 
+                a(href=obstacle.crossing.url) #[strong Crossing: ] #{obstacle.crossing.name}
+    hr
+    
+    p #[strong Trees:]
+        ul
+            li 
+                a(href=obstacle.tree.url) #[strong Tree: ] #{obstacle.tree.name}
+    hr
+    
+    p #[strong Surfaces:] 
+        ul
+            li 
+                a(href=obstacle.surface.url) #[strong Surface: ] #{obstacle.surface.name}
+    hr
+    if obstacle.layup != null
+    
+        p #[strong Delete all layups before attempting to delete this obstacle.]
+
+    if obstacle.dogleg != null
+    
+        p #[strong Delete all doglegs before attempting to delete this obstacle.]
+
+    if obstacle.roll != null
+    
+        p #[strong Delete all rolls before attempting to delete this obstacle.]
+
+    if obstacle.topo != null
+    
+        p #[strong Delete all topos before attempting to delete this obstacle.]
+
+    if obstacle.fairway != null
+    
+        p #[strong Delete all faairways before attempting to delete this obstacle.]
+
+    if obstacle.target != null
+    
+        p #[strong Delete all targets before attempting to delete this obstacle.]
+
+    if obstacle.rR != null
+    
+        p #[strong Delete all rRs before attempting to delete this obstacle.]
+
+    if obstacle.bunker != null
+    
+        p #[strong Delete all bunkers before attempting to delete this obstacle.]
+
+    if obstacle.lateral != null
+    
+        p #[strong Delete all laterals before attempting to delete this obstacle.]
+
+    if obstacle.crossing != null
+    
+        p #[strong Delete all crossings before attempting to delete this obstacle.]
+
+    if obstacle.tree != null
+    
+        p #[strong Delete all trees before attempting to delete this obstacle.]
+
+    if obstacle.surface != null
+    
+        p #[strong Delete all surfaces before attempting to delete this obstacle.]
+        
+    else 
+        p Do you really want to delete this obstacle?
+        
+        form(method='POST' action='')
+            div.form-group
+                input#id.form-control(type='hidden' name='obstacleid', required='true' value=obstacle._id)
+
+            button.btn.btn-primary(type='submit') Delete
