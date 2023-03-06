@@ -294,7 +294,7 @@ exports.hole_update_get = (req, res, next) => {
                 err.status = 404;
                 return next(err);
             }
-            // Successful, mark our selected tees as checked
+            // Successful, mark our selected tees and lzs as checked
             for (const tee of results.tees) {
                 for (const aTee of results.hole.tee) {
                     if (tee._id.toString() === aTee._id.toString()) {
@@ -357,7 +357,7 @@ exports.hole_update_post = [
         });
 
         if (!errors.isEmpty()) {
-            //There are errors. Render form again with sanitized values/error messages. Get all authors and genres for form.
+            //There are errors. Render form again with sanitized values/error messages. Get all holes, tees and lzs for form.
             
             // Get all tees, lzs and greens for the form
             async.parallel(
