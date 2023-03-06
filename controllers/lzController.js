@@ -189,7 +189,6 @@ exports.lz_delete_post = (req, res, next) => {
                 return next(err);
             }
             // Success
-            console.log("results", results, results.lz)
             if (results.lz.obstacle.length > 0) {
                 res.render("lz_delete", {
                     title: "Delete Lz",
@@ -197,7 +196,7 @@ exports.lz_delete_post = (req, res, next) => {
                 });
                 return;
             } else {
-                // Lz has no lz objects. Delete object and redirect to the list of lzs.
+                // Lz has no obstacle objects. Delete object and redirect to the list of lzs.
                 Lz.findByIdAndRemove(req.body.lzid, function deleteLz(err) {
                     if (err) {
                         return next(err);
