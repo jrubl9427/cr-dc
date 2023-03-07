@@ -1,0 +1,112 @@
+extends layout
+
+block content
+    h1= title
+    
+    form(method='POST' action='')
+        div.form-group
+            label(for='name') Name:
+            input#name.form-control(
+                type='text'
+                placeholder='RR name e.g. name-Men/Women-hole#-scratch/bogey-lz#'
+                name='name'
+                required='true' 
+                value=(undefined===rR ? '' : rR.name)
+            )
+
+        div.form-group
+            label(for='rating') Rating of rR:
+            input#rating.form-control(
+                type='number'
+                placeholder='Rating of rR'
+                name='rating' 
+                required='true' 
+                value=(undefined===rR ? '' : rR.rating)
+            )
+
+        div.form-group
+            label(for='carry_C') Carry_C adjustment:
+            input#carry_C.form-control(
+                type='number'
+                placeholder='Carry_C adjustment'
+                name='carry_C' 
+                required='true' 
+                value=(undefined===rR ? '' : rR.carry_C)
+            )
+
+        div.form-group
+            label(for='layup_L') Layup_L adjustment:
+            input#visibility.form-control(
+                type='number'
+                placeholder='Layup_L adjustment'
+                name='layup_L' 
+                required='true' 
+                value=(undefined===rR ? '' : rR.layup_L)
+            )
+
+        div.form-group
+            label(for='inconsistent_I') Inconsistent_I adjustment:
+            input#inconsistent_I.form-control(
+                type='number'
+                placeholder='Inconsistent_I adjustment'
+                name='inconsistent_I' 
+                required='true' 
+                value=(undefined===rR ? '' : rR.inconsistent_I)
+            )
+
+        div.form-group
+            label(for='mounds_M') Mounds_M adjustment:
+            input#visibility.form-control(
+                type='number'
+                placeholder='Mounds_M adjustment'
+                name='mounds_M' 
+                required='true' 
+                value=(undefined===rR ? '' : rR.mounds_M)
+            )
+
+        div.form-group
+            label(for='unpleasant_U') Unpleasant_U adjustment:
+            input#unpleasant_U.form-control(
+                type='number'
+                placeholder='Unpleasant_U adjustment'
+                name='unpleasant_U' 
+                required='true' 
+                value=(undefined===rR ? '' : rR.unpleasant_U)
+            )
+
+        div.form-group
+            label(for='twoTimes_2') TwoTimes_2 adjustment:
+            input#visibility.form-control(
+                type='number'
+                placeholder='TwoTimes_2 adjustment'
+                name='twoTimes_2' 
+                required='true' 
+                value=(undefined===rR ? '' : rR.twoTimes_2)
+            )
+
+        div.form-group
+            label(for='parThree_3') ParThree_3 adjustment:
+            input#parThree_3.form-control(
+                type='number'
+                placeholder='ParThree_3 adjustment'
+                name='parThree_3' 
+                required='true' 
+                value=(undefined===rR ? '' : rR.parThree_3)
+            )
+
+        div.form-group
+            label(for='surrounded_S') Surrounded_S adjustment:
+            input#visibility.form-control(
+                type='number'
+                placeholder='Surrounded_S adjustment'
+                name='surrounded_S' 
+                required='true' 
+                value=(undefined===rR ? '' : rR.surrounded_S)
+            )
+                    
+        button.btn.btn-primary(type='submit') Submit
+        
+    if errors
+        ul
+            for error in errors
+                li!= error.msg

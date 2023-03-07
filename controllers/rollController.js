@@ -208,7 +208,7 @@ exports.roll_update_post = [
         }
         
         // Data from form is valid. Update the record.
-        Roll.findByIdAndUpdate(req.params.id, roll, {}, (err, theroll) => {
+        Roll.findByIdAndUpdate(req.params.id, roll, {runValidators: true}, (err, theroll) => {
             if (err) {
                 return next(err);
             }

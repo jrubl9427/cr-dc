@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    h1 Target: #{target.name} Delete
+    
+    p Do you really want to delete this target?
+        
+        form(method='POST' action='')
+            div.form-group
+                input#id.form-control(type='hidden' name='targetid', required='true' value=target._id)
+
+            button.btn.btn-primary(type='submit') Delete

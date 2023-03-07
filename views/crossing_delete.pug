@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    h1 Crossing: #{crossing.name} Delete
+    
+    p Do you really want to delete this crossing?
+        
+        form(method='POST' action='')
+            div.form-group
+                input#id.form-control(type='hidden' name='crossingid', required='true' value=crossing._id)
+
+            button.btn.btn-primary(type='submit') Delete

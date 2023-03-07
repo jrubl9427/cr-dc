@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    h1 RR: #{rR.name} Delete
+    
+    p Do you really want to delete this rR?
+        
+        form(method='POST' action='')
+            div.form-group
+                input#id.form-control(type='hidden' name='rRid', required='true' value=rR._id)
+
+            button.btn.btn-primary(type='submit') Delete

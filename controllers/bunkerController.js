@@ -53,31 +53,176 @@ exports.bunker_detail = (req, res, next) => {
 };
 
 // Display Bunker create form on GET.
-exports.bunker_create_get = (req, res) => {
-    res.send("NOT IMPLEMENTED: Bunker create GET");
+exports.bunker_create_get = (req, res, next) => {
+    res.render("bunker_form", {
+        title: "Create Bunker",
+    });
 };
 
-// Handle Bunker create on POST.
-exports.bunker_create_post = (req, res) => {
-    res.send("NOT IMPLEMENTED: Bunker create POST");
+// Handle bunker create on POST.
+exports.bunker_create_post = [
+    
+    // Validate and sanitize the fields.
+    body("name", "Name must not be empty.").trim().isLength({ min: 1 }).escape(),
+    body("rating", "Rating must be integer.").trim().isInt().escape(),
+    body("carry_C", "Carry_C must be integer.").trim().isInt().escape(),
+    body("depth_D", "Depth_D must be integer.").trim().isInt().escape(),
+    body("extreme_E", "Extreme_E must be integer.").trim().isInt().escape(),
+    body("no_N", "No_N must be integer.").trim().isInt().escape(),
+    body("squeeze_Q", "Squeeze_Q must be integer.").trim().isInt().escape(),
+    
+    // Process request after validation and sanitation
+    (req, res, next) => {
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+
+        // Create a bunker object with escaped and trimmed data.
+        const bunker = new Bunker({
+            name: req.body.name + " bunker",
+            rating: req.body.rating,
+            carry_C: req.body.carry_C,
+            depth_D: req.body.depth_D,
+            extreme_E: req.body.extreme_E,
+            no_N: req.body.no_N,
+            squeeze_Q: req.body.squeeze_Q,
+        });
+
+        if (!errors.isEmpty()) {
+            //There are errors. Render form again with sanitized values/error messages. 
+            
+            res.render("bunker_form", {
+                title: "Create Bunker",
+                bunker,
+                errors: errors.array(),
+            });
+            return;
+        }
+
+        // Data from form is valid. Save bunker.
+        bunker.save((err) => {
+            if (err) {
+                return next(err);
+            }
+            // Successful save: redirect to new bunker record.
+            res.redirect(bunker.url);
+        });
+    },
+];;
+
+// Display bunker delete form on GET.
+exports.bunker_delete_get = (req, res, next) => {
+    async.parallel(
+        {
+            bunker: function (callback) {
+                Bunker.findById(req.params.id)
+                    .exec(callback);
+            },
+        },
+        function (err, results) {
+            if (err) {
+                return next(err);
+            }
+            if (results.bunker == null) {
+                // No results
+                res.redirect("/catalog/bunkers");
+            }
+            // Sucessful, so render
+            res.render("bunker_delete", {
+                title: "Delete Bunker",
+                bunker: results.bunker
+            });
+        }
+    );
 };
 
-// Display Bunker delete form on GET.
-exports.bunker_delete_get = (req, res) => {
-    res.send("NOT IMPLEMENTED: Bunker delete GET");
+// Handle bunker delete on POST.
+exports.bunker_delete_post = (req, res, next) => {
+    // Assume the post has valid id (ie no validation/sanitization).
+    Bunker.findByIdAndRemove(req.body.bunkerid, function deletebunker(err) {
+        if (err) {
+            return next(err);
+        }
+        // Success - go to bunkers list.
+        res.redirect("/catalog/bunkers");
+    });
 };
 
-// Handle Bunker delete on POST.
-exports.bunker_delete_post = (req, res) => {
-    res.send("NOT IMPLEMENTED: Bunker delete POST");
+// Display bunker update form on GET.
+exports.bunker_update_get = (req, res, next) => {
+    // get the bunker and obstacles for the form.
+    async.parallel(
+        {
+            bunker(callback) {
+                Bunker.findById(req.params.id)
+                    .exec(callback);
+            },
+        },
+        (err, results) => {
+            if (err) {
+                return next(err);
+            }
+                        
+            if (results.bunker == null) {
+                // No, results
+                const err = new Error("Bunker not found");
+                err.status = 404;
+                return next(err);
+            }
+            res.render("bunker_form", {
+                title: "Update Bunker",
+                bunker: results.bunker,
+            });
+        }
+    );
 };
 
-// Display Bunker update form on GET.
-exports.bunker_update_get = (req, res) => {
-    res.send("NOT IMPLEMENTED: Bunker update GET");
-};
+// Handle bunker update on POST.
+exports.bunker_update_post = [
 
-// Handle Bunker update on POST.
-exports.bunker_update_post = (req, res) => {
-    res.send("NOT IMPLEMENTED: Bunker update POST");
-};
+    // Validate and sanitize the fields.
+    body("name", "Name must not be empty.").trim().isLength({ min: 1 }).escape(),
+    body("rating", "Rating must be integer.").trim().isInt().escape(),
+    body("carry_C", "Carry_C must be integer.").trim().isInt().escape(),
+    body("depth_D", "Depth_D must be integer.").trim().isInt().escape(),
+    body("extreme_E", "Extreme_E must be integer.").trim().isInt().escape(),
+    body("no_N", "No_N must be integer.").trim().isInt().escape(),
+    body("squeeze_Q", "Squeeze_Q must be integer.").trim().isInt().escape(),
+    
+    // Process request after validation and sanitation
+    (req, res, next) => {
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+
+        // Create a bunker object with escaped and trimmed data.
+        const bunker = new Bunker({
+            name: req.body.name,
+            rating: req.body.rating,
+            carry_C: req.body.carry_C,
+            depth_D: req.body.depth_D,
+            extreme_E: req.body.extreme_E,
+            no_N: req.body.no_N,
+            squeeze_Q: req.body.squeeze_Q,
+            _id: req.params.id, // This is required, or a new ID will be assigned!
+        });
+
+        if (!errors.isEmpty()) {
+            //There are errors. Render form again with sanitized values/error messages.
+            res.render("bunker_form", {
+                title: "Update Bunker",
+                bunker,
+                errors: errors.array(),
+            });
+            return;
+        }
+        
+        // Data from form is valid. Update the record.
+        Bunker.findByIdAndUpdate(req.params.id, bunker, {runValidators: true}, (err, thebunker) => {
+            if (err) {
+                return next(err);
+            }
+            
+            // Successful: redirect to bunker detail page.
+            res.redirect(thebunker.url);
+        });
+    },
+]

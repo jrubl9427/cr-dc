@@ -872,7 +872,7 @@ exports.obstacle_update_post = [
         }
         
         // Data from form is valid. Update the record.
-        Obstacle.findByIdAndUpdate(req.params.id, obstacle, {}, (err, theobstacle) => {
+        Obstacle.findByIdAndUpdate(req.params.id, obstacle, {runValidators: true}, (err, theobstacle) => {
             if (err) {
                 return next(err);
             }

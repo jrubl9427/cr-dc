@@ -14,12 +14,6 @@ const BunkerSchema = new Schema({
         max: 10,
         default: 0
     },
-    bounce_B: {
-        type: Number,
-        min: -1,
-        max: 1,
-        default: 0
-    },
     carry_C: {
         type: Number,
         min: 0,

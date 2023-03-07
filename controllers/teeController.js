@@ -313,7 +313,7 @@ exports.tee_update_post = [
         }
         
         // Data from form is valid. Update the record.
-        Tee.findByIdAndUpdate(req.params.id, tee, {}, (err, thetee) => {
+        Tee.findByIdAndUpdate(req.params.id, tee, {runValidators: true}, (err, thetee) => {
             if (err) {
                 return next(err);
             }

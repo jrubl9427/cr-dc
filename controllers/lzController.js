@@ -307,7 +307,7 @@ exports.lz_update_post = [
         }
         
         // Data from form is valid. Update the record.
-        Lz.findByIdAndUpdate(req.params.id, lz, {}, (err, thelz) => {
+        Lz.findByIdAndUpdate(req.params.id, lz, {runValidators: true}, (err, thelz) => {
             if (err) {
                 return next(err);
             }

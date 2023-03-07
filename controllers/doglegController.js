@@ -200,7 +200,7 @@ exports.dogleg_update_post = [
         }
         
         // Data from form is valid. Update the record.
-        Dogleg.findByIdAndUpdate(req.params.id, dogleg, {}, (err, thedogleg) => {
+        Dogleg.findByIdAndUpdate(req.params.id, dogleg, {runValidators: true}, (err, thedogleg) => {
             if (err) {
                 return next(err);
             }

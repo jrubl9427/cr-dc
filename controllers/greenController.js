@@ -314,7 +314,7 @@ exports.green_update_post = [
         }
         
         // Data from form is valid. Update the record.
-        Green.findByIdAndUpdate(req.params.id, green, {}, (err, thegreen) => {
+        Green.findByIdAndUpdate(req.params.id, green, {runValidators: true}, (err, thegreen) => {
             if (err) {
                 return next(err);
             }

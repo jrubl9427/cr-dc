@@ -1,0 +1,92 @@
+extends layout
+
+block content
+    h1= title
+    
+    form(method='POST' action='')
+        div.form-group
+            label(for='name') Name:
+            input#name.form-control(
+                type='text'
+                placeholder='Lateral name e.g. name-Men/Women-hole#-scratch/bogey-lz#'
+                name='name'
+                required='true' 
+                value=(undefined===lateral ? '' : lateral.name)
+            )
+
+        div.form-group
+            label(for='rating') Rating of lateral:
+            input#rating.form-control(
+                type='number'
+                placeholder='Rating of lateral'
+                name='rating' 
+                required='true' 
+                value=(undefined===lateral ? '' : lateral.rating)
+            )
+
+        div.form-group
+            label(for='percentage_P') Percentage_P adjustment:
+            input#visibility.form-control(
+                type='number'
+                placeholder='Percentage_P adjustment'
+                name='percentage_P' 
+                required='true' 
+                value=(undefined===lateral ? '' : lateral.percentage_P)
+            )
+
+        div.form-group
+            label(for='bounce_B') Bounce_B adjustment:
+            input#bounce_B.form-control(
+                type='number'
+                placeholder='Bounce_B adjustment'
+                name='bounce_B' 
+                required='true' 
+                value=(undefined===lateral ? '' : lateral.bounce_B)
+            )
+
+        div.form-group
+            label(for='squeeze_Q') Squeeze_Q adjustment:
+            input#visibility.form-control(
+                type='number'
+                placeholder='Squeeze_Q adjustment'
+                name='squeeze_Q' 
+                required='true' 
+                value=(undefined===lateral ? '' : lateral.squeeze_Q)
+            )
+
+        div.form-group
+            label(for='stroke_K') Stroke_K adjustment:
+            input#stroke_K.form-control(
+                type='number'
+                placeholder='Stroke_K adjustment'
+                name='stroke_K' 
+                required='true' 
+                value=(undefined===lateral ? '' : lateral.stroke_K)
+            )
+
+        div.form-group
+            label(for='twoTimes_2') TwoTimes_2 adjustment:
+            input#visibility.form-control(
+                type='number'
+                placeholder='TwoTimes_2 adjustment'
+                name='twoTimes_2' 
+                required='true' 
+                value=(undefined===lateral ? '' : lateral.twoTimes_2)
+            )
+
+        div.form-group
+            label(for='surrounded_S') Surrounded_S adjustment:
+            input#visibility.form-control(
+                type='number'
+                placeholder='Surrounded_S adjustment'
+                name='surrounded_S' 
+                required='true' 
+                value=(undefined===lateral ? '' : lateral.surrounded_S)
+            )
+                    
+        button.btn.btn-primary(type='submit') Submit
+        
+    if errors
+        ul
+            for error in errors
+                li!= error.msg

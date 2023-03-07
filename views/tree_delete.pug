@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    h1 Tree: #{tree.name} Delete
+    
+    p Do you really want to delete this tree?
+        
+        form(method='POST' action='')
+            div.form-group
+                input#id.form-control(type='hidden' name='treeid', required='true' value=tree._id)
+
+            button.btn.btn-primary(type='submit') Delete

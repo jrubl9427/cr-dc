@@ -212,7 +212,7 @@ exports.fairway_update_post = [
         }
         
         // Data from form is valid. Update the record.
-        Fairway.findByIdAndUpdate(req.params.id, fairway, {}, (err, thefairway) => {
+        Fairway.findByIdAndUpdate(req.params.id, fairway, {runValidators: true}, (err, thefairway) => {
             if (err) {
                 return next(err);
             }

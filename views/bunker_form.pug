@@ -1,0 +1,82 @@
+extends layout
+
+block content
+    h1= title
+    
+    form(method='POST' action='')
+        div.form-group
+            label(for='name') Name:
+            input#name.form-control(
+                type='text'
+                placeholder='Bunker name e.g. name-Men/Women-hole#-scratch/bogey-lz#'
+                name='name'
+                required='true' 
+                value=(undefined===bunker ? '' : bunker.name)
+            )
+
+        div.form-group
+            label(for='rating') Rating of bunker:
+            input#rating.form-control(
+                type='number'
+                placeholder='Rating of bunker'
+                name='rating' 
+                required='true' 
+                value=(undefined===bunker ? '' : bunker.rating)
+            )
+
+        div.form-group
+            label(for='carry_C') Carry_C adjustment:
+            input#visibility.form-control(
+                type='number'
+                placeholder='Carry_C adjustment'
+                name='carry_C' 
+                required='true' 
+                value=(undefined===bunker ? '' : bunker.carry_C)
+            )
+
+        div.form-group
+            label(for='depth_D') Depth_D adjustment:
+            input#depth_D.form-control(
+                type='number'
+                placeholder='Depth_D adjustment'
+                name='depth_D' 
+                required='true' 
+                value=(undefined===bunker ? '' : bunker.depth_D)
+            )
+
+        div.form-group
+            label(for='extreme_E') Extreme_E adjustment:
+            input#visibility.form-control(
+                type='number'
+                placeholder='Extreme_E adjustment'
+                name='extreme_E' 
+                required='true' 
+                value=(undefined===bunker ? '' : bunker.extreme_E)
+            )
+
+        div.form-group
+            label(for='no_N') No_N adjustment:
+            input#no_N.form-control(
+                type='number'
+                placeholder='No_N adjustment'
+                name='no_N' 
+                required='true' 
+                value=(undefined===bunker ? '' : bunker.no_N)
+            )
+
+        div.form-group
+            label(for='squeeze_Q') Squeeze_Q adjustment:
+            input#visibility.form-control(
+                type='number'
+                placeholder='Squeeze_Q adjustment'
+                name='squeeze_Q' 
+                required='true' 
+                value=(undefined===bunker ? '' : bunker.squeeze_Q)
+            )
+                    
+        button.btn.btn-primary(type='submit') Submit
+        
+    if errors
+        ul
+            for error in errors
+                li!= error.msg

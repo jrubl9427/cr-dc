@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    h1 Surface: #{surface.name} Delete
+    
+    p Do you really want to delete this surface?
+        
+        form(method='POST' action='')
+            div.form-group
+                input#id.form-control(type='hidden' name='surfaceid', required='true' value=surface._id)
+
+            button.btn.btn-primary(type='submit') Delete

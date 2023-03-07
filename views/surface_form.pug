@@ -1,0 +1,62 @@
+extends layout
+
+block content
+    h1= title
+    
+    form(method='POST' action='')
+        div.form-group
+            label(for='name') Name:
+            input#name.form-control(
+                type='text'
+                placeholder='Surface name e.g. name-Men/Women-hole#-scratch/bogey-lz#'
+                name='name'
+                required='true' 
+                value=(undefined===surface ? '' : surface.name)
+            )
+
+        div.form-group
+            label(for='rating') Rating of surface:
+            input#rating.form-control(
+                type='number'
+                placeholder='Rating of surface'
+                name='rating' 
+                required='true' 
+                value=(undefined===surface ? '' : surface.rating)
+            )
+
+        div.form-group
+            label(for='tiered_T') Tiered_T adjustment:
+            input#tiered_T.form-control(
+                type='number'
+                placeholder='Tiered_T adjustment'
+                name='tiered_T' 
+                required='true' 
+                value=(undefined===surface ? '' : surface.tiered_T)
+            )
+
+        div.form-group
+            label(for='firm_F') Firm_F adjustment:
+            input#visibility.form-control(
+                type='number'
+                placeholder='Firm_F adjustment'
+                name='firm_F' 
+                required='true' 
+                value=(undefined===surface ? '' : surface.firm_F)
+            )
+
+        div.form-group
+            label(for='unpleasant_U') Unpleasant_U adjustment:
+            input#visibility.form-control(
+                type='number'
+                placeholder='Unpleasant_U adjustment'
+                name='unpleasant_U' 
+                required='true' 
+                value=(undefined===surface ? '' : surface.unpleasant_U)
+            )
+                    
+        button.btn.btn-primary(type='submit') Submit
+        
+    if errors
+        ul
+            for error in errors
+                li!= error.msg

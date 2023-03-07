@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    h1 Lateral: #{lateral.name} Delete
+    
+    p Do you really want to delete this lateral?
+        
+        form(method='POST' action='')
+            div.form-group
+                input#id.form-control(type='hidden' name='lateralid', required='true' value=lateral._id)
+
+            button.btn.btn-primary(type='submit') Delete

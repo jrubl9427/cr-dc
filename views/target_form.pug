@@ -1,0 +1,52 @@
+extends layout
+
+block content
+    h1= title
+    
+    form(method='POST' action='')
+        div.form-group
+            label(for='name') Name:
+            input#name.form-control(
+                type='text'
+                placeholder='Target name e.g. name-Men/Women-hole#-scratch/bogey-lz#'
+                name='name'
+                required='true' 
+                value=(undefined===target ? '' : target.name)
+            )
+
+        div.form-group
+            label(for='rating') Rating of target:
+            input#rating.form-control(
+                type='number'
+                placeholder='Rating of target'
+                name='rating' 
+                required='true' 
+                value=(undefined===target ? '' : target.rating)
+            )
+
+        div.form-group
+            label(for='obstructed_O') Obstructed_O adjustment:
+            input#obstructed_O.form-control(
+                type='number'
+                placeholder='Obstructed_O adjustment'
+                name='obstructed_O' 
+                required='true' 
+                value=(undefined===target ? '' : target.obstructed_O)
+            )
+
+        div.form-group
+            label(for='visibility_V') Visibility_V adjustment:
+            input#visibility.form-control(
+                type='number'
+                placeholder='Visibility_V adjustment'
+                name='visibility_V' 
+                required='true' 
+                value=(undefined===target ? '' : target.visibility_V)
+            )
+                    
+        button.btn.btn-primary(type='submit') Submit
+        
+    if errors
+        ul
+            for error in errors
+                li!= error.msg

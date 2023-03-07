@@ -196,7 +196,7 @@ exports.topo_update_post = [
         }
         
         // Data from form is valid. Update the record.
-        Topo.findByIdAndUpdate(req.params.id, topo, {}, (err, thetopo) => {
+        Topo.findByIdAndUpdate(req.params.id, topo, {runValidators: true}, (err, thetopo) => {
             if (err) {
                 return next(err);
             }

@@ -419,7 +419,7 @@ exports.course_update_post = [
         }
         
         // Data from form is valid. Update the record.
-        Course.findByIdAndUpdate(req.params.id, course, {}, (err, thecourse) => {
+        Course.findByIdAndUpdate(req.params.id, course, {runValidators: true}, (err, thecourse) => {
             if (err) {
                 return next(err);
             }

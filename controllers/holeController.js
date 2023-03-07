@@ -390,7 +390,7 @@ exports.hole_update_post = [
         }
         
         // Data from form is valid. Update the record.
-        Hole.findByIdAndUpdate(req.params.id, hole, {}, (err, thehole) => {
+        Hole.findByIdAndUpdate(req.params.id, hole, {runValidators: true}, (err, thehole) => {
             if (err) {
                 return next(err);
             }

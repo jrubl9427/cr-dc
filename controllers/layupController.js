@@ -205,7 +205,7 @@ exports.layup_update_post = [
         }
         
         // Data from form is valid. Update the record.
-        Layup.findByIdAndUpdate(req.params.id, layup, {}, (err, thelayup) => {
+        Layup.findByIdAndUpdate(req.params.id, layup, {runValidators: true}, (err, thelayup) => {
             if (err) {
                 return next(err);
             }
