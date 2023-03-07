@@ -54,7 +54,7 @@ exports.layup_detail = (req, res, next) => {
 };
 
 // Display layup create form on GET.
-exports.layup_create_get = (req, res, next) => {// Get all obstacles .
+exports.layup_create_get = (req, res, next) => {
     res.render("layup_form", {
         title: "Create Layup",
     });
