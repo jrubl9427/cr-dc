@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    h1 Topo: #{topo.name} Delete
+    
+    p Do you really want to delete this topo?
+        
+        form(method='POST' action='')
+            div.form-group
+                input#id.form-control(type='hidden' name='topoid', required='true' value=topo._id)
+
+            button.btn.btn-primary(type='submit') Delete

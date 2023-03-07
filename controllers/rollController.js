@@ -76,7 +76,7 @@ exports.roll_create_post = [
 
         // Create a roll object with escaped and trimmed data.
         const roll = new Roll({
-            name: req.body.name,
+            name: req.body.name + " roll",
             rating: req.body.rating,
             effectiveLengthAdjust: req.body.effectiveLengthAdjust,
             twoTimes_2: req.body.twoTimes_2,

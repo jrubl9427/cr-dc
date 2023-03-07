@@ -76,7 +76,7 @@ exports.layup_create_post = [
 
         // Create a layup object with escaped and trimmed data.
         const layup = new Layup({
-            name: req.body.name,
+            name: req.body.name + " layup",
             effectiveLengthAdjust: req.body.effectiveLengthAdjust,
             length: req.body.length,
             typeLayup: req.body.typeLayup,

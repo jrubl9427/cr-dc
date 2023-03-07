@@ -1,0 +1,32 @@
+extends layout
+
+block content
+    h1= title
+    
+    form(method='POST' action='')
+        div.form-group
+            label(for='name') Name:
+            input#name.form-control(
+                type='text'
+                placeholder='Topo name e.g. name-Men/Women-hole#-scratch/bogey-lz#'
+                name='name' 
+                required='true' 
+                value=(undefined===topo ? '' : topo.name)
+            )
+
+        div.form-group
+            label(for='rating') Rating of topo:
+            input#rating.form-control(
+                type='number'
+                placeholder='Rating of topo'
+                name='rating' 
+                required='true' 
+                value=(undefined===topo ? '' : topo.rating)
+            )
+                    
+        button.btn.btn-primary(type='submit') Submit
+        
+    if errors
+        ul
+            for error in errors
+                li!= error.msg

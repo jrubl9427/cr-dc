@@ -74,7 +74,7 @@ exports.dogleg_create_post = [
 
         // Create a dogleg object with escaped and trimmed data.
         const dogleg = new Dogleg({
-            name: req.body.name,
+            name: req.body.name + " dogleg",
             effectiveLengthAdjust: req.body.effectiveLengthAdjust,
             length: req.body.length,
         });
