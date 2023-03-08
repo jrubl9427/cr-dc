@@ -70,6 +70,7 @@ exports.bunker_create_post = [
     body("extreme_E", "Extreme_E must be integer.").trim().isInt().escape(),
     body("no_N", "No_N must be integer.").trim().isInt().escape(),
     body("squeeze_Q", "Squeeze_Q must be integer.").trim().isInt().escape(),
+    body("twoTimes_2", "TwoTimes_2 must be integer.").trim().isInt().escape(),
     
     // Process request after validation and sanitation
     (req, res, next) => {
@@ -85,6 +86,8 @@ exports.bunker_create_post = [
             extreme_E: req.body.extreme_E,
             no_N: req.body.no_N,
             squeeze_Q: req.body.squeeze_Q,
+            twoTimes_2: req.body.twoTimes_2,
+            
         });
 
         if (!errors.isEmpty()) {
@@ -187,6 +190,7 @@ exports.bunker_update_post = [
     body("extreme_E", "Extreme_E must be integer.").trim().isInt().escape(),
     body("no_N", "No_N must be integer.").trim().isInt().escape(),
     body("squeeze_Q", "Squeeze_Q must be integer.").trim().isInt().escape(),
+    body("twoTimes_2", "TwoTimes_2 must be integer.").trim().isInt().escape(),
     
     // Process request after validation and sanitation
     (req, res, next) => {
@@ -202,6 +206,7 @@ exports.bunker_update_post = [
             extreme_E: req.body.extreme_E,
             no_N: req.body.no_N,
             squeeze_Q: req.body.squeeze_Q,
+            twoTimes_2: req.body.twoTimes_2,
             _id: req.params.id, // This is required, or a new ID will be assigned!
         });
 

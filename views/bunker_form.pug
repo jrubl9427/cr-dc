@@ -73,6 +73,16 @@ block content
                 required='true' 
                 value=(undefined===bunker ? '' : bunker.squeeze_Q)
             )
+
+        div.form-group
+            label(for='twoTimes_2') TwoTimes_2 adjustment:
+            input#visibility.form-control(
+                type='number'
+                placeholder='TwoTimes_2 adjustment'
+                name='twoTimes_2' 
+                required='true' 
+                value=(undefined===bunker ? '' : bunker.twoTimes_2)
+            )
                     
         button.btn.btn-primary(type='submit') Submit
         

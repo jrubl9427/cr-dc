@@ -11,26 +11,22 @@ const CrossingSchema = new Schema({
         type: Number,
         required: true,
         min: 0,
-        max: 10,
-        default: 0
+        max: 10
     },
     percentage_P: {
         type: Number,
         min: 0,
-        max: 100,
-        default: 0
+        max: 100
     },
     carry_C: {
         type: Number,
         min: 0,
-        max: 1,
-        default: 0
+        max: 1
     },
     twoTimes_2: {
         type: Number,
         min: 0,
-        max: 2,
-        default: 0
+        max: 2
     }
 });
 

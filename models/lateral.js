@@ -22,33 +22,28 @@ const LateralSchema = new Schema({
     },
     bounce_B: {
         type: Number,
-        min: -2,
-        max: 2,
-        default: 0
+        min: -1,
+        max: 1
     },
     squeeze_Q: {
         type: Number,
         min: 0,
-        max: 2,
-        default: 0
+        max: 2
     },
     stroke_K: {
         type: Number,
         min: 0,
-        max: 1,
-        default: 0
+        max: 1
     },
     twoTimes_2: {
         type: Number,
         min: 0,
-        max: 1,
-        default: 0
+        max: 2
     },
     surrounded_S: {
         type: Number,
         min: 0,
-        max: 3,
-        default: 0
+        max: 2
     }
 });
 

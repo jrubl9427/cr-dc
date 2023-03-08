@@ -10,14 +10,14 @@ const RRSchema = new Schema({
     rating: {
         type: Number,
         required: true,
-        min: 0,
+        min: 1,
         max: 10,
         default: 0
     },
     carry_C: {
         type: Number,
         min: 0,
-        max: 1,
+        max: 4,
         default: 0
     },
     layup_L: {
@@ -53,13 +53,13 @@ const RRSchema = new Schema({
     parThree_3: {
         type: Number,
         min: 0,
-        max: 1,
+        max: 2,
         default: 0
     },
     surrounded_S: {
         type: Number,
         min: 0,
-        max: 3,
+        max: 1,
         default: 0
     }
 });

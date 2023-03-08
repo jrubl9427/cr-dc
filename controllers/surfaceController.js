@@ -66,7 +66,6 @@ exports.surface_create_post = [
     body("name", "Name must not be empty.").trim().isLength({ min: 1 }).escape(),
     body("rating", "Rating must be integer.").trim().isInt().escape(),
     body("tiered_T", "Tiered_T must be integer.").trim().isInt().escape(),
-    body("firm_F", "Firm_F must be integer.").trim().isInt().escape(),
     body("unpleasant_U", "Unpleasant_U must be integer.").trim().isInt().escape(),
     
     // Process request after validation and sanitation
@@ -79,7 +78,6 @@ exports.surface_create_post = [
             name: req.body.name + " surface",
             rating: req.body.rating,
             tiered_T: req.body.tiered_T,
-            firm_F: req.body.firm_F,
             unpleasant_U: req.body.unpleasant_U,
         });
 
@@ -179,7 +177,6 @@ exports.surface_update_post = [
     body("name", "Name must not be empty.").trim().isLength({ min: 1 }).escape(),
     body("rating", "Rating must be integer.").trim().isInt().escape(),
     body("tiered_T", "Tiered_T must be integer.").trim().isInt().escape(),
-    body("firm_F", "Firm_F must be integer.").trim().isInt().escape(),
     body("unpleasant_U", "Unpleasant_U must be integer.").trim().isInt().escape(),
     
     // Process request after validation and sanitation
@@ -192,7 +189,6 @@ exports.surface_update_post = [
             name: req.body.name,
             rating: req.body.rating,
             tiered_T: req.body.tiered_T,
-            firm_F: req.body.firm_F,
             unpleasant_U: req.body.unpleasant_U,
             _id: req.params.id, // This is required, or a new ID will be assigned!
         });

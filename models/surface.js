@@ -11,16 +11,9 @@ const SurfaceSchema = new Schema({
         type: Number,
         required: true,
         min: 0,
-        max: 10,
-        default: 0
+        max: 10
     },
     tiered_T: {
-        type: Number,
-        min: 0,
-        max: 1,
-        default: 0
-    },
-    firm_F: {
         type: Number,
         min: 0,
         max: 1,

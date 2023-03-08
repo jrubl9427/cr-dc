@@ -356,16 +356,16 @@ function rRCreate(name, rating, carry_C, layup_L, inconsistent_I, mounds_M, unpl
     });
 }
 
-function bunkerCreate(name, rating, bounce_B, carry_C, depth_D, extreme_E, no_N, squeeze_Q, cb) {
+function bunkerCreate(name, rating, carry_C, depth_D, extreme_E, no_N, squeeze_Q, twoTimes_2, cb) {
     bunkerdetail = {
         name: name,
         rating: rating,
-        bounce_B: bounce_B, 
         carry_C: carry_C, 
         depth_D: depth_D, 
         extreme_E: extreme_E, 
         no_N: no_N,
-        squeeze_Q: squeeze_Q
+        squeeze_Q: squeeze_Q,
+        twoTimes_2: twoTimes_2 
     };
     const bunker = new Bunker(bunkerdetail);
     bunker.save(function (err) {
@@ -449,12 +449,11 @@ function treeCreate(name, rating, obstructed_O, chute_H, cb) {
     });
 }
 
-function surfaceCreate(name, rating, tiered_T, firm_F, unpleasant_U, cb) {
+function surfaceCreate(name, rating, tiered_T, unpleasant_U, cb) {
     surfacedetail = {
         name: name,
         rating: rating, 
-        tiered_T: tiered_T, 
-        firm_F: firm_F, 
+        tiered_T: tiered_T,
         unpleasant_U: unpleasant_U
     };
     const surface = new Surface(surfacedetail);
@@ -1034,40 +1033,40 @@ function createTrees(cb) {
 function createSurfaces(cb) {
     async.series([
         function(callback) {
-            surfaceCreate("Black-Men-1-Tee surface", 0, 0, 0, 0, callback);
+            surfaceCreate("Black-Men-1-Tee surface", 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate("Black-Men-1-Scratch-1 surface", 0, 0, 0, 0, callback);
+            surfaceCreate("Black-Men-1-Scratch-1 surface", 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate("Red-Women-1-Tee surface", 0, 0, 0, 0, callback);
+            surfaceCreate("Red-Women-1-Tee surface", 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate("Black-Men-2-Tee surface", 0, 0, 0, 0, callback);
+            surfaceCreate("Black-Men-2-Tee surface", 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate("Black-Men-2-Scratch-1 surface", 0, 0, 0, 0, callback);
+            surfaceCreate("Black-Men-2-Scratch-1 surface", 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate("Black-Men-2-Scratch-2 surface", 0, 0, 0, 0, callback);
+            surfaceCreate("Black-Men-2-Scratch-2 surface", 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate("Red-Women-2-Tee surface", 0, 0, 0, 0, callback);
+            surfaceCreate("Red-Women-2-Tee surface", 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate("Red-Women-2-Scratch-1 surface", 0, 0, 0, 0, callback);
+            surfaceCreate("Red-Women-2-Scratch-1 surface", 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate("Green-1 surface", 0, 0, 0, 0, callback);
+            surfaceCreate("Green-1 surface", 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate("Green-2 surface", 0, 0, 0, 0, callback);
+            surfaceCreate("Green-2 surface", 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate("surface", 0, 0, 0, 0, callback);
+            surfaceCreate("surface", 0, 0, 0, callback);
         },
         function(callback) {
-            surfaceCreate("surface", 0, 0, 0, 0, callback);
+            surfaceCreate("surface", 0, 0, 0, callback);
         }
     ], cb);
 }

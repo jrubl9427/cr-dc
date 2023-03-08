@@ -11,20 +11,17 @@ const TreeSchema = new Schema({
         type: Number,
         required: true,
         min: 0,
-        max: 10,
-        default: 0
+        max: 10
     },
     obstructed_O: {
         type: Number,
         min: 0,
-        max: 1,
-        default: 0
+        max: 1
     },
     chute_H: {
         type: Number,
         min: 0,
-        max: 4,
-        default: 0
+        max: 4
     }
 });
 
