@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const obstacle = require("./obstacle");
 
 const Schema = mongoose.Schema;
 
@@ -11,25 +10,24 @@ const RollSchema = new Schema({
     rating: {
         type: Number,
         required: true,
-        min: -4,
-        max: 4,
-        default: 0
+        min: -10,
+        max: 10,
     },
     effectiveLengthAdjust: {
         type: Number,
-        required: true
+        required: true,
+        min: -20,
+        max: 20
     },
     firm_F: {
         type: Number,
         min: -1,
         max: 1,
-        default: 0
     },
     twoTimes_2: {
         type: Number,
         min: -1,
         max: 1,
-        default: 0
     }
 });
 

@@ -1,7 +1,7 @@
 // teeController.js
 
 const Tee = require("../models/tee");
-const Obstacle = require("../models/obstacle");
+const TeeObstacle = require("../models/teeObstacle");
 const async = require("async");
 const { body, validationResult } = require("express-validator");
 const { ObjectID, ObjectId } = require("bson");
@@ -30,7 +30,7 @@ exports.tee_detail = (req, res, next) => {
         {
             tee(callback) {
                 Tee.findById(req.params.id)
-                    .populate("obstacle")
+                    .populate("teeObstacle")
                     .exec(callback);
             },
         },
@@ -54,11 +54,11 @@ exports.tee_detail = (req, res, next) => {
 
 // Display tee create form on GET.
 exports.tee_create_get = (req, res, next) => {
-    // Get all obstacles .
+    // Get all teeObstacles .
     async.parallel(
         {
-            obstacles(callback) {
-                Obstacle.find({})
+            teeObstacles(callback) {
+                TeeObstacle.find({})
                     .sort({ name: 1 })
                     .exec(callback);;
             },
@@ -69,7 +69,7 @@ exports.tee_create_get = (req, res, next) => {
             }
             res.render("tee_form", {
                 title: "Create Tee",
-                obstacles: results.obstacles
+                teeObstacles: results.teeObstacles
             });
         }
     );
@@ -77,10 +77,10 @@ exports.tee_create_get = (req, res, next) => {
 
 // Handle tee create on POST.
 exports.tee_create_post = [
-    // Convert obstacle to array.
+    // Convert teeObstacle to array.
     (req, res, next) => {
-        if (!Array.isArray(req.body.obstacle)) {
-            req.body.obstacle = typeof req.body.obstacle === "undefined" ? [] : [req.body.obstacle];
+        if (!Array.isArray(req.body.teeObstacle)) {
+            req.body.teeObstacle = typeof req.body.teeObstacle === "undefined" ? [] : [req.body.teeObstacle];
         }
         next();
     },
@@ -90,7 +90,7 @@ exports.tee_create_post = [
     body("length", "Length must be integer.").trim().isInt().escape(),
     body("par", "Par must be integer.").trim().isInt().escape(),
     body("altitude", "Altitude must be integer.").trim().isInt().escape(),
-    body("obstacle.*").escape(),
+    body("teeObstacle.*").escape(),
     
     // Process request after validation and sanitation
     (req, res, next) => {
@@ -103,17 +103,17 @@ exports.tee_create_post = [
             length: req.body.length,
             par: req.body.par,
             altitude: req.body.altitude,
-            obstacle: req.body.obstacle
+            teeObstacle: req.body.teeObstacle
         });
 
         if (!errors.isEmpty()) {
-            //There are errors. Render form again with sanitized values/error messages. Get all obstacles for form.
+            //There are errors. Render form again with sanitized values/error messages. Get all teeObstacles for form.
             
-            // Get all obstacles for the form
+            // Get all teeObstacles for the form
             async.parallel(
                 {
-                    obstacles(callback) {
-                        Obstacle.find(callback);
+                    teeObstacles(callback) {
+                        TeeObstacle.find(callback);
                     },
                 },
                 (err, results) => {
@@ -121,15 +121,15 @@ exports.tee_create_post = [
                         return next(err);
                     }
 
-                    // Mark selected obstacles as checked and render.
-                    for (const obstacle of results.obstacles) {
-                        if (tee.obstacle.includes(obstacle._id)) {
-                            obstacle.checked = "true";
+                    // Mark selected teeObstacles as checked and render.
+                    for (const teeObstacle of results.teeObstacles) {
+                        if (tee.teeObstacle.includes(teeObstacle._id)) {
+                            teeObstacle.checked = "true";
                         }
                     }
                     res.render("tee_form", {
                         title: "Create Tee",
-                        obstacles: results.obstacles,
+                        teeObstacles: results.teeObstacles,
                         tee,
                         errors: errors.array(),
                     });
@@ -155,7 +155,7 @@ exports.tee_delete_get = (req, res, next) => {
         {
             tee: function (callback) {
                 Tee.findById(req.params.id)
-                    .populate("obstacle")
+                    .populate("teeObstacle")
                     .exec(callback);
             },
         },
@@ -183,7 +183,7 @@ exports.tee_delete_post = (req, res, next) => {
         {
             tee: function (callback) {
                 Tee.findById(req.params.id)
-                    .populate("obstacle")
+                    .populate("teeObstacle")
                     .exec(callback);
             },
         },
@@ -192,8 +192,7 @@ exports.tee_delete_post = (req, res, next) => {
                 return next(err);
             }
             // Success
-            console.log("results", results, results.tee)
-            if (results.tee.obstacle.length > 0) {
+            if (results.tee.teeObstacle.length > 0) {
                 res.render("tee_delete", {
                     title: "Delete Tee",
                     tee: results.tee
@@ -215,16 +214,16 @@ exports.tee_delete_post = (req, res, next) => {
 
 // Display tee update form on GET.
 exports.tee_update_get = (req, res, next) => {
-    // get the tee and obstacles for the form.
+    // get the tee and teeObstacles for the form.
     async.parallel(
         {
             tee(callback) {
                 Tee.findById(req.params.id)
-                    .populate("obstacle")
+                    .populate("teeObstacle")
                     .exec(callback);
             },
-            obstacles(callback) {
-                Obstacle.find(callback)
+            teeObstacles(callback) {
+                TeeObstacle.find(callback)
             },
         },
         (err, results) => {
@@ -238,17 +237,17 @@ exports.tee_update_get = (req, res, next) => {
                 err.status = 404;
                 return next(err);
             }
-            // Successful, mark our selected obstacles as checked
-            for (const obstacle of results.obstacles) {
-                for (const aObstacle of results.tee.obstacle) {
-                    if (obstacle._id.toString() === aObstacle._id.toString()) {
-                        obstacle.checked = "true";
+            // Successful, mark our selected teeObstacles as checked
+            for (const teeObstacle of results.teeObstacles) {
+                for (const ateeObstacle of results.tee.teeObstacle) {
+                    if (teeObstacle._id.toString() === ateeObstacle._id.toString()) {
+                        teeObstacle.checked = "true";
                     }
                 }
             }
             res.render("tee_form", {
                 title: "Update Tee",
-                obstacles: results.obstacles,
+                teeObstacles: results.teeObstacles,
                 tee: results.tee,
             });
         }
@@ -257,10 +256,11 @@ exports.tee_update_get = (req, res, next) => {
 
 // Handle tee update on POST.
 exports.tee_update_post = [
-    // Convert obstacleto array.
+    // Convert teeObstacleto array.
     (req, res, next) => {
-        if (!Array.isArray(req.body.obstacle)) {
-            req.body.obstacle = typeof req.body.obstacle === "undefined" ? [] : [req.body.obstacle];
+
+        if (!Array.isArray(req.body.teeObstacle)) {
+            req.body.teeObstacle = typeof req.body.teeObstacle === "undefined" ? [] : [req.body.teeObstacle];
         }
         next();
     },
@@ -270,7 +270,7 @@ exports.tee_update_post = [
     body("length", "Length must be integer.").trim().isInt().escape(),
     body("par", "Par must be integer.").trim().isInt().escape(),
     body("altitude", "Altitude must be integer.").trim().isInt().escape(),
-    body("obstacle.*").escape(),
+    body("teeObstacle.*").escape(),
     
     // Process request after validation and sanitation
     (req, res, next) => {
@@ -283,18 +283,18 @@ exports.tee_update_post = [
             length: req.body.length,
             par: req.body.par,
             altitude: req.body.altitude,
-            obstacle: typeof req.body.obstacle === "undefined" ? [] : req.body.obstacle,
+            teeObstacle: typeof req.body.teeObstacle === "undefined" ? [] : req.body.teeObstacle,
             _id: req.params.id, // This is required, or a new ID will be assigned!
         });
 
         if (!errors.isEmpty()) {
-            //There are errors. Render form again with sanitized values/error messages. Get all obstacles for form.
+            //There are errors. Render form again with sanitized values/error messages. Get all teeObstacles for form.
             
-            // Get all obstacles for the form
+            // Get all teeObstacles for the form
             async.parallel(
                 {
-                    obstacles(callback) {
-                        Obstacle.find(callback);
+                    teeObstacles(callback) {
+                        TeeObstacle.find(callback);
                     }
                 },
                 (err, results) => {
@@ -303,7 +303,7 @@ exports.tee_update_post = [
                     }
                     res.render("tee_form", {
                         title: "Update Tee",
-                        obstacles: results.obstacles,
+                        teeObstacles: results.teeObstacles,
                         tee,
                         errors: errors.array(),
                     });

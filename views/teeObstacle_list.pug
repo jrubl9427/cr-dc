@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    h1= title
+    
+    ul
+        each teeObstacle in teeObstacle_list
+            li
+                a(href=teeObstacle.url) teeObstacle: #{teeObstacle.name}
+                
+        else
+            li There are no teeObstacles.

@@ -1,0 +1,53 @@
+extends layout
+
+block content
+    h1 teeObstacle: #{teeObstacle.name} Delete
+    
+    p #[strong Targets:] 
+        ul
+            li 
+                a(href=teeObstacle.target.url) #[strong Target: ] #{teeObstacle.target.name}
+    hr
+
+    p #[strong RRs:]
+        ul
+            li 
+                a(href=teeObstacle.rR.url) #[strong RR: ] #{teeObstacle.rR.name}
+    hr
+    
+    p #[strong Crossings:]
+        ul
+            li 
+                a(href=teeObstacle.crossing.url) #[strong Crossing: ] #{teeObstacle.crossing.name}
+    hr
+    
+    p #[strong Trees:]
+        ul
+            li 
+                a(href=teeObstacle.tree.url) #[strong Tree: ] #{teeObstacle.tree.name}
+    hr
+    
+    if teeObstacle.target != null
+    
+        p #[strong Delete all targets before attempting to delete this teeObstacle.]
+
+    if teeObstacle.rR != null
+    
+        p #[strong Delete all rRs before attempting to delete this teeObstacle.]
+
+    if teeObstacle.crossing != null
+    
+        p #[strong Delete all crossings before attempting to delete this teeObstacle.]
+
+    if teeObstacle.tree != null
+    
+        p #[strong Delete all trees before attempting to delete this teeObstacle.]
+    
+    else 
+        p Do you really want to delete this teeObstacle?
+        
+        form(method='POST' action='')
+            div.form-group
+                input#id.form-control(type='hidden' name='teeObstacleid', required='true' value=teeObstacle._id)
+
+            button.btn.btn-primary(type='submit') Delete

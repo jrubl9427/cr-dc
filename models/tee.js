@@ -25,9 +25,9 @@ const TeeSchema = new Schema({
         type: Number,
         required: true
     },
-    obstacle: [{
+    teeObstacle: [{
         type: Schema.Types.ObjectId,
-        ref: "Obstacle",
+        ref: "TeeObstacle",
         required: true
     }]
 });

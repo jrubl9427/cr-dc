@@ -8,10 +8,10 @@ block content
             label(for='name') Name:
             input#name.form-control(
                 type='text'
-                placeholder='Obstacle name'
+                placeholder='LzObstacle name'
                 name='name' 
                 required='true' 
-                value=(undefined===obstacle ? '' : obstacle.name)
+                value=(undefined===lzObstacle ? '' : lzObstacle.name)
             )
         
         div.form-group
@@ -146,18 +146,6 @@ block content
                         checked=tree.checked )
                     label(for=tree._id) #{tree.name}
 
-        div.form-group
-            label Surfaces:
-            for surface in surfaces.sort((a,b) => b.name - a.name)
-                div(style="display: inline; padding-right:10px;")
-                    input.checkbox-input(
-                        type="checkbox", 
-                        name="surface", 
-                        id=surface._id, 
-                        value=surface._id, 
-                        checked=surface.checked )
-                    label(for=surface._id) #{surface.name}
-                    
         button.btn.btn-primary(type='submit') Submit
         
     if errors

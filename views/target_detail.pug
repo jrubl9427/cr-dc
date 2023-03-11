@@ -11,9 +11,14 @@ block content
 
     div(style="margin-left:20px;margin-top:20px")
 
-        if obstacle.length > 0
-            h4 Obstacle
-            each obst in obstacle
+        if lzObstacle.length > 0 || teeObstacle.length > 0
+            h4 Obstacles
+            each obst in lzObstacle
+
+                div(style="margin-left:40px;")
+                
+                    a(href=obst.url) #{obst.name}
+            each obst in teeObstacle
 
                 div(style="margin-left:40px;")
                 

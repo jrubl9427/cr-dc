@@ -2,7 +2,7 @@
 
 const async = require("async");
 const Dogleg = require("../models/dogleg");
-const Obstacle = require("../models/obstacle");
+const LzObstacle = require("../models/lzObstacle");
 const { body, validationResult } = require("express-validator");
 
 // Display a list of all doglegs.
@@ -28,8 +28,8 @@ exports.dogleg_detail = (req, res, next) => {
                 Dogleg.findById(req.params.id)
                     .exec(callback);
             },
-            obstacle(callback) {
-                Obstacle.find({dogleg: req.params.id})
+            lzObstacle(callback) {
+                LzObstacle.find({dogleg: req.params.id})
                     .exec(callback);
             },
         },
@@ -46,7 +46,7 @@ exports.dogleg_detail = (req, res, next) => {
             res.render("dogleg_detail", {
                 title: results.dogleg.name,
                 dogleg: results.dogleg,
-                obstacle: results.obstacle,
+                lzObstacle: results.lzObstacle,
             });
         }
     )
@@ -141,7 +141,7 @@ exports.dogleg_delete_post = (req, res, next) => {
 
 // Display dogleg update form on GET.
 exports.dogleg_update_get = (req, res, next) => {
-    // get the dogleg and obstacles for the form.
+    // get the dogleg and lzObstacles for the form.
     async.parallel(
         {
             dogleg(callback) {

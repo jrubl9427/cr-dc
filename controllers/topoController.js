@@ -2,7 +2,7 @@
 
 const async = require("async");
 const Topo = require("../models/topo");
-const Obstacle = require("../models/obstacle");
+const LzObstacle = require("../models/lzObstacle");
 const { body, validationResult } = require("express-validator");
 
 // Display a list of all topos.
@@ -28,8 +28,8 @@ exports.topo_detail = (req, res, next) => {
                 Topo.findById(req.params.id)
                     .exec(callback);
             },
-            obstacle(callback) {
-                Obstacle.find({topo: req.params.id})
+            lzObstacle(callback) {
+                LzObstacle.find({topo: req.params.id})
                     .exec(callback);
             },
         },
@@ -46,7 +46,7 @@ exports.topo_detail = (req, res, next) => {
             res.render("topo_detail", {
                 title: results.topo.name,
                 topo: results.topo,
-                obstacle: results.obstacle,
+                lzObstacle: results.lzObstacle,
             });
         }
     )
@@ -139,7 +139,7 @@ exports.topo_delete_post = (req, res, next) => {
 
 // Display topo update form on GET.
 exports.topo_update_get = (req, res, next) => {
-    // get the topo and obstacles for the form.
+    // get the topo and lzObstacles for the form.
     async.parallel(
         {
             topo(callback) {

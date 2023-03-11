@@ -23,9 +23,9 @@ const GreenSchema = new Schema({
         min: 0,
         max: 100
     },
-    obstacle: [{
+    greenObstacle: [{
         type: Schema.Types.ObjectId,
-        ref: "Obstacle",
+        ref: "GreenObstacle",
         required: true
     }]
 });

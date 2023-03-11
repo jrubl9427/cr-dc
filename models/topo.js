@@ -11,8 +11,7 @@ const TopoSchema = new Schema({
         type: Number,
         required: true,
         min: 0,
-        max: 10,
-        default: 0
+        max: 9
     }
 });
 

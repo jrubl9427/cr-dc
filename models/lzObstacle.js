@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const ObstacleSchema = new Schema({
+const LzObstacleSchema = new Schema({
     name: {
         type: String
     },
@@ -60,18 +60,13 @@ const ObstacleSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Tree",
         required: true
-    },
-    surface: {
-        type: Schema.Types.ObjectId,
-        ref: "Surface",
-        required: true
     }
 });
 
 // Virtual for obstacle's URL
-ObstacleSchema.virtual("url").get(function (){
- return `/catalog/obstacle/${this._id}`;
+LzObstacleSchema.virtual("url").get(function (){
+ return `/catalog/lzObstacle/${this._id}`;
 });
 
 // Export the model
-module.exports = mongoose.model("Obstacle", ObstacleSchema);
+module.exports = mongoose.model("Obstacle", LzObstacleSchema);

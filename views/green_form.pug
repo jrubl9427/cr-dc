@@ -44,17 +44,17 @@ block content
             )
                 
         div.form-group
-            label Obstacles:
-            for obstacle in obstacles
-                if obstacle.name.includes("Green")
+            label GreenObstacles:
+            for greenObstacle in greenObstacles
+                if greenObstacle.name.includes("Green")
                     div("margin-left:20px;margin-top:20px")
                         input.checkbox-input(
                             type="checkbox", 
-                            name="obstacle", 
-                            id=obstacle._id, 
-                            value=obstacle._id, 
-                            checked=obstacle.checked )
-                        label(for=obstacle._id) #{obstacle.name}
+                            name="greenObstacle", 
+                            id=greenObstacle._id, 
+                            value=greenObstacle._id, 
+                            checked=greenObstacle.checked )
+                        label(for=greenObstacle._id) #{greenObstacle.name}
                     
         button.btn.btn-primary(type='submit') Submit
         

@@ -3,7 +3,7 @@
 
 const async = require("async");
 const Layup = require("../models/layup");
-const Obstacle = require("../models/obstacle");
+const LzObstacle = require("../models/lzObstacle");
 const { body, validationResult } = require("express-validator");
 
 // Display a list of all layups.
@@ -29,8 +29,8 @@ exports.layup_detail = (req, res, next) => {
                 Layup.findById(req.params.id)
                     .exec(callback);
             },
-            obstacle(callback) {
-                Obstacle.find({layup: req.params.id})
+            lzObstacle(callback) {
+                LzObstacle.find({layup: req.params.id})
                     .exec(callback);
             },
         },
@@ -47,7 +47,7 @@ exports.layup_detail = (req, res, next) => {
             res.render("layup_detail", {
                 title: results.layup.name,
                 layup: results.layup,
-                obstacle: results.obstacle,
+                lzObstacle: results.lzObstacle,
             });
         }
     )
@@ -144,7 +144,7 @@ exports.layup_delete_post = (req, res, next) => {
 
 // Display layup update form on GET.
 exports.layup_update_get = (req, res, next) => {
-    // get the layup and obstacles for the form.
+    // get the layup and lzObstacles for the form.
     async.parallel(
         {
             layup(callback) {

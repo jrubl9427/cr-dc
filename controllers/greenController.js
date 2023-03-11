@@ -1,7 +1,7 @@
 // greenController.js
 
 const Green = require("../models/green");
-const Obstacle = require("../models/obstacle");
+const GreenObstacle = require("../models/greenObstacle");
 const async = require("async");
 const { body, validationResult } = require("express-validator");
 const { ObjectID, ObjectId } = require("bson");
@@ -29,7 +29,7 @@ exports.green_detail = (req, res, next) => {
         {
             green(callback) {
                 Green.findById(req.params.id)
-                    .populate("obstacle")
+                    .populate("greenObstacle")
                     .exec(callback);
             },
         },
@@ -53,11 +53,11 @@ exports.green_detail = (req, res, next) => {
 
 // Display green create form on GET.
 exports.green_create_get = (req, res, next) => {
-    // Get all obstacles .
+    // Get all greenObstacles .
     async.parallel(
         {
-            obstacles(callback) {
-                Obstacle.find({})
+            greenObstacles(callback) {
+                GreenObstacle.find({})
                     .sort({ name: 1 })
                     .exec(callback);
             },
@@ -68,7 +68,7 @@ exports.green_create_get = (req, res, next) => {
             }
             res.render("green_form", {
                 title: "Create Green",
-                obstacles: results.obstacles
+                greenObstacles: results.greenObstacles
             });
         }
     );
@@ -76,10 +76,10 @@ exports.green_create_get = (req, res, next) => {
 
 // Handle green create on POST.
 exports.green_create_post = [
-    // Convert obstacle to array.
+    // Convert greenObstacle to array.
     (req, res, next) => {
-        if (!Array.isArray(req.body.obstacle)) {
-            req.body.obstacle = typeof req.body.obstacle === "undefined" ? [] : [req.body.obstacle];
+        if (!Array.isArray(req.body.greenObstacle)) {
+            req.body.greenObstacle = typeof req.body.greenObstacle === "undefined" ? [] : [req.body.greenObstacle];
         }
         next();
     },
@@ -89,7 +89,7 @@ exports.green_create_post = [
     body("altitude", "Altitude must be integer.").trim().isInt().escape(),
     body("width", "width must be integer.").trim().isInt().escape(),
     body("depth", "depth must be integer.").trim().isInt().escape(),
-    body("obstacle.*").escape(),
+    body("greenObstacle.*").escape(),
     
     // Process request after validation and sanitation
     (req, res, next) => {
@@ -102,17 +102,17 @@ exports.green_create_post = [
             altitude: req.body.altitude,
             width: req.body.width,
             depth: req.body.depth,
-            obstacle: req.body.obstacle
+            greenObstacle: req.body.greenObstacle
         });
 
         if (!errors.isEmpty()) {
-            //There are errors. Render form again with sanitized values/error messages. Get all obstacles for form.
+            //There are errors. Render form again with sanitized values/error messages. Get all greenObstacles for form.
             
-            // Get all obstacles for the form
+            // Get all greenObstacles for the form
             async.parallel(
                 {
-                    obstacles(callback) {
-                        Obstacle.find(callback);
+                    greenObstacles(callback) {
+                        GreenObstacle.find(callback);
                     },
                 },
                 (err, results) => {
@@ -120,15 +120,15 @@ exports.green_create_post = [
                         return next(err);
                     }
 
-                    // Mark selected obstacles as checked and render.
-                    for (const obstacle of results.obstacles) {
-                        if (green.obstacle.includes(obstacle._id)) {
-                            obstacle.checked = "true";
+                    // Mark selected greenObstacles as checked and render.
+                    for (const greenObstacle of results.greenObstacles) {
+                        if (green.greenObstacle.includes(greenObstacle._id)) {
+                            greenObstacle.checked = "true";
                         }
                     }
                     res.render("green_form", {
                         title: "Create Green",
-                        obstacles: results.obstacles,
+                        greenObstacles: results.greenObstacles,
                         green,
                         errors: errors.array(),
                     });
@@ -154,7 +154,7 @@ exports.green_delete_get = (req, res, next) => {
         {
             green: function (callback) {
                 Green.findById(req.params.id)
-                    .populate("obstacle")
+                    .populate("greenObstacle")
                     .exec(callback);
             },
         },
@@ -182,7 +182,7 @@ exports.green_delete_post = (req, res, next) => {
         {
             green: function (callback) {
                 Green.findById(req.params.id)
-                    .populate("obstacle")
+                    .populate("greenObstacle")
                     .exec(callback);
             },
         },
@@ -192,7 +192,7 @@ exports.green_delete_post = (req, res, next) => {
             }
             // Success
             console.log("results", results, results.green)
-            if (results.green.obstacle.length > 0) {
+            if (results.green.greenObstacle.length > 0) {
                 res.render("green_delete", {
                     title: "Delete Green",
                     green: results.green
@@ -214,16 +214,16 @@ exports.green_delete_post = (req, res, next) => {
 
 // Display green update form on GET.
 exports.green_update_get = (req, res, next) => {
-    // get the green and obstacles for the form.
+    // get the green and greenObstacles for the form.
     async.parallel(
         {
             green(callback) {
                 Green.findById(req.params.id)
-                    .populate("obstacle")
+                    .populate("greenObstacle")
                     .exec(callback);
             },
-            obstacles(callback) {
-                Obstacle.find({})
+            greenObstacles(callback) {
+                GreenObstacle.find({})
                     .sort({ name: 1 })
                     .exec(callback);
             },
@@ -239,17 +239,17 @@ exports.green_update_get = (req, res, next) => {
                 err.status = 404;
                 return next(err);
             }
-            // Successful, mark our selected obstacles as checked
-            for (const obstacle of results.obstacles) {
-                for (const aObstacle of results.green.obstacle) {
-                    if (obstacle._id.toString() === aObstacle._id.toString()) {
-                        obstacle.checked = "true";
+            // Successful, mark our selected greenObstacles as checked
+            for (const greenObstacle of results.greenObstacles) {
+                for (const aGreenObstacle of results.green.greenObstacle) {
+                    if (greenObstacle._id.toString() === aGreenObstacle._id.toString()) {
+                        greenObstacle.checked = "true";
                     }
                 }
             }
             res.render("green_form", {
                 title: "Update Green",
-                obstacles: results.obstacles,
+                greenObstacles: results.greenObstacles,
                 green: results.green,
             });
         }
@@ -258,10 +258,10 @@ exports.green_update_get = (req, res, next) => {
 
 // Handle green update on POST.
 exports.green_update_post = [
-    // Convert obstacleto array.
+    // Convert greenObstacleto array.
     (req, res, next) => {
-        if (!Array.isArray(req.body.obstacle)) {
-            req.body.obstacle = typeof req.body.obstacle === "undefined" ? [] : [req.body.obstacle];
+        if (!Array.isArray(req.body.greenObstacle)) {
+            req.body.greenObstacle = typeof req.body.greenObstacle === "undefined" ? [] : [req.body.greenObstacle];
         }
         next();
     },
@@ -271,7 +271,7 @@ exports.green_update_post = [
     body("altitude", "Altitude must be integer.").trim().isInt().escape(),
     body("width", "width must be integer.").trim().isInt().escape(),
     body("width", "width must be integer.").trim().isInt().escape(),
-    body("obstacle.*").escape(),
+    body("greenObstacle.*").escape(),
     
     // Process request after validation and sanitation
     (req, res, next) => {
@@ -284,18 +284,18 @@ exports.green_update_post = [
             altitude: req.body.altitude,
             width: req.body.width,
             depth: req.body.depth,
-            obstacle: typeof req.body.obstacle === "undefined" ? [] : req.body.obstacle,
+            greenObstacle: typeof req.body.greenObstacle === "undefined" ? [] : req.body.greenObstacle,
             _id: req.params.id, // This is required, or a new ID will be assigned!
         });
 
         if (!errors.isEmpty()) {
-            //There are errors. Render form again with sanitized values/error messages. Get all obstacles for form.
+            //There are errors. Render form again with sanitized values/error messages. Get all greenObstacles for form.
             
-            // Get all obstacles for the form
+            // Get all greenObstacles for the form
             async.parallel(
                 {
-                    obstacles(callback) {
-                        Obstacle.find(callback);
+                    greenObstacles(callback) {
+                        GreenObstacle.find(callback);
                     }
                 },
                 (err, results) => {
@@ -304,7 +304,7 @@ exports.green_update_post = [
                     }
                     res.render("green_form", {
                         title: "Update Green",
-                        obstacles: results.obstacles,
+                        greenObstacles: results.greenObstacles,
                         green,
                         errors: errors.array(),
                     });

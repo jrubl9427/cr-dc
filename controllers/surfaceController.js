@@ -2,7 +2,7 @@
 
 const async = require("async");
 const Surface = require("../models/surface");
-const Obstacle = require("../models/obstacle");
+const GreenObstacle = require("../models/greenObstacle");
 const { body, validationResult } = require("express-validator");
 
 // Display a list of all surfaces.
@@ -28,8 +28,8 @@ exports.surface_detail = (req, res, next) => {
                 Surface.findById(req.params.id)
                     .exec(callback);
             },
-            obstacle(callback) {
-                Obstacle.find({surface: req.params.id})
+            greenObstacle(callback) {
+                GreenObstacle.find({surface: req.params.id})
                     .exec(callback);
             },
         },
@@ -46,7 +46,7 @@ exports.surface_detail = (req, res, next) => {
             res.render("surface_detail", {
                 title: results.surface.name,
                 surface: results.surface,
-                obstacle: results.obstacle,
+                greenObstacle: results.greenObstacle,
             });
         }
     )
@@ -143,7 +143,7 @@ exports.surface_delete_post = (req, res, next) => {
 
 // Display surface update form on GET.
 exports.surface_update_get = (req, res, next) => {
-    // get the surface and obstacles for the form.
+    // get the surface and greenObstacles for the form.
     async.parallel(
         {
             surface(callback) {

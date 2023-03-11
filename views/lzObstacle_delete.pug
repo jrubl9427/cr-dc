@@ -1,0 +1,123 @@
+extends layout
+
+block content
+    h1 Obstacle: #{lzObstacle.name} Delete
+    
+    p #[strong Layups:]
+        ul
+            li 
+                a(href=lzObstacle.layup.url) #[strong Layup: ] #{lzObstacle.layup.name}
+    hr
+    
+    p #[strong Doglegs:]
+        ul
+            li 
+                a(href=lzObstacle.dogleg.url) #[strong Dogleg: ] #{lzObstacle.dogleg.name}
+    hr
+    
+    p #[strong Rolls:] 
+        ul
+            li    
+                a(href=lzObstacle.roll.url) #[strong Roll: ] #{lzObstacle.roll.name}
+    hr
+    
+    p #[strong Topos:]
+        ul
+            li 
+                a(href=lzObstacle.topo.url) #[strong Topo: ] #{lzObstacle.topo.name}
+    hr
+    
+    p #[strong Fairways:]
+        ul
+            li 
+                a(href=lzObstacle.fairway.url) #[strong Fairway: ] #{lzObstacle.fairway.name}
+    hr
+    
+    p #[strong Targets:] 
+        ul
+            li 
+                a(href=lzObstacle.target.url) #[strong Target: ] #{lzObstacle.target.name}
+    hr
+
+    p #[strong RRs:]
+        ul
+            li 
+                a(href=lzObstacle.rR.url) #[strong RR: ] #{lzObstacle.rR.name}
+    hr
+    
+    p #[strong Bunkers:]
+        ul
+            li 
+                a(href=lzObstacle.bunker.url) #[strong Bunker: ] #{lzObstacle.bunker.name}
+    hr
+    
+    p #[strong Laterals:] 
+        ul
+            li 
+                a(href=lzObstacle.lateral.url) #[strong Lateral: ] #{lzObstacle.lateral.name}
+    hr
+
+    p #[strong Crossings:]
+        ul
+            li 
+                a(href=lzObstacle.crossing.url) #[strong Crossing: ] #{lzObstacle.crossing.name}
+    hr
+    
+    p #[strong Trees:]
+        ul
+            li 
+                a(href=lzObstacle.tree.url) #[strong Tree: ] #{lzObstacle.tree.name}
+    hr
+
+    if lzObstacle.layup != null
+    
+        p #[strong Delete all layups before attempting to delete this lzObstacle.]
+
+    if lzObstacle.dogleg != null
+    
+        p #[strong Delete all doglegs before attempting to delete this lzObstacle.]
+
+    if lzObstacle.roll != null
+    
+        p #[strong Delete all rolls before attempting to delete this lzObstacle.]
+
+    if lzObstacle.topo != null
+    
+        p #[strong Delete all topos before attempting to delete this lzObstacle.]
+
+    if lzObstacle.fairway != null
+    
+        p #[strong Delete all faairways before attempting to delete this lzObstacle.]
+
+    if lzObstacle.target != null
+    
+        p #[strong Delete all targets before attempting to delete this lzObstacle.]
+
+    if lzObstacle.rR != null
+    
+        p #[strong Delete all rRs before attempting to delete this lzObstacle.]
+
+    if lzObstacle.bunker != null
+    
+        p #[strong Delete all bunkers before attempting to delete this lzObstacle.]
+
+    if lzObstacle.lateral != null
+    
+        p #[strong Delete all laterals before attempting to delete this lzObstacle.]
+
+    if lzObstacle.crossing != null
+    
+        p #[strong Delete all crossings before attempting to delete this lzObstacle.]
+
+    if lzObstacle.tree != null
+    
+        p #[strong Delete all trees before attempting to delete this lzObstacle.]
+    
+    else 
+        p Do you really want to delete this lzObstacle?
+        
+        form(method='POST' action='')
+            div.form-group
+                input#id.form-control(type='hidden' name='lzObstacleid', required='true' value=lzObstacle._id)
+
+            button.btn.btn-primary(type='submit') Delete

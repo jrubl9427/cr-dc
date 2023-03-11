@@ -2,7 +2,8 @@
 
 const async = require("async");
 const Crossing = require("../models/crossing");
-const Obstacle = require("../models/obstacle");
+const LzObstacle = require("../models/lzObstacle");
+const TeeObstacle = require("../models/teeObstacle");
 const { body, validationResult } = require("express-validator");
 
 // Display a list of all crossings.
@@ -28,8 +29,12 @@ exports.crossing_detail = (req, res, next) => {
                 Crossing.findById(req.params.id)
                     .exec(callback);
             },
-            obstacle(callback) {
-                Obstacle.find({crossing: req.params.id})
+            lzObstacle(callback) {
+                LzObstacle.find({crossing: req.params.id})
+                    .exec(callback);
+            },
+            teeObstacle(callback) {
+                TeeObstacle.find({crossing: req.params.id})
                     .exec(callback);
             },
         },
@@ -46,7 +51,8 @@ exports.crossing_detail = (req, res, next) => {
             res.render("crossing_detail", {
                 title: results.crossing.name,
                 crossing: results.crossing,
-                obstacle: results.obstacle,
+                lzObstacle: results.lzObstacle,
+                teeObstacle: results.teeObstacle
             });
         }
     )
@@ -145,7 +151,7 @@ exports.crossing_delete_post = (req, res, next) => {
 
 // Display crossing update form on GET.
 exports.crossing_update_get = (req, res, next) => {
-    // get the crossing and obstacles for the form.
+    // get the crossing and lzObstacles for the form.
     async.parallel(
         {
             crossing(callback) {

@@ -1,0 +1,70 @@
+extends layout
+
+block content
+    h1= title
+    
+    form(method='POST' action='')
+        div.form-group
+            label(for='name') Name:
+            input#name.form-control(
+                type='text'
+                placeholder='TeeObstacle name'
+                name='name' 
+                required='true' 
+                value=(undefined===teeObstacle ? '' : teeObstacle.name)
+            )
+        
+        div.form-group
+            label Targets:
+            for target in targets.sort((a,b) => b.name - a.name)
+                div(style="display: inline; padding-right:10px;")
+                    input.checkbox-input(
+                        type="checkbox", 
+                        name="target", 
+                        id=target._id, 
+                        value=target._id, 
+                        checked=target.checked )
+                    label(for=target._id) #{target.name}
+        
+        div.form-group
+            label RRs:
+            for rR in rRs.sort((a,b) => b.length - a.length)
+                div(style="display: inline; padding-right:10px;")
+                    input.checkbox-input(
+                        type="checkbox", 
+                        name="rR", 
+                        id=rR._id, 
+                        value=rR._id, 
+                        checked=rR.checked )
+                    label(for=rR._id) #{rR.name}
+
+        div.form-group
+            label Crossings:
+            for crossing in crossings.sort((a,b) => b.length - a.length)
+                div(style="display: inline; padding-right:10px;")
+                    input.checkbox-input(
+                        type="checkbox", 
+                        name="crossing", 
+                        id=crossing._id, 
+                        value=crossing._id, 
+                        checked=crossing.checked )
+                    label(for=crossing._id) #{crossing.name}
+
+        div.form-group
+            label Trees:
+            for tree in trees.sort((a,b) => b.distanceToGreen - a.distanceToGreen)
+                div(style="display: inline; padding-right:10px;")
+                    input.checkbox-input(
+                        type="checkbox", 
+                        name="tree", 
+                        id=tree._id, 
+                        value=tree._id, 
+                        checked=tree.checked )
+                    label(for=tree._id) #{tree.name}
+
+        button.btn.btn-primary(type='submit') Submit
+        
+    if errors
+        ul
+            for error in errors
+                li!= error.msg

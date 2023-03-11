@@ -2,7 +2,8 @@
 
 const async = require("async");
 const Target = require("../models/target");
-const Obstacle = require("../models/obstacle");
+const LzObstacle = require("../models/lzObstacle");
+const TeeObstacle = require("../models/teeObstacle");
 const { body, validationResult } = require("express-validator");
 
 // Display a list of all targets.
@@ -28,8 +29,12 @@ exports.target_detail = (req, res, next) => {
                 Target.findById(req.params.id)
                     .exec(callback);
             },
-            obstacle(callback) {
-                Obstacle.find({target: req.params.id})
+            lzObstacle(callback) {
+                LzObstacle.find({target: req.params.id})
+                    .exec(callback);
+            },
+            teeObstacle(callback) {
+                TeeObstacle.find({target: req.params.id})
                     .exec(callback);
             },
         },
@@ -46,7 +51,8 @@ exports.target_detail = (req, res, next) => {
             res.render("target_detail", {
                 title: results.target.name,
                 target: results.target,
-                obstacle: results.obstacle,
+                lzObstacle: results.lzObstacle,
+                teeObstacle: results.teeObstacle
             });
         }
     )
@@ -143,7 +149,7 @@ exports.target_delete_post = (req, res, next) => {
 
 // Display target update form on GET.
 exports.target_update_get = (req, res, next) => {
-    // get the target and obstacles for the form.
+    // get the target and lzObstacles for the form.
     async.parallel(
         {
             target(callback) {

@@ -9,12 +9,15 @@ const DoglegSchema = new Schema({
     },
     effectiveLengthAdjust: {
         type: Number,
-        required: true
+        required: true,
+        min: -50,
+        max: 50
     },
     length: {
         type: Number,
         required: true,
-        default: 0
+        min: -50,
+        max: 50
     }
 });
 

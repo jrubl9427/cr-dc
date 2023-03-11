@@ -1,7 +1,7 @@
 // lzController.js
 
 const Lz = require("../models/lz");
-const Obstacle = require("../models/obstacle");
+const LzObstacle = require("../models/lzObstacle");
 const async = require("async");
 const { body, validationResult } = require("express-validator");
 const { ObjectID, ObjectId } = require("bson");
@@ -29,7 +29,7 @@ exports.lz_detail = (req, res, next) => {
         {
             lz(callback) {
                 Lz.findById(req.params.id)
-                    .populate("obstacle")
+                    .populate("lzObstacle")
                     .exec(callback);
             },
         },
@@ -53,11 +53,11 @@ exports.lz_detail = (req, res, next) => {
 
 // Display lz create form on GET.
 exports.lz_create_get = (req, res, next) => {
-    // Get all obstacles .
+    // Get all lzObstacles .
     async.parallel(
         {
-            obstacles(callback) {
-                Obstacle.find({})
+            lzObstacles(callback) {
+                LzObstacle.find({})
                     .sort({ name: 1 })
                     .exec(callback);
             },
@@ -68,7 +68,7 @@ exports.lz_create_get = (req, res, next) => {
             }
             res.render("lz_form", {
                 title: "Create Lz",
-                obstacles: results.obstacles
+                lzObstacles: results.lzObstacles
             });
         }
     );
@@ -76,10 +76,10 @@ exports.lz_create_get = (req, res, next) => {
 
 // Handle lz create on POST.
 exports.lz_create_post = [
-    // Convert obstacle to array.
+    // Convert lzObstacle to array.
     (req, res, next) => {
-        if (!Array.isArray(req.body.obstacle)) {
-            req.body.obstacle = typeof req.body.obstacle === "undefined" ? [] : [req.body.obstacle];
+        if (!Array.isArray(req.body.lzObstacle)) {
+            req.body.lzObstacle = typeof req.body.lzObstacle === "undefined" ? [] : [req.body.lzObstacle];
         }
         next();
     },
@@ -88,7 +88,7 @@ exports.lz_create_post = [
     body("name", "Name must not be empty.").trim().isLength({ min: 1 }).escape(),
     body("altitude", "Altitude must be integer.").trim().isInt().escape(),
     body("distanceToGreen", "distanceToGreen must be integer.").trim().isInt().escape(),
-    body("obstacle.*").escape(),
+    body("lzObstacle.*").escape(),
     
     // Process request after validation and sanitation
     (req, res, next) => {
@@ -100,17 +100,17 @@ exports.lz_create_post = [
             name: req.body.name,
             distanceToGreen: req.body.distanceToGreen,
             altitude: req.body.altitude,
-            obstacle: req.body.obstacle
+            lzObstacle: req.body.lzObstacle
         });
 
         if (!errors.isEmpty()) {
-            //There are errors. Render form again with sanitized values/error messages. Get all obstacles for form.
+            //There are errors. Render form again with sanitized values/error messages. Get all lzObstacles for form.
             
-            // Get all obstacles for the form
+            // Get all lzObstacles for the form
             async.parallel(
                 {
-                    obstacles(callback) {
-                        Obstacle.find(callback);
+                    lzObstacles(callback) {
+                        LzObstacle.find(callback);
                     },
                 },
                 (err, results) => {
@@ -118,15 +118,15 @@ exports.lz_create_post = [
                         return next(err);
                     }
 
-                    // Mark selected obstacles as checked and render.
-                    for (const obstacle of results.obstacles) {
-                        if (lz.obstacle.includes(obstacle._id)) {
-                            obstacle.checked = "true";
+                    // Mark selected lzObstacles as checked and render.
+                    for (const lzObstacle of results.lzObstacles) {
+                        if (lz.obstacle.includes(lzObstacle._id)) {
+                            lzObstacle.checked = "true";
                         }
                     }
                     res.render("lz_form", {
                         title: "Create Lz",
-                        obstacles: results.obstacles,
+                        lzObstacles: results.lzObstacles,
                         lz,
                         errors: errors.array(),
                     });
@@ -152,7 +152,7 @@ exports.lz_delete_get = (req, res, next) => {
         {
             lz: function (callback) {
                 Lz.findById(req.params.id)
-                    .populate("obstacle")
+                    .populate("lzObstacle")
                     .exec(callback);
             },
         },
@@ -180,7 +180,7 @@ exports.lz_delete_post = (req, res, next) => {
         {
             lz: function (callback) {
                 Lz.findById(req.params.id)
-                    .populate("obstacle")
+                    .populate("lzObstacle")
                     .exec(callback);
             },
         },
@@ -189,14 +189,14 @@ exports.lz_delete_post = (req, res, next) => {
                 return next(err);
             }
             // Success
-            if (results.lz.obstacle.length > 0) {
+            if (results.lz.lzObstacle.length > 0) {
                 res.render("lz_delete", {
                     title: "Delete Lz",
                     lz: results.lz
                 });
                 return;
             } else {
-                // Lz has no obstacle objects. Delete object and redirect to the list of lzs.
+                // Lz has no lzObstacle objects. Delete object and redirect to the list of lzs.
                 Lz.findByIdAndRemove(req.body.lzid, function deleteLz(err) {
                     if (err) {
                         return next(err);
@@ -211,16 +211,16 @@ exports.lz_delete_post = (req, res, next) => {
 
 // Display lz update form on GET.
 exports.lz_update_get = (req, res, next) => {
-    // get the lz and obstacles for the form.
+    // get the lz and lzObstacles for the form.
     async.parallel(
         {
             lz(callback) {
                 Lz.findById(req.params.id)
-                    .populate("obstacle")
+                    .populate("lzObstacle")
                     .exec(callback);
             },
-            obstacles(callback) {
-                Obstacle.find(callback)
+            lzObstacles(callback) {
+                LzObstacle.find(callback)
             },
         },
         (err, results) => {
@@ -234,17 +234,17 @@ exports.lz_update_get = (req, res, next) => {
                 err.status = 404;
                 return next(err);
             }
-            // Successful, mark our selected obstacles as checked
-            for (const obstacle of results.obstacles) {
-                for (const aObstacle of results.lz.obstacle) {
-                    if (obstacle._id.toString() === aObstacle._id.toString()) {
-                        obstacle.checked = "true";
+            // Successful, mark our selected lzObstacles as checked
+            for (const lzObstacle of results.lzObstacles) {
+                for (const alzObstacle of results.lz.lzObstacle) {
+                    if (lzObstacle._id.toString() === alzObstacle._id.toString()) {
+                        lzObstacle.checked = "true";
                     }
                 }
             }
             res.render("lz_form", {
                 title: "Update Lz",
-                obstacles: results.obstacles,
+                lzObstacles: results.lzObstacles,
                 lz: results.lz,
             });
         }
@@ -253,10 +253,10 @@ exports.lz_update_get = (req, res, next) => {
 
 // Handle lz update on POST.
 exports.lz_update_post = [
-    // Convert obstacleto array.
+    // Convert lzObstacleto array.
     (req, res, next) => {
-        if (!Array.isArray(req.body.obstacle)) {
-            req.body.obstacle = typeof req.body.obstacle === "undefined" ? [] : [req.body.obstacle];
+        if (!Array.isArray(req.body.lzObstacle)) {
+            req.body.lzObstacle = typeof req.body.lzObstacle === "undefined" ? [] : [req.body.lzObstacle];
         }
         next();
     },
@@ -265,7 +265,7 @@ exports.lz_update_post = [
     body("name", "Name must not be empty.").trim().isLength({ min: 1 }).escape(),
     body("altitude", "Altitude must be integer.").trim().isInt().escape(),
     body("distanceToGreen", "distanceToGreen must be integer.").trim().isInt().escape(),
-    body("obstacle.*").escape(),
+    body("lzObstacle.*").escape(),
     
     // Process request after validation and sanitation
     (req, res, next) => {
@@ -277,18 +277,18 @@ exports.lz_update_post = [
             name: req.body.name,
             distanceToGreen: req.body.distanceToGreen,
             altitude: req.body.altitude,
-            obstacle: typeof req.body.obstacle === "undefined" ? [] : req.body.obstacle,
+            lzObstacle: typeof req.body.lzObstacle === "undefined" ? [] : req.body.lzObstacle,
             _id: req.params.id, // This is required, or a new ID will be assigned!
         });
 
         if (!errors.isEmpty()) {
-            //There are errors. Render form again with sanitized values/error messages. Get all obstacles for form.
+            //There are errors. Render form again with sanitized values/error messages. Get all lzObstacles for form.
             
-            // Get all obstacles for the form
+            // Get all lzObstacles for the form
             async.parallel(
                 {
-                    obstacles(callback) {
-                        Obstacle.find(callback);
+                    lzObstacles(callback) {
+                        LzObstacle.find(callback);
                     }
                 },
                 (err, results) => {
@@ -297,7 +297,7 @@ exports.lz_update_post = [
                     }
                     res.render("lz_form", {
                         title: "Update Lz",
-                        obstacles: results.obstacles,
+                        lzObstacles: results.lzObstacles,
                         lz,
                         errors: errors.array(),
                     });

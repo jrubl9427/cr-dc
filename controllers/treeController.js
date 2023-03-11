@@ -2,7 +2,9 @@
 
 const async = require("async");
 const Tree = require("../models/tree");
-const Obstacle = require("../models/obstacle");
+const LzObstacle = require("../models/lzObstacle");
+const TeeObstacle = require("../models/teeObstacle");
+const GreenObstacle = require("../models/greenObstacle");
 const { body, validationResult } = require("express-validator");
 
 // Display a list of all trees.
@@ -28,8 +30,16 @@ exports.tree_detail = (req, res, next) => {
                 Tree.findById(req.params.id)
                     .exec(callback);
             },
-            obstacle(callback) {
-                Obstacle.find({tree: req.params.id})
+            lzObstacle(callback) {
+                LzObstacle.find({tree: req.params.id})
+                    .exec(callback);
+            },
+            teeObstacle(callback) {
+                TeeObstacle.find({tree: req.params.id})
+                    .exec(callback);
+            },
+            greenObstacle(callback) {
+                GreenObstacle.find({tree: req.params.id})
                     .exec(callback);
             },
         },
@@ -46,7 +56,9 @@ exports.tree_detail = (req, res, next) => {
             res.render("tree_detail", {
                 title: results.tree.name,
                 tree: results.tree,
-                obstacle: results.obstacle,
+                lzObstacle: results.lzObstacle,
+                teeObstacle: results.teeObstacle,
+                greenObstacle: results.greenObstacle
             });
         }
     )
@@ -143,7 +155,7 @@ exports.tree_delete_post = (req, res, next) => {
 
 // Display tree update form on GET.
 exports.tree_update_get = (req, res, next) => {
-    // get the tree and obstacles for the form.
+    // get the tree and lzObstacles for the form.
     async.parallel(
         {
             tree(callback) {

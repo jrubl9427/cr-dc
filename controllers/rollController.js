@@ -2,7 +2,7 @@
 
 const async = require("async");
 const Roll = require("../models/roll");
-const Obstacle = require("../models/obstacle");
+const LzObstacle = require("../models/lzObstacle");
 const { body, validationResult } = require("express-validator");
 
 // Display a list of all rolls.
@@ -28,8 +28,8 @@ exports.roll_detail = (req, res, next) => {
                 Roll.findById(req.params.id)
                     .exec(callback);
             },
-            obstacle(callback) {
-                Obstacle.find({roll: req.params.id})
+            lzObstacle(callback) {
+                LzObstacle.find({roll: req.params.id})
                     .exec(callback);
             },
         },
@@ -46,7 +46,7 @@ exports.roll_detail = (req, res, next) => {
             res.render("roll_detail", {
                 title: results.roll.name,
                 roll: results.roll,
-                obstacle: results.obstacle,
+                lzObstacle: results.lzObstacle,
             });
         }
     )
@@ -145,7 +145,7 @@ exports.roll_delete_post = (req, res, next) => {
 
 // Display roll update form on GET.
 exports.roll_update_get = (req, res, next) => {
-    // get the roll and obstacles for the form.
+    // get the roll and lzObstacles for the form.
     async.parallel(
         {
             roll(callback) {

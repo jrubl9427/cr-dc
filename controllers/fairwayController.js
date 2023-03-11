@@ -2,7 +2,7 @@
 
 const async = require("async");
 const Fairway = require("../models/fairway");
-const Obstacle = require("../models/obstacle");
+const LzObstacle = require("../models/lzObstacle");
 const { body, validationResult } = require("express-validator");
 
 // Display a list of all fairways.
@@ -28,8 +28,8 @@ exports.fairway_detail = (req, res, next) => {
                 Fairway.findById(req.params.id)
                     .exec(callback);
             },
-            obstacle(callback) {
-                Obstacle.find({fairway: req.params.id})
+            lzObstacle(callback) {
+                LzObstacle.find({fairway: req.params.id})
                     .exec(callback);
             },
         },
@@ -46,7 +46,7 @@ exports.fairway_detail = (req, res, next) => {
             res.render("fairway_detail", {
                 title: results.fairway.name,
                 fairway: results.fairway,
-                obstacle: results.obstacle,
+                lzObstacle: results.lzObstacle,
             });
         }
     )
@@ -147,7 +147,7 @@ exports.fairway_delete_post = (req, res, next) => {
 
 // Display fairway update form on GET.
 exports.fairway_update_get = (req, res, next) => {
-    // get the fairway and obstacles for the form.
+    // get the fairway and lzObstacle for the form.
     async.parallel(
         {
             fairway(callback) {

@@ -2,7 +2,8 @@
 
 const async = require("async");
 const Bunker = require("../models/bunker");
-const Obstacle = require("../models/obstacle");
+const LzObstacle = require("../models/lzObstacle");
+const GreenObstacle = require("../models/greenObstacle");
 const { body, validationResult } = require("express-validator");
 
 // Display a list of all bunkers.
@@ -28,8 +29,12 @@ exports.bunker_detail = (req, res, next) => {
                 Bunker.findById(req.params.id)
                     .exec(callback);
             },
-            obstacle(callback) {
-                Obstacle.find({bunker: req.params.id})
+            lzObstacle(callback) {
+                LzObstacle.find({bunker: req.params.id})
+                    .exec(callback);
+            },
+            greenObstacle(callback) {
+                GreenObstacle.find({bunker: req.params.id})
                     .exec(callback);
             },
         },
@@ -46,7 +51,8 @@ exports.bunker_detail = (req, res, next) => {
             res.render("bunker_detail", {
                 title: results.bunker.name,
                 bunker: results.bunker,
-                obstacle: results.obstacle,
+                lzObstacle: results.lzObstacle,
+                greenObstacle: results.greenObstacle,
             });
         }
     )
@@ -152,7 +158,7 @@ exports.bunker_delete_post = (req, res, next) => {
 
 // Display bunker update form on GET.
 exports.bunker_update_get = (req, res, next) => {
-    // get the bunker and obstacles for the form.
+    // get the bunker and lzObstacles for the form.
     async.parallel(
         {
             bunker(callback) {

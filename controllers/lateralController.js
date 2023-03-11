@@ -2,7 +2,8 @@
 
 const async = require("async");
 const Lateral = require("../models/lateral");
-const Obstacle = require("../models/obstacle");
+const LzObstacle = require("../models/lzObstacle");
+const GreenObstacle = require("../models/greenObstacle");
 const { body, validationResult } = require("express-validator");
 
 // Display a list of all laterals.
@@ -28,8 +29,12 @@ exports.lateral_detail = (req, res, next) => {
                 Lateral.findById(req.params.id)
                     .exec(callback);
             },
-            obstacle(callback) {
-                Obstacle.find({lateral: req.params.id})
+            lzObstacle(callback) {
+                LzObstacle.find({lateral: req.params.id})
+                    .exec(callback);
+            },
+            greenObstacle(callback) {
+                GreenObstacle.find({lateral: req.params.id})
                     .exec(callback);
             },
         },
@@ -46,7 +51,8 @@ exports.lateral_detail = (req, res, next) => {
             res.render("lateral_detail", {
                 title: results.lateral.name,
                 lateral: results.lateral,
-                obstacle: results.obstacle,
+                lzObstacle: results.lzObstacle,
+                greenObstacle: results.greenObstacle
             });
         }
     )
@@ -151,7 +157,7 @@ exports.lateral_delete_post = (req, res, next) => {
 
 // Display lateral update form on GET.
 exports.lateral_update_get = (req, res, next) => {
-    // get the lateral and obstacles for the form.
+    // get the lateral and lzObstacles for the form.
     async.parallel(
         {
             lateral(callback) {

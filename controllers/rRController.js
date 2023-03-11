@@ -2,7 +2,9 @@
 
 const async = require("async");
 const RR = require("../models/rR");
-const Obstacle = require("../models/obstacle");
+const LzObstacle = require("../models/lzObstacle");
+const TeeObstacle = require("../models/teeObstacle");
+const GreenObstacle = require("../models/greenObstacle");
 const { body, validationResult } = require("express-validator");
 
 // Display a list of all rRs.
@@ -28,8 +30,16 @@ exports.rR_detail = (req, res, next) => {
                 RR.findById(req.params.id)
                     .exec(callback);
             },
-            obstacle(callback) {
-                Obstacle.find({rR: req.params.id})
+            lzObstacle(callback) {
+                LzObstacle.find({rR: req.params.id})
+                    .exec(callback);
+            },
+            teeObstacle(callback) {
+                TeeObstacle.find({rR: req.params.id})
+                    .exec(callback);
+            },
+            greenObstacle(callback) {
+                GreenObstacle.find({rR: req.params.id})
                     .exec(callback);
             },
         },
@@ -46,7 +56,9 @@ exports.rR_detail = (req, res, next) => {
             res.render("rR_detail", {
                 title: results.rR.name,
                 rR: results.rR,
-                obstacle: results.obstacle,
+                lzObstacle: results.lzObstacle,
+                teeObstacle: results.teeObstacle,
+                greenObstacle: results.greenObstacle,
             });
         }
     )
@@ -155,7 +167,7 @@ exports.rR_delete_post = (req, res, next) => {
 
 // Display rR update form on GET.
 exports.rR_update_get = (req, res, next) => {
-    // get the rR and obstacles for the form.
+    // get the rR and lzObstacles for the form.
     async.parallel(
         {
             rR(callback) {

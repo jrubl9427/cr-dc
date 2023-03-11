@@ -11,7 +11,9 @@ const green_controller = require("../controllers/greenController");
 const hole_controller = require("../controllers/holeController");
 const lateral_controller = require("../controllers/lateralController");
 const layup_controller = require("../controllers/layupController");
-const obstacle_controller = require("../controllers/obstacleController");
+const lzObstacle_controller = require("../controllers/lzObstacleController");
+const greenObstacle_controller = require("../controllers/greenObstacleController");
+const teeObstacle_controller = require("../controllers/teeObstacleController");
 const lz_controller = require("../controllers/lzController");
 const roll_controller = require("../controllers/rollController");
 const rR_controller = require("../controllers/rRController");
@@ -258,31 +260,83 @@ router.get("/layup/:id", layup_controller.layup_detail);
 // GET request for list of all layups.
 router.get("/layups", layup_controller.layup_list);
 
-/// OBSTACLE ROUTES ///
+/// LZ OBSTACLE ROUTES ///
 
-// GET request for creating Obstacle. NOTE This must come before route for id (i.e. display bunker).
-router.get("/obstacle/create", obstacle_controller.obstacle_create_get);
+// GET request for creating lzObstacle. NOTE This must come before route for id (i.e. display bunker).
+router.get("/lzObstacle/create", lzObstacle_controller.lzObstacle_create_get);
 
-// POST request for creating obstacle.
-router.post("/obstacle/create", obstacle_controller.obstacle_create_post);
+// POST request for creating lzObstacle.
+router.post("/lzObstacle/create", lzObstacle_controller.lzObstacle_create_post);
 
-// GET request to delete obstacle.
-router.get("/obstacle/:id/delete", obstacle_controller.obstacle_delete_get);
+// GET request to delete lzObstacle.
+router.get("/lzObstacle/:id/delete", lzObstacle_controller.lzObstacle_delete_get);
 
-// POST request to delete obstacle.
-router.post("/obstacle/:id/delete", obstacle_controller.obstacle_delete_post);
+// POST request to delete lzObstacle.
+router.post("/lzObstacle/:id/delete", lzObstacle_controller.lzObstacle_delete_post);
 
-// GET request to update obstacle.
-router.get("/obstacle/:id/update", obstacle_controller.obstacle_update_get);
+// GET request to update lzObstacle.
+router.get("/lzObstacle/:id/update", lzObstacle_controller.lzObstacle_update_get);
 
-// POST request to update obstacle.
-router.post("/obstacle/:id/update", obstacle_controller.obstacle_update_post);
+// POST request to update lzObstacle.
+router.post("/lzObstacle/:id/update", lzObstacle_controller.lzObstacle_update_post);
 
-// GET request for one obstacle.
-router.get("/obstacle/:id", obstacle_controller.obstacle_detail);
+// GET request for one lzObstacle.
+router.get("/lzObstacle/:id", lzObstacle_controller.lzObstacle_detail);
 
-// GET request for list of all obstacles.
-router.get("/obstacles", obstacle_controller.obstacle_list);
+// GET request for list of all lzObstacles.
+router.get("/lzObstacles", lzObstacle_controller.lzObstacle_list);
+
+///  GREEN OBSTACLE ROUTES ///
+
+// GET request for creating GreenObstacle. NOTE This must come before route for id (i.e. display bunker).
+router.get("/greenObstacle/create", greenObstacle_controller.greenObstacle_create_get);
+
+// POST request for creating greenObstacle.
+router.post("/greenObstacle/create", greenObstacle_controller.greenObstacle_create_post);
+
+// GET request to delete greenObstacle.
+router.get("/greenObstacle/:id/delete", greenObstacle_controller.greenObstacle_delete_get);
+
+// POST request to delete greenObstacle.
+router.post("/greenObstacle/:id/delete", greenObstacle_controller.greenObstacle_delete_post);
+
+// GET request to update greenObstacle.
+router.get("/greenObstacle/:id/update", greenObstacle_controller.greenObstacle_update_get);
+
+// POST request to update greenObstacle.
+router.post("/greenObstacle/:id/update", greenObstacle_controller.greenObstacle_update_post);
+
+// GET request for one greenObstacle.
+router.get("/greenObstacle/:id", greenObstacle_controller.greenObstacle_detail);
+
+// GET request for list of all greenObstacles.
+router.get("/greenObstacles", greenObstacle_controller.greenObstacle_list);
+
+/// TEE OBSTACLE ROUTES ///
+
+// GET request for creating TeeObstacle. NOTE This must come before route for id (i.e. display bunker).
+router.get("/teeObstacle/create", teeObstacle_controller.teeObstacle_create_get);
+
+// POST request for creating teeObstacle.
+router.post("/teeObstacle/create", teeObstacle_controller.teeObstacle_create_post);
+
+// GET request to delete teeObstacle.
+router.get("/teeObstacle/:id/delete", teeObstacle_controller.teeObstacle_delete_get);
+
+// POST request to delete teeObstacle.
+router.post("/teeObstacle/:id/delete", teeObstacle_controller.teeObstacle_delete_post);
+
+// GET request to update teeObstacle.
+router.get("/teeObstacle/:id/update", teeObstacle_controller.teeObstacle_update_get);
+
+// POST request to update teeObstacle.
+router.post("/teeObstacle/:id/update", teeObstacle_controller.teeObstacle_update_post);
+
+// GET request for one teeObstacle.
+router.get("/teeObstacle/:id", teeObstacle_controller.teeObstacle_detail);
+
+// GET request for list of all teeObstacles.
+router.get("/teeObstacles", teeObstacle_controller.teeObstacle_list);
 
 /// LZ ROUTES ///
 

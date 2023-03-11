@@ -1,6 +1,6 @@
-// obstacleController.js
+// lzObstacleController.js
 
-const Obstacle = require("../models/obstacle");
+const LzObstacle = require("../models/lzObstacle");
 const Layup = require("../models/layup");
 const Dogleg = require("../models/dogleg");
 const Roll = require("../models/roll");
@@ -12,34 +12,33 @@ const Bunker = require("../models/bunker");
 const Lateral = require("../models/lateral");
 const Crossing = require("../models/crossing");
 const Tree = require("../models/tree");
-const Surface = require("../models/surface");
 const async = require("async");
 const { body, validationResult } = require("express-validator");
 const { ObjectID, ObjectId } = require("bson");
 
-// Display a list of all obstacles.
-exports.obstacle_list = (req, res, next) => {
-    Obstacle.find({})
+// Display a list of all lzObstacles.
+exports.lzObstacle_list = (req, res, next) => {
+    LzObstacle.find({})
         .sort({ name: 1 })
-        .exec(function (err, list_obstacles) {
+        .exec(function (err, list_lzObstacles) {
             if (err) {
                 return next(err);
             } else {
                 // Successful, so render
-                res.render("obstacle_list", {
-                    title: "Obstacle List",
-                    obstacle_list: list_obstacles
+                res.render("lzObstacle_list", {
+                    title: "LzObstacle List",
+                    lzObstacle_list: list_lzObstacles
                 });
             }
         });
 };
 
-// Display detail page for a specific obstacle.
-exports.obstacle_detail = (req, res, next) => {
+// Display detail page for a specific lzObstacle.
+exports.lzObstacle_detail = (req, res, next) => {
     async.parallel(
         {
-            obstacle(callback) {
-                Obstacle.findById(req.params.id)
+            lzObstacle(callback) {
+                LzObstacle.findById(req.params.id)
                     .populate("layup")
                     .populate("dogleg")
                     .populate("roll")
@@ -51,7 +50,6 @@ exports.obstacle_detail = (req, res, next) => {
                     .populate("lateral")
                     .populate("crossing")
                     .populate("tree")
-                    .populate("surface")
                     .exec(callback);
             },
         },
@@ -59,22 +57,22 @@ exports.obstacle_detail = (req, res, next) => {
             if (err) {
                 return next(err);
             }
-            if (results.obstacle == null) {
+            if (results.lzObstacle == null) {
                 // No, results
-                const err = new Error("Obstacle not found");
+                const err = new Error("LzObstacle not found");
                 err.status = 404;
                 return next(err);
             }
-            res.render("obstacle_detail", {
-                title: results.obstacle.name,
-                obstacle: results.obstacle
+            res.render("lzObstacle_detail", {
+                title: results.lzObstacle.name,
+                lzObstacle: results.lzObstacle
             });
         }
     );
 };
 
-// Display obstacle create form on GET.
-exports.obstacle_create_get = (req, res, next) => {
+// Display lzObstacle create form on GET.
+exports.lzObstacle_create_get = (req, res, next) => {
     // Get all tees, lzs and greens .
     async.parallel(
         {
@@ -111,16 +109,13 @@ exports.obstacle_create_get = (req, res, next) => {
             trees(callback) {
                 Tree.find(callback);
             },
-            surfaces(callback) {
-                Surface.find(callback);
-            },
         },
         (err, results) => {
             if (err) {
                 return next(err);
             }
-            res.render("obstacle_form", {
-                title: "Create Obstacle",
+            res.render("lzObstacle_form", {
+                title: "Create LzObstacle",
                 layups: results.layups,
                 doglegs: results.doglegs,
                 rolls: results.rolls,
@@ -132,15 +127,14 @@ exports.obstacle_create_get = (req, res, next) => {
                 laterals: results.laterals,
                 crossings: results.crossings,
                 trees: results.trees,
-                surfaces: results.surfaces,
             });
         }
     );
 };
 
-// Handle obstacle create on POST.
-exports.obstacle_create_post = [
-    // Convert obstacles to arrays.
+// Handle lzObstacle create on POST.
+exports.lzObstacle_create_post = [
+    // Convert lzObstacles to arrays.
     (req, res, next) => {
         if (!Array.isArray(req.body.layup)) {
             req.body.layup = typeof req.body.layup === "undefined" ? [] : [req.body.layup];
@@ -207,12 +201,6 @@ exports.obstacle_create_post = [
         }
         next();
     },
-    (req, res, next) => {
-        if (!Array.isArray(req.body.surface)) {
-            req.body.surface = typeof req.body.surface === "undefined" ? [] : [req.body.surface];
-        }
-        next();
-    },
 
     // Validate and sanitize the fields.
     body("name", "Name must not be empty.").trim().isLength({min: 1 }).escape(),
@@ -227,15 +215,14 @@ exports.obstacle_create_post = [
     body("lateral.*").escape(),
     body("crossing.*").escape(),
     body("tree.*").escape(),
-    body("surface.*").escape(),
 
     // Process request after validation and sanitation
     (req, res, next) => {
         // Extract the validation errors from a request.
         const errors = validationResult(req);
 
-        // Create a Obstacle object with escaped and trimmed data.
-        const obstacle = new Obstacle({
+        // Create a LzObstacle object with escaped and trimmed data.
+        const lzObstacle = new LzObstacle({
             name: req.body.name,
             layup: req.body.layup,
             dogleg: req.body.dogleg,
@@ -248,13 +235,12 @@ exports.obstacle_create_post = [
             lateral: req.body.lateral,
             crossing: req.body.crossing,
             tree: req.body.tree,
-            surface: req.body.surface,
         });
 
         if (!errors.isEmpty()) {
-            //There are errors. Render form again with sanitized values/error messages. Get all obstacles for form.
+            //There are errors. Render form again with sanitized values/error messages. Get all lzObstacles for form.
             
-            // Get all obstacles for the form
+            // Get all lzObstacles for the form
             async.parallel(
                 {
                     layups(callback) {
@@ -333,13 +319,6 @@ exports.obstacle_create_post = [
                             .exec(callback);
                     },
                 },
-                {
-                    surfaces(callback) {
-                        Surface.find({})
-                            .sort({ name: 1 })
-                            .exec(callback);
-                    },
-                },
                 (err, results) => {
                     if (err) {
                         return next(err);
@@ -347,78 +326,72 @@ exports.obstacle_create_post = [
 
                     // Mark selected layups as checked and render.
                     for (const layup of results.layups) {
-                        if (obstacle.layup.includes(layup._id)) {
+                        if (lzObstacle.layup.includes(layup._id)) {
                             layup.checked = "true";
                         }
                     }
                     // Mark selected doglegs as checked and render.
                     for (const dogleg of results.doglegs) {
-                        if (obstacle.dogleg.includes(dogleg._id)) {
+                        if (lzObstacle.dogleg.includes(dogleg._id)) {
                             dogleg.checked = "true";
                         }
                     }
                     // Mark selected rolls as checked and render.
                     for (const roll of results.rolls) {
-                        if (obstacle.roll.includes(roll._id)) {
+                        if (lzObstacle.roll.includes(roll._id)) {
                             roll.checked = "true";
                         }
                     }
                     // Mark selected topos as checked and render.
                     for (const topo of results.topos) {
-                        if (obstacle.topo.includes(topo._id)) {
+                        if (lzObstacle.topo.includes(topo._id)) {
                             topo.checked = "true";
                         }
                     }
                     // Mark selected fairways as checked and render.
                     for (const fairway of results.fairways) {
-                        if (obstacle.fairway.includes(fairway._id)) {
+                        if (lzObstacle.fairway.includes(fairway._id)) {
                             fairway.checked = "true";
                         }
                     }
                     // Mark selected targets as checked and render.
                     for (const target of results.targets) {
-                        if (obstacle.target.includes(target._id)) {
+                        if (lzObstacle.target.includes(target._id)) {
                             target.checked = "true";
                         }
                     }
                     // Mark selected rRs as checked and render.
                     for (const rR of results.rRs) {
-                        if (obstacle.rR.includes(rR._id)) {
+                        if (lzObstacle.rR.includes(rR._id)) {
                             rR.checked = "true";
                         }
                     }
                     // Mark selected bunkers as checked and render.
                     for (const bunker of results.bunkers) {
-                        if (obstacle.bunker.includes(bunker._id)) {
+                        if (lzObstacle.bunker.includes(bunker._id)) {
                             bunker.checked = "true";
                         }
                     }
                     // Mark selected laterals as checked and render.
                     for (const lateral of results.laterals) {
-                        if (obstacle.lateral.includes(lateral._id)) {
+                        if (lzObstacle.lateral.includes(lateral._id)) {
                             lateral.checked = "true";
                         }
                     }
                     // Mark selected crossings as checked and render.
                     for (const crossing of results.crossings) {
-                        if (obstacle.crossing.includes(crossing._id)) {
+                        if (lzObstacle.crossing.includes(crossing._id)) {
                             crossing.checked = "true";
                         }
                     }
                     // Mark selected trees as checked and render.
                     for (const tree of results.trees) {
-                        if (obstacle.tree.includes(tree._id)) {
+                        if (lzObstacle.tree.includes(tree._id)) {
                             tree.checked = "true";
                         }
                     }
-                    // Mark selected surfaces as checked and render.
-                    for (const surface of results.surfaces) {
-                        if (obstacle.surface.includes(surface._id)) {
-                            surface.checked = "true";
-                        }
-                    }
-                    res.render("obstacle_form", {
-                        title: "Create Obstacle",
+                    res.render("lzObstacle_form", {
+                        title: "Create LzObstacle",
                         layups: results.layups,
                         doglegs: results.doglegs,
                         rolls: results.rolls,
@@ -430,8 +403,7 @@ exports.obstacle_create_post = [
                         laterals: results.laterals,
                         crossings: results.crossings,
                         trees: results.trees,
-                        surfaces: results.surfaces,
-                        obstacle,
+                        lzObstacle,
                         errors: errors.array(),
                     });
                 }
@@ -439,23 +411,23 @@ exports.obstacle_create_post = [
             return;
         }
 
-        // Data from form is valid. Save Obstacle.
-        obstacle.save((err) => {
+        // Data from form is valid. Save LzObstacle.
+        lzObstacle.save((err) => {
             if (err) {
                 return next(err);
             }
             // Successful save: redirect to new course record.
-            res.redirect(obstacle.url);
+            res.redirect(lzObstacle.url);
         });
     },
 ];
 
-// Display obstacle delete form on GET.
-exports.obstacle_delete_get = (req, res, next) => {
+// Display lzObstacle delete form on GET.
+exports.lzObstacle_delete_get = (req, res, next) => {
     async.parallel(
         {
-            obstacle: function (callback) {
-                Obstacle.findById(req.params.id)
+            lzObstacle: function (callback) {
+                LzObstacle.findById(req.params.id)
                     .populate("layup")
                     .populate("dogleg")
                     .populate("roll")
@@ -467,7 +439,6 @@ exports.obstacle_delete_get = (req, res, next) => {
                     .populate("lateral")
                     .populate("crossing")
                     .populate("tree")
-                    .populate("surface")
                     .exec(callback);
             },
         },
@@ -475,27 +446,27 @@ exports.obstacle_delete_get = (req, res, next) => {
             if (err) {
                 return next(err);
             }
-            if (results.obstacle == null) {
+            if (results.lzObstacle == null) {
                 // No results
-                res.redirect("/catalog/obstacles");
+                res.redirect("/catalog/lzObstacles");
             }
             // Sucessful, so render
-            res.render("obstacle_delete", {
-                title: "Delete Obstacle",
-                obstacle: results.obstacle,
+            res.render("lzObstacle_delete", {
+                title: "Delete LzObstacle",
+                lzObstacle: results.lzObstacle,
             });
         }
     );
 };
 
-// Handle obstacle delete on POST.
-exports.obstacle_delete_post = (req, res, next) => {
+// Handle lzObstacle delete on POST.
+exports.lzObstacle_delete_post = (req, res, next) => {
     // Assume the post has valid id (ie no validation/sanitization).
     
     async.parallel(
         {
-            obstacle: function (callback) {
-                Obstacle.findById(req.params.id)
+            lzObstacle: function (callback) {
+                LzObstacle.findById(req.params.id)
                     .populate("layup")
                     .populate("dogleg")
                     .populate("roll")
@@ -507,7 +478,6 @@ exports.obstacle_delete_post = (req, res, next) => {
                     .populate("lateral")
                     .populate("crossing")
                     .populate("tree")
-                    .populate("surface")
                     .exec(callback);
             },
         },
@@ -516,38 +486,38 @@ exports.obstacle_delete_post = (req, res, next) => {
                 return next(err);
             }
             // Success
-            if (results.obstacle.layup != null || results.obstacle.dogleg.length != null || 
-                results.obstacle.roll.length != null || results.obstacle.topo.length != null ||
-                results.obstacle.fairway.length != null || results.obstacle.target.length != null ||
-                results.obstacle.rR.length != null || results.obstacle.bunker.length != null ||
-                results.obstacle.lateral.length != null || results.obstacle.crossing.length != null ||
-                results.tree.layup.length != null || results.obstacle.surface.length != null) {
-                res.render("obstacle_delete", {
-                    title: "Delete Obstacle",
-                    obstacle: results.obstacle,
+            if (results.lzObstacle.layup != null || results.lzObstacle.dogleg.length != null || 
+                results.lzObstacle.roll.length != null || results.lzObstacle.topo.length != null ||
+                results.lzObstacle.fairway.length != null || results.lzObstacle.target.length != null ||
+                results.lzObstacle.rR.length != null || results.lzObstacle.bunker.length != null ||
+                results.lzObstacle.lateral.length != null || results.lzObstacle.crossing.length != null ||
+                results.tree.layup.length != null) {
+                res.render("lzObstacle_delete", {
+                    title: "Delete LzObstacle",
+                    lzObstacle: results.lzObstacle,
                 });
                 return;
             } else {
-                // Obstacle has no obstacle objects. Delete object and redirect to the list of obstacles.
-                Obstacle.findByIdAndRemove(req.body.obstacleid, function deleteObstacle(err) {
+                // LzObstacle has no lzObstacle objects. Delete object and redirect to the list of lzObstacles.
+                LzObstacle.findByIdAndRemove(req.body.lzObstacleid, function deleteLzObstacle(err) {
                     if (err) {
                         return next(err);
                     }
-                    // Success - go to obstacles list.
-                    res.redirect("/catalog/obstacles");
+                    // Success - go to lzObstacles list.
+                    res.redirect("/catalog/lzObstacles");
                 });
             }
         }
     );
 };
 
-// Display obstacle update form on GET.
-exports.obstacle_update_get = (req, res, next) => {
-    // get the obstacle and obstacles for the form.
+// Display lzObstacle update form on GET.
+exports.lzObstacle_update_get = (req, res, next) => {
+    // get the lzObstacle and lzObstacles for the form.
     async.parallel(
         {
-            obstacle(callback) {
-                Obstacle.findById(req.params.id)
+            lzObstacle(callback) {
+                LzObstacle.findById(req.params.id)
                     .populate("layup")
                     .populate("dogleg")
                     .populate("roll")
@@ -559,7 +529,6 @@ exports.obstacle_update_get = (req, res, next) => {
                     .populate("lateral")
                     .populate("crossing")
                     .populate("tree")
-                    .populate("surface")
                     .exec(callback);
             },
             layups(callback) {
@@ -595,9 +564,6 @@ exports.obstacle_update_get = (req, res, next) => {
             trees(callback) {
                 Tree.find(callback);
             },
-            surfaces(callback) {
-                Surface.find(callback);
-            },
         },
         
         (err, results) => {
@@ -605,98 +571,91 @@ exports.obstacle_update_get = (req, res, next) => {
                 return next(err);
             }
                         
-            if (results.obstacle == null) {
+            if (results.lzObstacle == null) {
                 // No, results
-                const err = new Error("Obstacle not found");
+                const err = new Error("LzObstacle not found");
                 err.status = 404;
                 return next(err);
             }
             // Mark selected layups as checked and render.
             for (const layup of results.layups) {
-                const aLayup = results.obstacle.layup 
+                const aLayup = results.lzObstacle.layup 
                 if (layup._id.toString() === aLayup._id.toString()) {
                     layup.checked = "true";
                 }
             }
             // Mark selected doglegs as checked and render.
             for (const dogleg of results.doglegs) {
-                const aDogleg = results.obstacle.dogleg
+                const aDogleg = results.lzObstacle.dogleg
                 if (dogleg._id.toString() === aDogleg._id.toString()) {
                     dogleg.checked = "true";
                 }
             }
             // Mark selected rolls as checked and render.
             for (const roll of results.rolls) {
-                const aRoll = results.obstacle.roll
+                const aRoll = results.lzObstacle.roll
                 if (roll._id.toString() === aRoll._id.toString()) {
                     roll.checked = "true";
                 }
             }
             // Mark selected topos as checked and render.
             for (const topo of results.topos) {
-                const aTopo = results.obstacle.topo
+                const aTopo = results.lzObstacle.topo
                 if (topo._id.toString() === aTopo._id.toString()) {
                     topo.checked = "true";
                 }
             }
             // Mark selected fairways as checked and render.
             for (const fairway of results.fairways) {
-                const aFairway = results.obstacle.fairway
+                const aFairway = results.lzObstacle.fairway
                 if (fairway._id.toString() === aFairway._id.toString()) {
                     fairway.checked = "true";
                 }
             }
             // Mark selected targets as checked and render.
             for (const target of results.targets) {
-                const aTarget = results.obstacle.target
+                const aTarget = results.lzObstacle.target
                 if (target._id.toString() === aTarget._id.toString()) {
                     target.checked = "true";
                 }
             }
             // Mark selected rRs as checked and render.
             for (const rR of results.rRs) {
-                const aRR = results.obstacle.rR
+                const aRR = results.lzObstacle.rR
                 if (rR._id.toString() === aRR._id.toString()) {
                     rR.checked = "true";
                 }
             }
             // Mark selected bunkers as checked and render.
             for (const bunker of results.bunkers) {
-                const aBunker = results.obstacle.bunker
+                const aBunker = results.lzObstacle.bunker
                 if (bunker._id.toString() === aBunker._id.toString()) {
                     bunker.checked = "true";
                 }    
             }
             // Mark selected laterals as checked and render.
             for (const lateral of results.laterals) {
-                const aLateral = results.obstacle.lateral
+                const aLateral = results.lzObstacle.lateral
                 if (lateral._id.toString() === aLateral._id.toString()) {
                     lateral.checked = "true";
                 }
             }
             // Mark selected crossings as checked and render.
             for (const crossing of results.crossings) {
-                const aCrossing = results.obstacle.crossing
+                const aCrossing = results.lzObstacle.crossing
                 if (crossing._id.toString() === aCrossing._id.toString()) {
                     crossing.checked = "true";
                 }
             }
             // Mark selected trees as checked and render.
             for (const tree of results.trees) {
-                const aTree = results.obstacle.tree
+                const aTree = results.lzObstacle.tree
                 if (tree._id.toString() === aTree._id.toString()) {
                     tree.checked = "true";
                 }
             }
-            // Mark selected surfaces as checked and render.
-            for (const surface of results.surfaces) {
-                const aSurface = results.obstacle.surface
-                if (surface._id.toString() === aSurface._id.toString()) {
-                    surface.checked = "true";
-                }
-            }
-            res.render("obstacle_form", {
-                title: "Update Obstacle",
+            res.render("lzObstacle_form", {
+                title: "Update LzObstacle",
                 layups: results.layups,
                 doglegs: results.doglegs,
                 rolls: results.rolls,
@@ -708,15 +667,14 @@ exports.obstacle_update_get = (req, res, next) => {
                 laterals: results.laterals,
                 crossings: results.crossings,
                 trees: results.trees,
-                surfaces: results.surfaces,
-                obstacle: results.obstacle,
+                lzObstacle: results.lzObstacle,
             });
         }
     );
 };
 
-// Handle obstacle update on POST.
-exports.obstacle_update_post = [
+// Handle lzObstacle update on POST.
+exports.lzObstacle_update_post = [
     
     // Validate and sanitize the fields.
     body("name", "Name must not be empty.").trim().isLength({min: 1 }).escape(),
@@ -731,15 +689,14 @@ exports.obstacle_update_post = [
     body("lateral", "Lateral must not be empty.").trim().isLength({min: 1 }).escape(),
     body("crossing", "Crossing must not be empty.").trim().isLength({min: 1 }).escape(),
     body("tree", "Tree must not be empty.").trim().isLength({min: 1 }).escape(),
-    body("surface", "Surface must not be empty.").trim().isLength({min: 1 }).escape(),
     
     // Process request after validation and sanitation
     (req, res, next) => {
         // Extract the validation errors from a request.
         const errors = validationResult(req);
 
-        // Create a Obstacle object with escaped and trimmed data.
-        const obstacle = new Obstacle({
+        // Create a LzObstacle object with escaped and trimmed data.
+        const lzObstacle = new LzObstacle({
             name: req.body.name,
             layup: req.body.layup,
             dogleg: req.body.dogleg,
@@ -752,14 +709,13 @@ exports.obstacle_update_post = [
             lateral: req.body.lateral,
             crossing: req.body.crossing,
             tree: req.body.tree,
-            surface: req.body.surface,
             _id: req.params.id, // This is required, or a new ID will be assigned!
         });
 
         if (!errors.isEmpty()) {
-            //There are errors. Render form again with sanitized values/error messages. Get all obstacles for form.
+            //There are errors. Render form again with sanitized values/error messages. Get all lzObstacles for form.
             
-            // Get all obstacles for the form
+            // Get all lzObstacles for the form
             async.parallel(
                 {
                     layups(callback) {
@@ -838,19 +794,12 @@ exports.obstacle_update_post = [
                             .exec(callback);
                     },
                 },
-                {
-                    surfaces(callback) {
-                        Surface.find({})
-                            .sort({ name: 1 })
-                            .exec(callback);
-                    },
-                },
                 (err, results) => {
                     if (err) {
                         return next(err);
                     }
-                    res.render("obstacle_form", {
-                        title: "Update Obstacle",
+                    res.render("lzObstacle_form", {
+                        title: "Update LzObstacle",
                         layups: results.layups,
                         doglegs: results.doglegs,
                         rolls: results.rolls,
@@ -862,8 +811,7 @@ exports.obstacle_update_post = [
                         laterals: results.laterals,
                         crossings: results.crossings,
                         trees: results.trees,
-                        surfaces: results.surfaces,
-                        obstacle,
+                        lzObstacle,
                         errors: errors.array(),
                     });
                 }
@@ -872,13 +820,13 @@ exports.obstacle_update_post = [
         }
         
         // Data from form is valid. Update the record.
-        Obstacle.findByIdAndUpdate(req.params.id, obstacle, {runValidators: true}, (err, theobstacle) => {
+        LzObstacle.findByIdAndUpdate(req.params.id, lzObstacle, {runValidators: true}, (err, thelzObstacle) => {
             if (err) {
                 return next(err);
             }
             
             // Successful: redirect to book detail page.
-            res.redirect(theobstacle.url);
+            res.redirect(thelzObstacle.url);
         });
     },
 ]

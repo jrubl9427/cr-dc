@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    h1= title
+    
+    ul
+        each lzObstacle in lzObstacle_list
+            li
+                a(href=lzObstacle.url) lzObstacle: #{lzObstacle.name}
+                
+        else
+            li There are no lzObstacles.
