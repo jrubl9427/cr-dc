@@ -223,7 +223,7 @@ exports.lzObstacle_create_post = [
 
         // Create a LzObstacle object with escaped and trimmed data.
         const lzObstacle = new LzObstacle({
-            name: req.body.name,
+            name: req.body.name + " lzObstacle",
             layup: req.body.layup,
             dogleg: req.body.dogleg,
             roll: req.body.roll,

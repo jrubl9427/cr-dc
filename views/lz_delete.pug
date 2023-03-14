@@ -3,14 +3,14 @@ extends layout
 block content
     h1 Lz: #{lz.name} Delete
     
-    p #[strong Obstacles:]
+    p #[strong LzObstacles:]
         ul
-            each obstacle in lz.obstacle.sort((a,b) => b.distanceToGreen - a.distanceToGreen)
+            each obstacle in lz.lzObstacle.sort((a,b) => b.distanceToGreen - a.distanceToGreen)
                 li 
                     a(href=obstacle.url) #[strong Obstacle: ] #{obstacle.name}
     hr
     
-    if lz.obstacle.length
+    if lz.lzObstacle.length
     
         p #[strong Delete all obstacles before attempting to delete this lz.]
     

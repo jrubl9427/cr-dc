@@ -35,17 +35,16 @@ block content
             )
                 
         div.form-group
-            label Obstacles:
-            for obstacle in obstacles
-                if !obstacle.name.includes("Tee") && !obstacle.name.includes("Green")
-                    div("margin-left:20px;margin-top:20px")
-                        input.checkbox-input(
-                            type="checkbox", 
-                            name="obstacle", 
-                            id=obstacle._id, 
-                            value=obstacle._id, 
-                            checked=obstacle.checked )
-                        label(for=obstacle._id) #{obstacle.name}
+            label  LZ Obstacles:
+            for lzObstacle in lzObstacles
+                div("margin-left:20px;margin-top:20px")
+                    input.checkbox-input(
+                        type="checkbox", 
+                        name="lzObstacle", 
+                        id=lzObstacle._id, 
+                        value=lzObstacle._id, 
+                        checked=lzObstacle.checked )
+                    label(for=lzObstacle._id) #{lzObstacle.name}
                     
         button.btn.btn-primary(type='submit') Submit
         

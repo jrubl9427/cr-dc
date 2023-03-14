@@ -17,9 +17,9 @@ const LzSchema = new Schema({
         type: Number,
         required: true
     },
-    obstacle: [{
+    lzObstacle: [{
         type: Schema.Types.ObjectId,
-        ref: "Obstacle",
+        ref: "LzObstacle",
         required: true
     }]
 });

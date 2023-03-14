@@ -69,4 +69,4 @@ LzObstacleSchema.virtual("url").get(function (){
 });
 
 // Export the model
-module.exports = mongoose.model("Obstacle", LzObstacleSchema);
+module.exports = mongoose.model("LzObstacle", LzObstacleSchema);

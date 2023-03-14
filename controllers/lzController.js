@@ -10,6 +10,7 @@ const { ObjectID, ObjectId } = require("bson");
 exports.lz_list = (req, res, next) => {
     Lz.find({})
         .sort({ name: 1 })
+        .sort({ distanceToGreen: -1 })
         .exec(function (err, list_lzs) {
             if (err) {
                 return next(err);
@@ -97,7 +98,7 @@ exports.lz_create_post = [
 
         // Create a Lz object with escaped and trimmed data.
         const lz = new Lz({
-            name: req.body.name,
+            name: req.body.name + " lz",
             distanceToGreen: req.body.distanceToGreen,
             altitude: req.body.altitude,
             lzObstacle: req.body.lzObstacle

@@ -12,7 +12,9 @@ const Hole = require("./models/hole");
 const Tee = require("./models/tee");
 const Green = require("./models/green");
 const Lz = require("./models/lz");
-const Obstacle = require("./models/lzObstacle");
+const TeeObstacle = require("./models/teeObstacle");
+const LzObstacle = require("./models/lzObstacle");
+const GreenObstacle = require("./models/greenObstacle");
 const Layup = require("./models/layup");
 const Dogleg = require("./models/dogleg");
 const Roll = require("./models/roll");
@@ -48,7 +50,9 @@ const holes = [];
 const tees = [];
 const greens = [];
 const lzs = [];
-const obstacles = [];
+const teeObstacles = [];
+const lzObstacles = [];
+const greenObstacles = [];
 const layups = [];
 const doglegs = [];
 const rolls = [];
@@ -108,13 +112,13 @@ function holeCreate(name, tee, green, lz, cb) {
     });
 }
 
-function teeCreate(name, length, par, altitude, obstacle, cb) {
+function teeCreate(name, length, par, altitude, teeObstacle, cb) {
     teedetail = {
         name: name, 
         length: length, 
         par: par, 
         altitude: altitude,
-        obstacle: obstacle
+        teeObstacle: teeObstacle
     };
     const tee = new Tee(teedetail);
     tee.save(function (err) {
@@ -130,13 +134,13 @@ function teeCreate(name, length, par, altitude, obstacle, cb) {
     });
 }
 
-function greenCreate(name, altitude, width, depth, obstacle, cb) {
+function greenCreate(name, altitude, width, depth, greenObstacle, cb) {
     greendetail = {
         name: name, 
         altitude: altitude, 
         width: width, 
         depth: depth,
-        obstacle: obstacle
+        greenObstacle: greenObstacle
     };
     const green = new Green(greendetail);
     green.save(function (err) {
@@ -152,12 +156,12 @@ function greenCreate(name, altitude, width, depth, obstacle, cb) {
     });
 }
 
-function lzCreate(name, altitude, distanceToGreen, obstacle, cb) {
+function lzCreate(name, altitude, distanceToGreen, lzObstacle, cb) {
     lzdetail = {
         name: name, 
         altitude: altitude,
         distanceToGreen: distanceToGreen,
-        obstacle: obstacle
+        lzObstacle: lzObstacle
     };
     const lz = new Lz(lzdetail);
     lz.save(function (err) {
@@ -173,8 +177,30 @@ function lzCreate(name, altitude, distanceToGreen, obstacle, cb) {
     });
 }
 
-function obstacleCreate(name, layup, dogleg, roll, topo, fairway, target, rR, bunker, lateral, crossing, tree, surface, cb) {
-    obstacledetail = {
+function teeObstacleCreate(name, target, rR, crossing, tree, cb) {
+    teeObstacledetail = {
+        name: name,
+        target: target,
+        rR: rR,
+        crossing: crossing,
+        tree: tree
+    };
+    const teeObstacle = new TeeObstacle(teeObstacledetail);
+    teeObstacle.save(function (err) {
+        if (err) {
+            console.log(`ERROR SAVING TeeOBSTACLE: ${teeObstacle}`)
+            cb(err, null);
+            return;
+        }
+        // console.log(`New teeObstacle: ${teeObstacle}`);
+        console.log(`New TeeObstacle`);
+        teeObstacles.push(teeObstacle);
+        cb(null, teeObstacle);
+    });
+}
+
+function lzObstacleCreate(name, layup, dogleg, roll, topo, fairway, target, rR, bunker, lateral, crossing, tree, cb) {
+    lzObstacledetail = {
         name: name,
         layup: layup,
         dogleg: dogleg, 
@@ -186,20 +212,42 @@ function obstacleCreate(name, layup, dogleg, roll, topo, fairway, target, rR, bu
         bunker: bunker,
         lateral: lateral,
         crossing: crossing,
-        tree: tree,
-        surface: surface
+        tree: tree
     };
-    const obstacle = new Obstacle(obstacledetail);
-    obstacle.save(function (err) {
+    const lzObstacle = new LzObstacle(lzObstacledetail);
+    lzObstacle.save(function (err) {
         if (err) {
-            console.log(`ERROR SAVING OBSTACLE: ${obstacle}`)
+            console.log(`ERROR SAVING LzOBSTACLE: ${lzObstacle}`)
             cb(err, null);
             return;
         }
-        // console.log(`New Obstacle: ${obstacle}`);
-        console.log(`New Obstacle`);
-        obstacles.push(obstacle);
-        cb(null, obstacle);
+        // console.log(`New lzObstacle: ${lzObstacle}`);
+        console.log(`New lzObstacle`);
+        lzObstacles.push(lzObstacle);
+        cb(null, lzObstacle);
+    });
+}
+
+function greenObstacleCreate(name, rR, bunker, lateral, tree, surface, cb) {
+    greenObstacledetail = {
+        name: name,
+        rR: rR,
+        bunker: bunker,
+        lateral: lateral,
+        tree: tree,
+        surface: surface
+    };
+    const greenObstacle = new GreenObstacle(greenObstacledetail);
+    greenObstacle.save(function (err) {
+        if (err) {
+            console.log(`ERROR SAVING GREENOBSTACLE: ${greenObstacle}`)
+            cb(err, null);
+            return;
+        }
+        // console.log(`New greenObstacle: ${greenObstacle}`);
+        console.log(`New GreenObstacle`);
+        greenObstacles.push(greenObstacle);
+        cb(null, greenObstacle);
     });
 }
 
@@ -582,17 +630,157 @@ function createObstacles(cb) {
 function createLayups(cb) {
     async.series([
         function(callback) {
-            layupCreate("Black-Men-1-Tee layup", 0, 0, "forced", callback);
-        },
-        function(callback) {
             layupCreate("Black-Men-1-Scratch-1 layup", 0, 0, "forced", callback);
         },
         function(callback) {
-            layupCreate("Red-Women-1-Tee layup", 0, 0, "forced", callback);
+            layupCreate("Black-Men-1-Scratch-2 layup", 0, 0, "forced", callback);
         },
         function(callback) {
-            layupCreate("Black-Men-2-Tee layup", 0, 0, "forced", callback);
+            layupCreate("Black-Men-1-Scratch-3 layup", 0, 0, "forced", callback);
         },
+        function(callback) {
+            layupCreate("Black-Men-1-Bogey-1 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Black-Men-1-Bogey-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Black-Men-1-Bogey-3 layup", 0, 0, "forced", callback);
+        },
+
+        function(callback) {
+            layupCreate("Gold-Men-1-Scratch-1 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Gold-Men-1-Scratch-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Gold-Men-1-Scratch-3 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Gold-Men-1-Bogey-1 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Gold-Men-1-Bogey-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Gold-Men-1-Bogey-3 layup", 0, 0, "forced", callback);
+        },
+
+        function(callback) {
+            layupCreate("Blue-Men-1-Scratch-1 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Blue-Men-1-Scratch-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Blue-Men-1-Scratch-3 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Blue-Men-1-Bogey-1 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Blue-Men-1-Bogey-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Blue-Men-1-Bogey-3 layup", 0, 0, "forced", callback);
+        },
+
+        function(callback) {
+            layupCreate("White-Men-1-Scratch-1 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("White-Men-1-Scratch-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("White-Men-1-Scratch-3 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("White-Men-1-Bogey-1 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("White-Men-1-Bogey-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("White-Men-1-Bogey-3 layup", 0, 0, "forced", callback);
+        },
+
+        function(callback) {
+            layupCreate("White-Women-1-Scratch-1 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("White-Women-1-Scratch-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("White-Women-1-Scratch-3 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("White-Women-1-Bogey-1 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("White-Women-1-Bogey-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("White-Women-1-Bogey-3 layup", 0, 0, "forced", callback);
+        },
+
+        function(callback) {
+            layupCreate("Green-Men-1-Scratch-1 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Green-Men-1-Scratch-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Green-Men-1-Scratch-3 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Green-Men-1-Bogey-1 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Green-Men-1-Bogey-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Green-Men-1-Bogey-3 layup", 0, 0, "forced", callback);
+        },
+
+        function(callback) {
+            layupCreate("Green-Women-1-Scratch-1 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Green-Women-1-Scratch-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Green-Women-1-Scratch-3 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Green-Women-1-Bogey-1 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Green-Women-1-Bogey-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Green-Women-1-Bogey-3 layup", 0, 0, "forced", callback);
+        },
+
+        function(callback) {
+            layupCreate("Red-Women-1-Scratch-1 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Red-Women-1-Scratch-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Red-Women-1-Scratch-3 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Red-Women-1-Bogey-1 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Red-Women-1-Bogey-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Red-Women-1-Bogey-3 layup", 0, 0, "forced", callback);
+        },
+
         function(callback) {
             layupCreate("Black-Men-2-Scratch-1 layup", 0, 0, "forced", callback);
         },
@@ -600,40 +788,307 @@ function createLayups(cb) {
             layupCreate("Black-Men-2-Scratch-2 layup", 0, 0, "forced", callback);
         },
         function(callback) {
-            layupCreate("Red-Women-2-Tee layup", 0, 0, "forced", callback);
+            layupCreate("Black-Men-2-Scratch-3 layup", 0, 0, "forced", callback);
         },
+        function(callback) {
+            layupCreate("Black-Men-2-Bogey-1 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Black-Men-2-Bogey-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Black-Men-2-Bogey-3 layup", 0, 0, "forced", callback);
+        },
+
+        function(callback) {
+            layupCreate("Gold-Men-2-Scratch-1 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Gold-Men-2-Scratch-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Gold-Men-2-Scratch-3 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Gold-Men-2-Bogey-1 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Gold-Men-2-Bogey-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Gold-Men-2-Bogey-3 layup", 0, 0, "forced", callback);
+        },
+
+        function(callback) {
+            layupCreate("Blue-Men-2-Scratch-1 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Blue-Men-2-Scratch-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Blue-Men-2-Scratch-3 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Blue-Men-2-Bogey-1 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Blue-Men-2-Bogey-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Blue-Men-2-Bogey-3 layup", 0, 0, "forced", callback);
+        },
+
+        function(callback) {
+            layupCreate("White-Men-2-Scratch-1 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("White-Men-2-Scratch-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("White-Men-2-Scratch-3 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("White-Men-2-Bogey-1 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("White-Men-2-Bogey-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("White-Men-2-Bogey-3 layup", 0, 0, "forced", callback);
+        },
+
+        function(callback) {
+            layupCreate("White-Women-2-Scratch-1 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("White-Women-2-Scratch-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("White-Women-2-Scratch-3 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("White-Women-2-Bogey-1 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("White-Women-2-Bogey-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("White-Women-2-Bogey-3 layup", 0, 0, "forced", callback);
+        },
+
+        function(callback) {
+            layupCreate("Green-Men-2-Scratch-1 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Green-Men-2-Scratch-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Green-Men-2-Scratch-3 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Green-Men-2-Bogey-1 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Green-Men-2-Bogey-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Green-Men-2-Bogey-3 layup", 0, 0, "forced", callback);
+        },
+
+        function(callback) {
+            layupCreate("Green-Women-2-Scratch-1 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Green-Women-2-Scratch-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Green-Women-2-Scratch-3 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Green-Women-2-Bogey-1 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Green-Women-2-Bogey-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Green-Women-2-Bogey-3 layup", 0, 0, "forced", callback);
+        },
+
         function(callback) {
             layupCreate("Red-Women-2-Scratch-1 layup", 0, 0, "forced", callback);
         },
         function(callback) {
-            layupCreate("Green-1 layup", 0, 0, "forced", callback);
+            layupCreate("Red-Women-2-Scratch-2 layup", 0, 0, "forced", callback);
         },
         function(callback) {
-            layupCreate("Green-2 layup", 0, 0, "forced", callback);
+            layupCreate("Red-Women-2-Scratch-3 layup", 0, 0, "forced", callback);
         },
         function(callback) {
-            layupCreate("layup", 0, 0, "forced", callback);
+            layupCreate("Red-Women-2-Bogey-1 layup", 0, 0, "forced", callback);
         },
         function(callback) {
-            layupCreate("layup", 0, 0, "forced", callback);
-        }
+            layupCreate("Red-Women-2-Bogey-2 layup", 0, 0, "forced", callback);
+        },
+        function(callback) {
+            layupCreate("Red-Women-2-Bogey-3 layup", 0, 0, "forced", callback);
+        },
     ], cb);
 }
 
 function createDoglegs(cb) {
     async.series([
         function(callback) {
-            doglegCreate("Black-Men-1-Tee dogleg", 0, 0, callback);
-        },
-        function(callback) {
             doglegCreate("Black-Men-1-Scratch-1 dogleg", 0, 0, callback);
         },
         function(callback) {
-            doglegCreate("Red-Women-1-Tee dogleg", 0, 0, callback);
+            doglegCreate("Black-Men-1-Scratch-2 dogleg", 0, 0, callback);
         },
         function(callback) {
-            doglegCreate("Black-Men-2-Tee dogleg", 0, 0, callback);
+            doglegCreate("Black-Men-1-Scratch-3 dogleg", 0, 0, callback);
         },
+        function(callback) {
+            doglegCreate("Black-Men-1-Bogey-1 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Black-Men-1-Bogey-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Black-Men-1-Bogey-3 dogleg", 0, 0, callback);
+        },
+
+        function(callback) {
+            doglegCreate("Gold-Men-1-Scratch-1 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Gold-Men-1-Scratch-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Gold-Men-1-Scratch-3 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Gold-Men-1-Bogey-1 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Gold-Men-1-Bogey-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Gold-Men-1-Bogey-3 dogleg", 0, 0, callback);
+        },
+
+        function(callback) {
+            doglegCreate("Blue-Men-1-Scratch-1 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Blue-Men-1-Scratch-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Blue-Men-1-Scratch-3 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Blue-Men-1-Bogey-1 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Blue-Men-1-Bogey-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Blue-Men-1-Bogey-3 dogleg", 0, 0, callback);
+        },
+
+        function(callback) {
+            doglegCreate("White-Men-1-Scratch-1 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("White-Men-1-Scratch-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("White-Men-1-Scratch-3 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("White-Men-1-Bogey-1 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("White-Men-1-Bogey-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("White-Men-1-Bogey-3 dogleg", 0, 0, callback);
+        },
+
+        function(callback) {
+            doglegCreate("White-Women-1-Scratch-1 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("White-Women-1-Scratch-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("White-Women-1-Scratch-3 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("White-Women-1-Bogey-1 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("White-Women-1-Bogey-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("White-Women-1-Bogey-3 dogleg", 0, 0, callback);
+        },
+
+        function(callback) {
+            doglegCreate("Green-Men-1-Scratch-1 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Green-Men-1-Scratch-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Green-Men-1-Scratch-3 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Green-Men-1-Bogey-1 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Green-Men-1-Bogey-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Green-Men-1-Bogey-3 dogleg", 0, 0, callback);
+        },
+
+        function(callback) {
+            doglegCreate("Green-Women-1-Scratch-1 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Green-Women-1-Scratch-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Green-Women-1-Scratch-3 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Green-Women-1-Bogey-1 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Green-Women-1-Bogey-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Green-Women-1-Bogey-3 dogleg", 0, 0, callback);
+        },
+
+        function(callback) {
+            doglegCreate("Red-Women-1-Scratch-1 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Red-Women-1-Scratch-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Red-Women-1-Scratch-3 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Red-Women-1-Bogey-1 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Red-Women-1-Bogey-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Red-Women-1-Bogey-3 dogleg", 0, 0, callback);
+        },
+
         function(callback) {
             doglegCreate("Black-Men-2-Scratch-1 dogleg", 0, 0, callback);
         },
@@ -641,23 +1096,150 @@ function createDoglegs(cb) {
             doglegCreate("Black-Men-2-Scratch-2 dogleg", 0, 0, callback);
         },
         function(callback) {
-            doglegCreate("Red-Women-2-Tee dogleg", 0, 0, callback);
+            doglegCreate("Black-Men-2-Scratch-3 dogleg", 0, 0, callback);
         },
+        function(callback) {
+            doglegCreate("Black-Men-2-Bogey-1 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Black-Men-2-Bogey-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Black-Men-2-Bogey-3 dogleg", 0, 0, callback);
+        },
+
+        function(callback) {
+            doglegCreate("Gold-Men-2-Scratch-1 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Gold-Men-2-Scratch-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Gold-Men-2-Scratch-3 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Gold-Men-2-Bogey-1 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Gold-Men-2-Bogey-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Gold-Men-2-Bogey-3 dogleg", 0, 0, callback);
+        },
+
+        function(callback) {
+            doglegCreate("Blue-Men-2-Scratch-1 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Blue-Men-2-Scratch-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Blue-Men-2-Scratch-3 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Blue-Men-2-Bogey-1 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Blue-Men-2-Bogey-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Blue-Men-2-Bogey-3 dogleg", 0, 0, callback);
+        },
+
+        function(callback) {
+            doglegCreate("White-Men-2-Scratch-1 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("White-Men-2-Scratch-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("White-Men-2-Scratch-3 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("White-Men-2-Bogey-1 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("White-Men-2-Bogey-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("White-Men-2-Bogey-3 dogleg", 0, 0, callback);
+        },
+
+        function(callback) {
+            doglegCreate("White-Women-2-Scratch-1 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("White-Women-2-Scratch-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("White-Women-2-Scratch-3 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("White-Women-2-Bogey-1 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("White-Women-2-Bogey-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("White-Women-2-Bogey-3 dogleg", 0, 0, callback);
+        },
+
+        function(callback) {
+            doglegCreate("Green-Men-2-Scratch-1 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Green-Men-2-Scratch-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Green-Men-2-Scratch-3 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Green-Men-2-Bogey-1 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Green-Men-2-Bogey-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Green-Men-2-Bogey-3 dogleg", 0, 0, callback);
+        },
+
+        function(callback) {
+            doglegCreate("Green-Women-2-Scratch-1 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Green-Women-2-Scratch-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Green-Women-2-Scratch-3 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Green-Women-2-Bogey-1 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Green-Women-2-Bogey-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Green-Women-2-Bogey-3 dogleg", 0, 0, callback);
+        },
+
         function(callback) {
             doglegCreate("Red-Women-2-Scratch-1 dogleg", 0, 0, callback);
         },
         function(callback) {
-            doglegCreate("Green-1 dogleg", 0, 0, callback);
+            doglegCreate("Red-Women-2-Scratch-2 dogleg", 0, 0, callback);
         },
         function(callback) {
-            doglegCreate("Green-2 dogleg", 0, 0, callback);
+            doglegCreate("Red-Women-2-Scratch-3 dogleg", 0, 0, callback);
         },
         function(callback) {
-            doglegCreate("dogleg", 0, 0, callback);
+            doglegCreate("Red-Women-2-Bogey-1 dogleg", 0, 0, callback);
         },
         function(callback) {
-            doglegCreate("dogleg", 0, 0, callback);
-        }
+            doglegCreate("Red-Women-2-Bogey-2 dogleg", 0, 0, callback);
+        },
+        function(callback) {
+            doglegCreate("Red-Women-2-Bogey-3 dogleg", 0, 0, callback);
+        },
     ], cb);
 }
 

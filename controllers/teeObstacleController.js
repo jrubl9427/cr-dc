@@ -133,7 +133,7 @@ exports.teeObstacle_create_post = [
 
         // Create a teeObstacle object with escaped and trimmed data.
         const teeObstacle = new TeeObstacle({
-            name: req.body.name,
+            name: req.body.name + "teeObstacle",
             target: req.body.target,
             rR: req.body.rR,
             crossing: req.body.crossing,
@@ -178,7 +178,6 @@ exports.teeObstacle_create_post = [
                         return next(err);
                     }
 
-                    
                     // Mark selected targets as checked and render.
                     for (const target of results.targets) {
                         if (teeObstacle.target.includes(target._id)) {
