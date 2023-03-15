@@ -2,7 +2,7 @@
   "name": "cr-dc",
   "version": "0.0.0",
   "engines": {
-    "node": ">=19.2.0"
+    "node": ">=16.18.1"
   },
   "private": true,
   "scripts": {
