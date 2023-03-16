@@ -17,7 +17,6 @@ mongoose.set("strictQuery", false);
 const dev_db_url = "mongodb+srv://JimR:gohkIq-fushe8-hipfoj@crdata.mg0nclu.mongodb.net/courseLZ?retryWrites=true&w=majority";
 const mongoDB = process.env.MONGODB_URI || dev_db_url;
 
-console.log("mongoDB", mongoDB);
 main().catch(err => console.log(err));
 async function main() {
   await mongoose.connect(mongoDB);
