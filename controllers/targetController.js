@@ -9,6 +9,7 @@ const { body, validationResult } = require("express-validator");
 // Display a list of all targets.
 exports.target_list = (req, res, next) => {
     Target.find({})
+        .sort({ name: 1 })
         .exec(function (err, list_targets) {
             if (err) {
                 return next(err);

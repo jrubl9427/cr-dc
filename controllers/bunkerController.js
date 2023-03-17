@@ -9,6 +9,7 @@ const { body, validationResult } = require("express-validator");
 // Display a list of all bunkers.
 exports.bunker_list = (req, res, next) => {
     Bunker.find({})
+        .sort({ name: 1 })
         .exec(function (err, list_bunkers) {
             if (err) {
                 return next(err);

@@ -65,19 +65,24 @@ exports.greenObstacle_create_get = (req, res, next) => {
     async.parallel(
         {
             rRs(callback) {
-                RR.find(callback);
+                RR.find(callback)
+                    .sort({ name: 1 });
             },
             bunkers(callback) {
-                Bunker.find(callback);
+                Bunker.find(callback)
+                    .sort({ name: 1 });
             },
             laterals(callback) {
-                Lateral.find(callback);
+                Lateral.find(callback)
+                    .sort({ name: 1 });
             },
             trees(callback) {
-                Tree.find(callback);
+                Tree.find(callback)
+                    .sort({ name: 1 });
             },
             surfaces(callback) {
-                Surface.find(callback);
+                Surface.find(callback)
+                    .sort({ name: 1 });
             },
         },
         (err, results) => {
@@ -345,19 +350,24 @@ exports.greenObstacle_update_get = (req, res, next) => {
                     .exec(callback);
             },
             rRs(callback) {
-                RR.find(callback);
+                RR.find(callback)
+                    .sort({ name: 1 });
             },
             bunkers(callback) {
-                Bunker.find(callback);
+                Bunker.find(callback)
+                    .sort({ name: 1 });
             },
             laterals(callback) {
-                Lateral.find(callback);
+                Lateral.find(callback)
+                    .sort({ name: 1 });
             },
             trees(callback) {
-                Tree.find(callback);
+                Tree.find(callback)
+                    .sort({ name: 1 });
             },
             surfaces(callback) {
-                Surface.find(callback);
+                Surface.find(callback)
+                    .sort({ name: 1 });
             },
         },
         

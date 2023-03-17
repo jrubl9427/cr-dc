@@ -8,6 +8,7 @@ const { body, validationResult } = require("express-validator");
 // Display a list of all surfaces.
 exports.surface_list = (req, res, next) => {
     Surface.find({})
+        .sort({ name: 1 })
         .exec(function (err, list_surfaces) {
             if (err) {
                 return next(err);

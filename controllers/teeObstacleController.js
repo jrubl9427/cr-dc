@@ -63,16 +63,20 @@ exports.teeObstacle_create_get = (req, res, next) => {
     async.parallel(
         {
             targets(callback) {
-                Target.find(callback);
+                Target.find(callback)
+                    .sort({ name: 1 });
             },
             rRs(callback) {
-                RR.find(callback);
+                RR.find(callback)
+                    .sort({ name: 1 });
             },
             crossings(callback) {
-                Crossing.find(callback);
+                Crossing.find(callback)
+                    .sort({ name: 1 });
             },
             trees(callback) {
-                Tree.find(callback);
+                Tree.find(callback)
+                    .sort({ name: 1 });
             }
         },
         (err, results) => {
@@ -133,7 +137,7 @@ exports.teeObstacle_create_post = [
 
         // Create a teeObstacle object with escaped and trimmed data.
         const teeObstacle = new TeeObstacle({
-            name: req.body.name + "teeObstacle",
+            name: req.body.name + " teeObstacle",
             target: req.body.target,
             rR: req.body.rR,
             crossing: req.body.crossing,

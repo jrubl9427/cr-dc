@@ -8,6 +8,7 @@ const { body, validationResult } = require("express-validator");
 // Display a list of all fairways.
 exports.fairway_list = (req, res, next) => {
     Fairway.find({})
+        .sort({ name: 1 })
         .exec(function (err, list_fairways) {
             if (err) {
                 return next(err);

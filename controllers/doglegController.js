@@ -8,6 +8,7 @@ const { body, validationResult } = require("express-validator");
 // Display a list of all doglegs.
 exports.dogleg_list = (req, res, next) => {
     Dogleg.find({})
+        .sort({ name: 1 })
         .exec(function (err, list_doglegs) {
             if (err) {
                 return next(err);

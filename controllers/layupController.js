@@ -9,6 +9,7 @@ const { body, validationResult } = require("express-validator");
 // Display a list of all layups.
 exports.layup_list = (req, res, next) => {
     Layup.find({})
+        .sort({ name: 1 })
         .exec(function (err, list_layups) {
             if (err) {
                 return next(err);

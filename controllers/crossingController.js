@@ -9,6 +9,7 @@ const { body, validationResult } = require("express-validator");
 // Display a list of all crossings.
 exports.crossing_list = (req, res, next) => {
     Crossing.find({})
+        .sort({ name: 1 })
         .exec(function (err, list_crossings) {
             if (err) {
                 return next(err);

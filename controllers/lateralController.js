@@ -9,6 +9,7 @@ const { body, validationResult } = require("express-validator");
 // Display a list of all laterals.
 exports.lateral_list = (req, res, next) => {
     Lateral.find({})
+        .sort({ name: 1 })
         .exec(function (err, list_laterals) {
             if (err) {
                 return next(err);

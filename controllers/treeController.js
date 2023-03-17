@@ -10,6 +10,7 @@ const { body, validationResult } = require("express-validator");
 // Display a list of all trees.
 exports.tree_list = (req, res, next) => {
     Tree.find({})
+        .sort({ name: 1 })
         .exec(function (err, list_trees) {
             if (err) {
                 return next(err);

@@ -8,6 +8,7 @@ const { body, validationResult } = require("express-validator");
 // Display a list of all rolls.
 exports.roll_list = (req, res, next) => {
     Roll.find({})
+        .sort({ name: 1 })
         .exec(function (err, list_rolls) {
             if (err) {
                 return next(err);

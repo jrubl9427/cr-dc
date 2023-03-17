@@ -77,37 +77,48 @@ exports.lzObstacle_create_get = (req, res, next) => {
     async.parallel(
         {
             layups(callback) {
-                Layup.find(callback);
+                Layup.find(callback)
+                    .sort({ name: 1 });
             },
             doglegs(callback) {
-                Dogleg.find(callback);
+                Dogleg.find(callback)
+                    .sort({ name: 1 });
             },
             rolls(callback) {
-                Roll.find(callback);
+                Roll.find(callback)
+                    .sort({ name: 1 });
             },
             topos(callback) {
-                Topo.find(callback);
+                Topo.find(callback)
+                    .sort({ name: 1 });
             },
             fairways(callback) {
-                Fairway.find(callback);
+                Fairway.find(callback)
+                    .sort({ name: 1 });
             },
             targets(callback) {
-                Target.find(callback);
+                Target.find(callback)
+                    .sort({ name: 1 });
             },
             rRs(callback) {
-                RR.find(callback);
+                RR.find(callback)
+                    .sort({ name: 1 });
             },
             bunkers(callback) {
-                Bunker.find(callback);
+                Bunker.find(callback)
+                    .sort({ name: 1 });
             },
             laterals(callback) {
-                Lateral.find(callback);
+                Lateral.find(callback)
+                    .sort({ name: 1 });
             },
             crossings(callback) {
-                Crossing.find(callback);
+                Crossing.find(callback)
+                    .sort({ name: 1 });
             },
             trees(callback) {
-                Tree.find(callback);
+                Tree.find(callback)
+                    .sort({ name: 1 });
             },
         },
         (err, results) => {
@@ -532,37 +543,48 @@ exports.lzObstacle_update_get = (req, res, next) => {
                     .exec(callback);
             },
             layups(callback) {
-                Layup.find(callback);
+                Layup.find(callback)
+                    .sort({ name: 1 });
             },
             doglegs(callback) {
-                Dogleg.find(callback);
+                Dogleg.find(callback)
+                    .sort({ name: 1 });
             },
             rolls(callback) {
-                Roll.find(callback);
+                Roll.find(callback)
+                    .sort({ name: 1 });
             },
             topos(callback) {
-                Topo.find(callback);
+                Topo.find(callback)
+                    .sort({ name: 1 });
             },
             fairways(callback) {
-                Fairway.find(callback);
+                Fairway.find(callback)
+                    .sort({ name: 1 });
             },
             targets(callback) {
-                Target.find(callback);
+                Target.find(callback)
+                    .sort({ name: 1 });
             },
             rRs(callback) {
-                RR.find(callback);
+                RR.find(callback)
+                    .sort({ name: 1 });
             },
             bunkers(callback) {
-                Bunker.find(callback);
+                Bunker.find(callback)
+                    .sort({ name: 1 });
             },
             laterals(callback) {
-                Lateral.find(callback);
+                Lateral.find(callback)
+                    .sort({ name: 1 });
             },
             crossings(callback) {
-                Crossing.find(callback);
+                Crossing.find(callback)
+                    .sort({ name: 1 });
             },
             trees(callback) {
-                Tree.find(callback);
+                Tree.find(callback)
+                    .sort({ name: 1 });
             },
         },
         

@@ -16,63 +16,68 @@ block content
         
         div.form-group
             label RRs:
-            for rR in rRs.sort((a,b) => b.length - a.length)
-                div(style="display: inline; padding-right:10px;")
-                    input.checkbox-input(
-                        type="checkbox", 
-                        name="rR", 
-                        id=rR._id, 
-                        value=rR._id, 
-                        checked=rR.checked )
-                    label(for=rR._id) #{rR.name}
+            for rR in rRs
+                div(style="padding-right:10px;")
+                    if rR.name.includes("Green")
+                        input.checkbox-input(
+                            type="checkbox", 
+                            name="rR", 
+                            id=rR._id, 
+                            value=rR._id, 
+                            checked=rR.checked )
+                        label(for=rR._id) #{rR.name}
 
         div.form-group
             label Bunkers:
-            for bunker in bunkers.sort((a,b) => b.distanceToGreen - a.distanceToGreen)
-                div(style="display: inline; padding-right:10px;")
-                    input.checkbox-input(
-                        type="checkbox", 
-                        name="bunker", 
-                        id=bunker._id, 
-                        value=bunker._id, 
-                        checked=bunker.checked )
-                    label(for=bunker._id) #{bunker.name}
+            for bunker in bunkers
+                div(style="padding-right:10px;")
+                    if bunker.name.includes("Green")
+                        input.checkbox-input(
+                            type="checkbox", 
+                            name="bunker", 
+                            id=bunker._id, 
+                            value=bunker._id, 
+                            checked=bunker.checked )
+                        label(for=bunker._id) #{bunker.name}
 
         div.form-group
             label Laterals:
-            for lateral in laterals.sort((a,b) => b.name - a.name)
-                div(style="display: inline; padding-right:10px;")
-                    input.checkbox-input(
-                        type="checkbox", 
-                        name="lateral", 
-                        id=lateral._id, 
-                        value=lateral._id, 
-                        checked=lateral.checked )
-                    label(for=lateral._id) #{lateral.name}
+            for lateral in laterals
+                div(style="padding-right:10px;")
+                    if lateral.name.includes("Green")
+                        input.checkbox-input(
+                            type="checkbox", 
+                            name="lateral", 
+                            id=lateral._id, 
+                            value=lateral._id, 
+                            checked=lateral.checked )
+                        label(for=lateral._id) #{lateral.name}
         
         div.form-group
             label Trees:
-            for tree in trees.sort((a,b) => b.distanceToGreen - a.distanceToGreen)
-                div(style="display: inline; padding-right:10px;")
-                    input.checkbox-input(
-                        type="checkbox", 
-                        name="tree", 
-                        id=tree._id, 
-                        value=tree._id, 
-                        checked=tree.checked )
-                    label(for=tree._id) #{tree.name}
+            for tree in trees
+                div(style="padding-right:10px;")
+                    if tree.name.includes("Green")
+                        input.checkbox-input(
+                            type="checkbox", 
+                            name="tree", 
+                            id=tree._id, 
+                            value=tree._id, 
+                            checked=tree.checked )
+                        label(for=tree._id) #{tree.name}
 
         div.form-group
             label Surfaces:
-            for surface in surfaces.sort((a,b) => b.name - a.name)
-                div(style="display: inline; padding-right:10px;")
-                    input.checkbox-input(
-                        type="checkbox", 
-                        name="surface", 
-                        id=surface._id, 
-                        value=surface._id, 
-                        checked=surface.checked )
-                    label(for=surface._id) #{surface.name}
+            for surface in surfaces
+                div(style="padding-right:10px;")
+                    if surface.name.includes("Green")
+                        input.checkbox-input(
+                            type="checkbox", 
+                            name="surface", 
+                            id=surface._id, 
+                            value=surface._id, 
+                            checked=surface.checked )
+                        label(for=surface._id) #{surface.name}
                     
         button.btn.btn-primary(type='submit') Submit
         

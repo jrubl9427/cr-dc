@@ -10,6 +10,7 @@ const { body, validationResult } = require("express-validator");
 // Display a list of all rRs.
 exports.rR_list = (req, res, next) => {
     RR.find({})
+        .sort({ name: 1 })
         .exec(function (err, list_rRs) {
             if (err) {
                 return next(err);

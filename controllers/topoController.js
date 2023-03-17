@@ -8,6 +8,7 @@ const { body, validationResult } = require("express-validator");
 // Display a list of all topos.
 exports.topo_list = (req, res, next) => {
     Topo.find({})
+        .sort({ name: 1 })
         .exec(function (err, list_topos) {
             if (err) {
                 return next(err);

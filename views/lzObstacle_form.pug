@@ -16,135 +16,146 @@ block content
         
         div.form-group
             label Layups:
-            for layup in layups.sort((a,b) => b.name - a.name)
-                div(style="display: inline; padding-right:10px;")
-                    input.checkbox-input(
-                        type="checkbox", 
-                        name="layup", 
-                        id=layup._id, 
-                        value=layup._id, 
-                        checked=layup.checked )
-                    label(for=layup._id) #{layup.name}
+            for layup in layups
+                div(style="padding-right:10px;")
+                    if !layup.name.includes("Tee") && !layup.name.includes("Green")
+                        input.checkbox-input(
+                            type="checkbox", 
+                            name="layup", 
+                            id=layup._id, 
+                            value=layup._id, 
+                            checked=layup.checked )
+                        label(for=layup._id) #{layup.name}
 
         div.form-group
             label Doglegs:
-            for dogleg in doglegs.sort((a,b) => b.name - a.name)
-                div(style="display: inline; padding-right:10px;")
-                    input.checkbox-input(
-                        type="checkbox", 
-                        name="dogleg", 
-                        id=dogleg._id, 
-                        value=dogleg._id, 
-                        checked=dogleg.checked )
-                    label(for=dogleg._id) #{dogleg.name}
+            for dogleg in doglegs
+                div(style="padding-right:10px;")
+                    if !dogleg.name.includes("Tee") && !dogleg.name.includes("Green")
+                        input.checkbox-input(
+                            type="checkbox", 
+                            name="dogleg", 
+                            id=dogleg._id, 
+                            value=dogleg._id, 
+                            checked=dogleg.checked )
+                        label(for=dogleg._id) #{dogleg.name}
 
         div.form-group
             label Rolls:
-            for roll in rolls.sort((a,b) => b.name - a.name)
-                div(style="display: inline; padding-right:10px;")
-                    input.checkbox-input(
-                        type="checkbox", 
-                        name="roll", 
-                        id=roll._id, 
-                        value=roll._id, 
-                        checked=roll.checked )
-                    label(for=roll._id) #{roll.name}
+            for roll in rolls
+                div(style="padding-right:10px;")
+                    if !roll.name.includes("Tee") && !roll.name.includes("Green")
+                        input.checkbox-input(
+                            type="checkbox", 
+                            name="roll", 
+                            id=roll._id, 
+                            value=roll._id, 
+                            checked=roll.checked )
+                        label(for=roll._id) #{roll.name}
         
         div.form-group
             label Topos:
-            for topo in topos.sort((a,b) => b.length - a.length)
-                div(style="display: inline; padding-right:10px;")
-                    input.checkbox-input(
-                        type="checkbox", 
-                        name="topo", 
-                        id=topo._id, 
-                        value=topo._id, 
-                        checked=topo.checked )
-                    label(for=topo._id) #{topo.name}
+            for topo in topos
+                div(style="padding-right:10px;")
+                    if !topo.name.includes("Tee") && !topo.name.includes("Green")
+                        input.checkbox-input(
+                            type="checkbox", 
+                            name="topo", 
+                            id=topo._id, 
+                            value=topo._id, 
+                            checked=topo.checked )
+                        label(for=topo._id) #{topo.name}
 
         div.form-group
             label Fairways:
-            for fairway in fairways.sort((a,b) => b.distanceToGreen - a.distanceToGreen)
-                div(style="display: inline; padding-right:10px;")
-                    input.checkbox-input(
-                        type="checkbox", 
-                        name="fairway", 
-                        id=fairway._id, 
-                        value=fairway._id, 
-                        checked=fairway.checked )
-                    label(for=fairway._id) #{fairway.name}
+            for fairway in fairways
+                div(style="padding-right:10px;")
+                    if !fairway.name.includes("Tee") && !fairway.name.includes("Green")
+                        input.checkbox-input(
+                            type="checkbox", 
+                            name="fairway", 
+                            id=fairway._id, 
+                            value=fairway._id, 
+                            checked=fairway.checked )
+                        label(for=fairway._id) #{fairway.name}
 
         div.form-group
             label Targets:
-            for target in targets.sort((a,b) => b.name - a.name)
-                div(style="display: inline; padding-right:10px;")
-                    input.checkbox-input(
-                        type="checkbox", 
-                        name="target", 
-                        id=target._id, 
-                        value=target._id, 
-                        checked=target.checked )
-                    label(for=target._id) #{target.name}
+            for target in targets
+                div(style="padding-right:10px;")
+                    if !target.name.includes("Tee") && !target.name.includes("Green")
+                        input.checkbox-input(
+                            type="checkbox", 
+                            name="target", 
+                            id=target._id, 
+                            value=target._id, 
+                            checked=target.checked )
+                        label(for=target._id) #{target.name}
         
         div.form-group
             label RRs:
-            for rR in rRs.sort((a,b) => b.length - a.length)
-                div(style="display: inline; padding-right:10px;")
-                    input.checkbox-input(
-                        type="checkbox", 
-                        name="rR", 
-                        id=rR._id, 
-                        value=rR._id, 
-                        checked=rR.checked )
-                    label(for=rR._id) #{rR.name}
+            for rR in rRs
+                div(style="padding-right:10px;")
+                    if !rR.name.includes("Tee") && !rR.name.includes("Green")
+                        input.checkbox-input(
+                            type="checkbox", 
+                            name="rR", 
+                            id=rR._id, 
+                            value=rR._id, 
+                            checked=rR.checked )
+                        label(for=rR._id) #{rR.name}
 
         div.form-group
             label Bunkers:
-            for bunker in bunkers.sort((a,b) => b.distanceToGreen - a.distanceToGreen)
-                div(style="display: inline; padding-right:10px;")
-                    input.checkbox-input(
-                        type="checkbox", 
-                        name="bunker", 
-                        id=bunker._id, 
-                        value=bunker._id, 
-                        checked=bunker.checked )
-                    label(for=bunker._id) #{bunker.name}
+            for bunker in bunkers
+                div(style="padding-right:10px;")
+                    if !bunker.name.includes("Tee") && !bunker.name.includes("Green")
+                        input.checkbox-input(
+                            type="checkbox", 
+                            name="bunker", 
+                            id=bunker._id, 
+                            value=bunker._id, 
+                            checked=bunker.checked )
+                        label(for=bunker._id) #{bunker.name}
 
         div.form-group
             label Laterals:
-            for lateral in laterals.sort((a,b) => b.name - a.name)
-                div(style="display: inline; padding-right:10px;")
-                    input.checkbox-input(
-                        type="checkbox", 
-                        name="lateral", 
-                        id=lateral._id, 
-                        value=lateral._id, 
-                        checked=lateral.checked )
-                    label(for=lateral._id) #{lateral.name}
+            for lateral in laterals
+                div(style="padding-right:10px;")
+                    if !lateral.name.includes("Tee") && !lateral.name.includes("Green")
+                        input.checkbox-input(
+                            type="checkbox", 
+                            name="lateral", 
+                            id=lateral._id, 
+                            value=lateral._id, 
+                            checked=lateral.checked )
+                        label(for=lateral._id) #{lateral.name}
         
         div.form-group
             label Crossings:
-            for crossing in crossings.sort((a,b) => b.length - a.length)
-                div(style="display: inline; padding-right:10px;")
-                    input.checkbox-input(
-                        type="checkbox", 
-                        name="crossing", 
-                        id=crossing._id, 
-                        value=crossing._id, 
-                        checked=crossing.checked )
-                    label(for=crossing._id) #{crossing.name}
+            for crossing in crossings
+                div(style="padding-right:10px;")
+                    if !crossing.name.includes("Tee") && !crossing.name.includes("Green")
+                        input.checkbox-input(
+                            type="checkbox", 
+                            name="crossing", 
+                            id=crossing._id, 
+                            value=crossing._id, 
+                            checked=crossing.checked )
+                        label(for=crossing._id) #{crossing.name}
 
         div.form-group
             label Trees:
-            for tree in trees.sort((a,b) => b.distanceToGreen - a.distanceToGreen)
-                div(style="display: inline; padding-right:10px;")
-                    input.checkbox-input(
-                        type="checkbox", 
-                        name="tree", 
-                        id=tree._id, 
-                        value=tree._id, 
-                        checked=tree.checked )
-                    label(for=tree._id) #{tree.name}
+            for tree in trees
+                div(style="padding-right:10px;")
+                    if !tree.name.includes("Tee") && !tree.name.includes("Green")
+                        input.checkbox-input(
+                            type="checkbox", 
+                            name="tree", 
+                            id=tree._id, 
+                            value=tree._id, 
+                            checked=tree.checked )
+                        label(for=tree._id) #{tree.name}
 
         button.btn.btn-primary(type='submit') Submit
         
