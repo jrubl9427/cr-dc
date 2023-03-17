@@ -145,7 +145,7 @@ exports.greenObstacle_create_post = [
 
         // Create a greenObstacle object with escaped and trimmed data.
         const greenObstacle = new GreenObstacle({
-            name: req.body.name,
+            name: req.body.name + " greenObstacle",
             rR: req.body.rR,
             bunker: req.body.bunker,
             lateral: req.body.lateral,
