@@ -21,7 +21,7 @@ block content
         hr
         h4 Green 
         div(style="margin-left:40px;")
-            a(href=hole.green.url)  #{hole.green.name}
+            a(href=hole.green.url)  Green #{hole.green.name}
             | (Diameter #{hole.green.diameter} yards, Altitude: #{hole.green.altitude})
             
         hr
@@ -30,5 +30,7 @@ block content
         a(href=hole.url+'/delete') Delete Hole
     p
         a(href=hole.url+'/update') Update Hole
+    p 
+        a(href=hole.url+'/rate') Rate Hole
         
 

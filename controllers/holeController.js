@@ -399,4 +399,68 @@ exports.hole_update_post = [
             res.redirect(thehole.url);
         });
     },
-]
+];
+
+// Display hole rate form on GET.
+exports.hole_rate_get = (req, res, next) => {
+    // get the hole and holes for the form.
+    async.parallel(
+        {
+            hole(callback) {
+                Hole.findById(req.params.id)
+                    .populate("tee")
+                    .populate("lz")
+                    .populate("green")
+                    .exec(callback);
+            },
+            tees(callback) {
+                Tee.find(callback)
+            },
+            lzs(callback) {
+                Lz.find(callback)
+            },
+            greens(callback) {
+                Green.find(callback)
+            },
+        },
+        (err, results) => {
+            if (err) {
+                return next(err);
+            }
+                        
+            if (results.hole == null) {
+                // No, results
+                const err = new Error("Hole not found");
+                err.status = 404;
+                return next(err);
+            }
+            // Successful, mark our selected tees and lzs as checked
+            for (const tee of results.tees) {
+                for (const aTee of results.hole.tee) {
+                    if (tee._id.toString() === aTee._id.toString()) {
+                        tee.checked = "true";
+                    }
+                }
+            }
+            for (const lz of results.lzs) {
+                for (const aLz of results.hole.lz) {
+                    if (lz._id.toString() === aLz._id.toString()) {
+                        lz.checked = "true";
+                    }
+                }
+            }
+            res.render("hole_rate", {
+                title: "Rate Hole",
+                tees: results.tees,
+                lzs: results.lzs,
+                greens: results.greens,
+                hole: results.hole,
+            });
+        }
+    );
+};
+
+// Handle hole update on POST.
+exports.hole_rate_post = (req, res, next) => {
+    res.send(`NOT IMPLEMENTED: Hole rate POST: ${req.params.id}`);
+};

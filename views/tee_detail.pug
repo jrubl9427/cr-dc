@@ -2,20 +2,28 @@ extends layout
 
 block content
     h1 Tee: #{tee.name}
-    div(style="margin-left:20px;margin-top:20px")
 
-        p #[strong Length:] #{tee.length}
-        p #[strong Par:] #{tee.par}
-        p #[strong Altitude:] #{tee.altitude}
+    div(style="width:350px; margin:0; border-width:5px; border-color: black; background:lightgrey;")
 
-    div(style="margin-left:20px;margin-top:20px")
+        div(style="position:absolute; left:400px; width:400px; margin-top: 0; background:lightgrey; padding:10px")
+            p #[strong Instruction box ]
+            p If any tee data is incorrect select #[strong Update Tee] link
+            p If rating select #[strong Tee Obstacle] link
 
-        h4 Tee Obstacle
-        each obst in tee.teeObstacle
+        div(style="margin-left:20px;margin-top:20px")
 
-            div(style="margin-left:40px;")
-            
-                a(href=obst.url)  #{obst.name}
+            p #[strong Length:] #{tee.length}
+            p #[strong Par:] #{tee.par}
+            p #[strong Altitude:] #{tee.altitude}
+
+        div(style="margin-left:20px;margin-top:20px")
+
+            h4 Tee Obstacle
+            each obst in tee.teeObstacle
+
+                div(style="margin-left:40px;")
+                
+                    a(href=obst.url)  #{obst.name}
 
     hr
 

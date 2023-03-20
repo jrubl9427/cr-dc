@@ -3,44 +3,51 @@ extends layout
 block content
     h1 TeeObstacle: #{teeObstacle.name}
 
-    div(style="margin-left:20px;margin-top:20px")       
-        a(href=teeObstacle.target.url)  #{teeObstacle.target.name}
+    div(style="width:250px; margin:0; border-width:5px; border-color: black; background:lightgrey;")
 
-        ul 
-            li Rating: #{teeObstacle.target.rating}
-            li Obstructed Adjust: #{teeObstacle.target.obstructed_O}
-            li Visibility Adjust: #{teeObstacle.target.visibility_V}
+        div(style="position:absolute; left:300px; width:400px; margin-top: 0; background:lightgrey; padding:10px")
+            p #[strong Instruction box ]
+            p Select the obstacle link to be rated
+            p When complete go back to ??????????
 
-    div(style="margin-left:20px;margin-top:20px")       
-        a(href=teeObstacle.rR.url)  #{teeObstacle.rR.name}
+        div(style="margin-left:20px;margin-top:20px")       
+            a(href=teeObstacle.target.url)  #{teeObstacle.target.name}
 
-        ul 
-            li Rating: #{teeObstacle.rR.rating}
-            li Carry Adjust: #{teeObstacle.rR.carry_C}
-            li Layup Adjust: #{teeObstacle.rR.layup_L}
-            li Inconsistent Adjust: #{teeObstacle.rR.inconsistent_I}
-            li Mounds Adjust: #{teeObstacle.rR.mounds_M}
-            li Unpleasant Adjust: #{teeObstacle.rR.unpleasant_U}
-            li Two Adjust: #{teeObstacle.rR.twoTimes_2}
-            li Par 3 Adjust: #{teeObstacle.rR.parThree_3}
-            li Surrounded Adjust: #{teeObstacle.rR.surrounded_S}
+            ul 
+                li Rating: #{teeObstacle.target.rating}
+                li Obstructed Adjust: #{teeObstacle.target.obstructed_O}
+                li Visibility Adjust: #{teeObstacle.target.visibility_V}
 
-    div(style="margin-left:20px;margin-top:20px")       
-        a(href=teeObstacle.crossing.url)  #{teeObstacle.crossing.name}
+        div(style="margin-left:20px;margin-top:20px")       
+            a(href=teeObstacle.rR.url)  #{teeObstacle.rR.name}
 
-        ul 
-            li Rating: #{teeObstacle.crossing.rating}
-            li Percentage Adjust: #{teeObstacle.crossing.percentage_P}
-            li Carry Adjust: #{teeObstacle.crossing.carry_C}
-            li Two Adjust: #{teeObstacle.crossing.twoTimes_2}
+            ul 
+                li Rating: #{teeObstacle.rR.rating}
+                li Carry Adjust: #{teeObstacle.rR.carry_C}
+                li Layup Adjust: #{teeObstacle.rR.layup_L}
+                li Inconsistent Adjust: #{teeObstacle.rR.inconsistent_I}
+                li Mounds Adjust: #{teeObstacle.rR.mounds_M}
+                li Unpleasant Adjust: #{teeObstacle.rR.unpleasant_U}
+                li Two Adjust: #{teeObstacle.rR.twoTimes_2}
+                li Par 3 Adjust: #{teeObstacle.rR.parThree_3}
+                li Surrounded Adjust: #{teeObstacle.rR.surrounded_S}
 
-    div(style="margin-left:20px;margin-top:20px")       
-        a(href=teeObstacle.tree.url)  #{teeObstacle.tree.name}
+        div(style="margin-left:20px;margin-top:20px")       
+            a(href=teeObstacle.crossing.url)  #{teeObstacle.crossing.name}
 
-        ul 
-            li Rating: #{teeObstacle.tree.rating}
-            li Obstructed Adjust: #{teeObstacle.tree.obstructed_O}
-            li Chute Adjust: #{teeObstacle.tree.chute_H}
+            ul 
+                li Rating: #{teeObstacle.crossing.rating}
+                li Percentage Adjust: #{teeObstacle.crossing.percentage_P}
+                li Carry Adjust: #{teeObstacle.crossing.carry_C}
+                li Two Adjust: #{teeObstacle.crossing.twoTimes_2}
+
+        div(style="margin-left:20px;margin-top:20px")       
+            a(href=teeObstacle.tree.url)  #{teeObstacle.tree.name}
+
+            ul 
+                li Rating: #{teeObstacle.tree.rating}
+                li Obstructed Adjust: #{teeObstacle.tree.obstructed_O}
+                li Chute Adjust: #{teeObstacle.tree.chute_H}
 
     hr
 

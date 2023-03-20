@@ -1,0 +1,25 @@
+extends layout
+
+block content
+    h1 Hole Number: #{hole.name} Rating Zones
+
+    div(style="width:350px; margin:0; border-width:5px; border-color: black; background:lightgrey;")
+
+        div(style="position:absolute; left:400px; width:400px; margin-top: 0; background:lightgrey; padding:10px")
+            p #[strong Instruction box ]
+            p Rate this hole at each of the below rating zones (#[em distance shown is yards to the green])
+            p Begin by selecting a rating zone
+
+        div(style="margin-left:20px;margin-top:20px")
+            each tee in hole.tee.sort((a,b) => b.length - a.length)
+                div
+                    a(href=tee.url)  #{tee.name}
+                    | (#{tee.length} yard)
+            each lz in hole.lz.sort((a,b) => b.distanceToGreen - a.distanceToGreen)
+                div
+                    a(href=lz.url)  #{lz.name}
+                    | (#{lz.distanceToGreen } yard)
+            div
+                a(href=hole.green.url)  Green #{hole.green.name}
+                | (Diameter #{hole.green.diameter} yards)
+

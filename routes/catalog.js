@@ -202,6 +202,12 @@ router.get("/hole/:id/update", hole_controller.hole_update_get);
 // POST request to update hole.
 router.post("/hole/:id/update", hole_controller.hole_update_post);
 
+// GET request to rate hole.
+router.get("/hole/:id/rate", hole_controller.hole_rate_get);
+
+// POST request to rate hole.
+router.post("/hole/:id/rate", hole_controller.hole_rate_post);
+
 // GET request for one hole.
 router.get("/hole/:id", hole_controller.hole_detail);
 

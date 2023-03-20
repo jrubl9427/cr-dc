@@ -46,7 +46,7 @@ block content
                 
         div.form-group
             label TeeObstacles:
-            for teeObstacle in teeObstacles
+            for teeObstacle in teeObstacles.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
                 div("margin-left:20px;margin-top:20px")
                     input.checkbox-input(
                         type="checkbox", 
