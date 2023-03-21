@@ -2,24 +2,31 @@ extends layout
 
 block content
     h1 Fairway: #{fairway.name}
+
+    div(style="width:350px;")
+
+        div(style="position:absolute; left:400px; width:400px; margin-top: 0; background:lightgrey; padding:10px")
+            p #[strong Instruction box ]
+            p To enter rating data select #[strong Update Fairway] link
+            p After submitting the data the screen will return here
+            p Select the #[strong obstacle link] to return to rate the next obstacle
     
-    div(style="margin-left:20px;margin-top:20px")
+        div(style="margin-left:20px;margin-top:20px")
+            p #[strong rating: ] #{fairway.rating}
+            p #[strong Layup Adjust:] #{fairway.layup_L}
+            p #[strong Visibility Adjust:] #{fairway.visibility_V}
+            p #[strong Width Adjust:] #{fairway.width_W}
+            p #[strong Unpleasant Adjust:] #{fairway.unpleasant_U}
 
-        p #[strong rating: ] #{fairway.rating}
-        p #[strong Layup Adjust:] #{fairway.layup_L}
-        p #[strong Visibility Adjust:] #{fairway.visibility_V}
-        p #[strong Width Adjust:] #{fairway.width_W}
-        p #[strong Unpleasant Adjust:] #{fairway.unpleasant_U}
+        div(style="margin-left:20px;margin-top:20px")
 
-    div(style="margin-left:20px;margin-top:20px")
+            if lzObstacle.length > 0
+                h4 lzObstacle
+                each obst in lzObstacle
 
-        if lzObstacle.length > 0
-            h4 lzObstacle
-            each obst in lzObstacle
-
-                div(style="margin-left:40px;")
-                
-                    a(href=obst.url) #{obst.name}
+                    div(style="margin-left:40px;")
+                    
+                        a(href=obst.url) #{obst.name}
             
     hr
 

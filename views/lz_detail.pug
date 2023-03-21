@@ -2,19 +2,27 @@ extends layout
 
 block content
     h1 Lz: #{lz.name}
-    div(style="margin-left:20px;margin-top:20px")
 
-        p #[strong Altitude:] #{lz.altitude}
-        p #[strong Distance To Green:] #{lz.distanceToGreen}
+    div(style="width:350px;")
 
-    div(style="margin-left:20px;margin-top:20px")
+        div(style="position:absolute; left:400px; width:400px; margin-top: 0; background:lightgrey; padding:10px")
+            p #[strong Instruction box ]
+            p If any lz data is incorrect select #[strong Update Lz] link
+            p If rating select #[strong Lz Obstacle] link
 
-        h4 Obstacle
-        each obst in lz.lzObstacle
+        div(style="margin-left:20px;margin-top:20px")
 
-            div(style="margin-left:40px;")
-            
-                a(href=obst.url)  #{obst.name}
+            p #[strong Altitude:] #{lz.altitude}
+            p #[strong Distance To Green:] #{lz.distanceToGreen}
+
+        div(style="margin-left:20px;margin-top:20px")
+
+            h4 Obstacle
+            each obst in lz.lzObstacle
+
+                div(style="margin-left:40px;")
+                
+                    a(href=obst.url)  #{obst.name}
 
     hr
 

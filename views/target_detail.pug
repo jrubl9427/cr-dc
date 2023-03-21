@@ -3,7 +3,7 @@ extends layout
 block content
     h1 Target: #{target.name}
 
-    div(style="width:350px; margin:0; border-width:5px; border-color: black; background:lightgrey;")
+    div(style="width:350px;")
 
         div(style="position:absolute; left:400px; width:400px; margin-top: 0; background:lightgrey; padding:10px")
             p #[strong Instruction box ]
@@ -12,7 +12,6 @@ block content
             p Select the #[strong obstacle link] to return to rate the next obstacle
     
         div(style="margin-left:20px;margin-top:20px")
-
             p #[strong rating: ] #{target.rating}
             p #[strong Obstructed Adjust:] #{target.obstructed_O}
             p #[strong Visibility Adjust:] #{target.visibility_V}
@@ -24,12 +23,10 @@ block content
                 each obst in lzObstacle
 
                     div(style="margin-left:40px;")
-                    
                         a(href=obst.url) #{obst.name}
                 each obst in teeObstacle
 
                     div(style="margin-left:40px;")
-                    
                         a(href=obst.url) #{obst.name}
             
     hr

@@ -2,12 +2,18 @@ extends layout
 
 block content
     h1= title
-    
-    ul
-        each hole in hole_list
-            li
-                a(href=hole.url) Hole Number: #{hole.name}
-                //- | (#{hole.course.name})
-                
-        else
-            li There are no holes.
+
+    div(style="width:250px;")
+
+        div(style="position:absolute; left:300px; width:400px; margin-top: 0; background:lightgrey; padding:10px")
+            p #[strong Instruction box ]
+            p Begin a Rating by selecting a hole to be rated
+
+        ul
+            each hole in hole_list
+                li
+                    a(href=hole.url) Hole Number: #{hole.name}
+                    //- | (#{hole.course.name})
+                    
+            else
+                li There are no holes.

@@ -3,60 +3,67 @@ extends layout
 block content
     h1 GreenObstacle: #{greenObstacle.name}
 
-    div(style="margin-left:20px;margin-top:20px")       
-        a(href=greenObstacle.rR.url)  #{greenObstacle.rR.name}
+    div(style="width:350px;")
 
-        ul 
-            li Rating: #{greenObstacle.rR.rating}
-            li Carry Adjust: #{greenObstacle.rR.carry_C}
-            li Layup Adjust: #{greenObstacle.rR.layup_L}
-            li Inconsistent Adjust: #{greenObstacle.rR.inconsistent_I}
-            li Mounds Adjust: #{greenObstacle.rR.mounds_M}
-            li Unpleasant Adjust: #{greenObstacle.rR.unpleasant_U}
-            li Two Adjust: #{greenObstacle.rR.twoTimes_2}
-            li Par 3 Adjust: #{greenObstacle.rR.parThree_3}
-            li Surrounded Adjust: #{greenObstacle.rR.surrounded_S}
+        div(style="position:absolute; left:400px; width:400px; margin-top: 0; background:lightgrey; padding:10px")
+            p #[strong Instruction box ]
+            p Select the obstacle link to be rated
+            p When complete go back to rating zone list by selecting the browser #[em #[strong ????]]
 
-    div(style="margin-left:20px;margin-top:20px")       
-        a(href=greenObstacle.bunker.url)  #{greenObstacle.bunker.name}
+        div(style="margin-left:20px;margin-top:20px")       
+            a(href=greenObstacle.rR.url)  #{greenObstacle.rR.name}
 
-        ul 
-            li Rating: #{greenObstacle.bunker.rating}
-            li Bounce Adjust: #{greenObstacle.bunker.bounce_B}
-            li Carry Adjust: #{greenObstacle.bunker.carry_C}
-            li Depth Adjust: #{greenObstacle.bunker.depth_D}
-            li Extreme Adjust: #{greenObstacle.bunker.extreme_E}
-            li No Adjust: #{greenObstacle.bunker.no_N}
-            li Squeeze Adjust: #{greenObstacle.bunker.squeeze_Q}
+            ul 
+                li Rating: #{greenObstacle.rR.rating}
+                li Carry Adjust: #{greenObstacle.rR.carry_C}
+                li Layup Adjust: #{greenObstacle.rR.layup_L}
+                li Inconsistent Adjust: #{greenObstacle.rR.inconsistent_I}
+                li Mounds Adjust: #{greenObstacle.rR.mounds_M}
+                li Unpleasant Adjust: #{greenObstacle.rR.unpleasant_U}
+                li Two Adjust: #{greenObstacle.rR.twoTimes_2}
+                li Par 3 Adjust: #{greenObstacle.rR.parThree_3}
+                li Surrounded Adjust: #{greenObstacle.rR.surrounded_S}
 
-    div(style="margin-left:20px;margin-top:20px")       
-        a(href=greenObstacle.lateral.url)  #{greenObstacle.lateral.name}
+        div(style="margin-left:20px;margin-top:20px")       
+            a(href=greenObstacle.bunker.url)  #{greenObstacle.bunker.name}
 
-        ul 
-            li Rating: #{greenObstacle.lateral.rating}
-            li Percentage Adjust: #{greenObstacle.lateral.percentage_P}
-            li Bounce Adjust: #{greenObstacle.lateral.bounce_B}
-            li Squeeze Adjust: #{greenObstacle.lateral.squeeze_Q}
-            li Stroke Adjust: #{greenObstacle.lateral.stroke_K}
-            li Two Adjust: #{greenObstacle.lateral.twoTimes_2}
-            li Surrounded: #{greenObstacle.lateral.surrounded_S}
+            ul 
+                li Rating: #{greenObstacle.bunker.rating}
+                li Bounce Adjust: #{greenObstacle.bunker.bounce_B}
+                li Carry Adjust: #{greenObstacle.bunker.carry_C}
+                li Depth Adjust: #{greenObstacle.bunker.depth_D}
+                li Extreme Adjust: #{greenObstacle.bunker.extreme_E}
+                li No Adjust: #{greenObstacle.bunker.no_N}
+                li Squeeze Adjust: #{greenObstacle.bunker.squeeze_Q}
 
-    div(style="margin-left:20px;margin-top:20px")       
-        a(href=greenObstacle.tree.url)  #{greenObstacle.tree.name}
+        div(style="margin-left:20px;margin-top:20px")       
+            a(href=greenObstacle.lateral.url)  #{greenObstacle.lateral.name}
 
-        ul 
-            li Rating: #{greenObstacle.tree.rating}
-            li Obstructed Adjust: #{greenObstacle.tree.obstructed_O}
-            li Chute Adjust: #{greenObstacle.tree.chute_H}
+            ul 
+                li Rating: #{greenObstacle.lateral.rating}
+                li Percentage Adjust: #{greenObstacle.lateral.percentage_P}
+                li Bounce Adjust: #{greenObstacle.lateral.bounce_B}
+                li Squeeze Adjust: #{greenObstacle.lateral.squeeze_Q}
+                li Stroke Adjust: #{greenObstacle.lateral.stroke_K}
+                li Two Adjust: #{greenObstacle.lateral.twoTimes_2}
+                li Surrounded: #{greenObstacle.lateral.surrounded_S}
 
-    div(style="margin-left:20px;margin-top:20px")       
-        a(href=greenObstacle.surface.url)  #{greenObstacle.surface.name}
+        div(style="margin-left:20px;margin-top:20px")       
+            a(href=greenObstacle.tree.url)  #{greenObstacle.tree.name}
 
-        ul 
-            li Rating: #{greenObstacle.surface.rating}
-            li Tiered Adjust: #{greenObstacle.surface.tiered_T}
-            li Firm Adjust: #{greenObstacle.surface.firm_F}
-            li Unpleasant Adjust: #{greenObstacle.surface.unpleasant_U}
+            ul 
+                li Rating: #{greenObstacle.tree.rating}
+                li Obstructed Adjust: #{greenObstacle.tree.obstructed_O}
+                li Chute Adjust: #{greenObstacle.tree.chute_H}
+
+        div(style="margin-left:20px;margin-top:20px")       
+            a(href=greenObstacle.surface.url)  #{greenObstacle.surface.name}
+
+            ul 
+                li Rating: #{greenObstacle.surface.rating}
+                li Tiered Adjust: #{greenObstacle.surface.tiered_T}
+                li Firm Adjust: #{greenObstacle.surface.firm_F}
+                li Unpleasant Adjust: #{greenObstacle.surface.unpleasant_U}
         
     hr
 

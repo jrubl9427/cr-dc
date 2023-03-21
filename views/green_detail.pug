@@ -2,20 +2,26 @@ extends layout
 
 block content
     h1 Green Number: #{green.name}
-    div(style="margin-left:20px;margin-top:20px")
 
-        p #[strong Altitude:] #{green.altitude}
-        p #[strong Width:] #{green.width}
-        p #[strong Depth:] #{green.depth}
+    div(style="width:350px;")
 
-    div(style="margin-left:20px;margin-top:20px")
+        div(style="position:absolute; left:400px; width:400px; margin-top: 0; background:lightgrey; padding:10px")
+            p #[strong Instruction box ]
+            p If any green data is incorrect select #[strong Update Green] link
+            p If rating select #[strong Green Obstacle] link
 
-        h4 Obstacle
-        each obst in green.greenObstacle
+        div(style="margin-left:20px;margin-top:20px")
+            p #[strong Altitude:] #{green.altitude}
+            p #[strong Width:] #{green.width}
+            p #[strong Depth:] #{green.depth}
 
-            div(style="margin-left:40px;")
-            
-                a(href=obst.url)  #{obst.name}
+        div(style="margin-left:20px;margin-top:20px")
+
+            h4 Obstacle
+            each obst in green.greenObstacle
+
+                div(style="margin-left:40px;")
+                    a(href=obst.url)  #{obst.name}
 
     hr
 

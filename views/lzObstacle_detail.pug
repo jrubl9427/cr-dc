@@ -1,110 +1,117 @@
 extends layout
 
 block content
-    h1 Obstacle: #{lzObstacle.name}
+    h1 LzObstacle: #{lzObstacle.name}
 
-    div(style="margin-left:20px;margin-top:20px")                    
-        a(href=lzObstacle.layup.url)  #{lzObstacle.layup.name}
+    div(style="width:350px;")
 
-        ul 
-            li Adjust: #{lzObstacle.layup.effectiveLengthAdjust}
-            li Length: #{lzObstacle.layup.length}
-            li Type: #{lzObstacle.layup.typeLayup}      
+        div(style="position:absolute; left:400px; width:400px; margin-top: 0; background:lightgrey; padding:10px")
+            p #[strong Instruction box ]
+            p Select the obstacle link to be rated
+            p When complete go back to rating zone list by selecting the browser #[em #[strong ????]]
+
+        div(style="margin-left:20px;margin-top:20px")                    
+            a(href=lzObstacle.layup.url)  #{lzObstacle.layup.name}
+
+            ul 
+                li Adjust: #{lzObstacle.layup.effectiveLengthAdjust}
+                li Length: #{lzObstacle.layup.length}
+                li Type: #{lzObstacle.layup.typeLayup}      
  
-    div(style="margin-left:20px;margin-top:20px")       
-        a(href=lzObstacle.dogleg.url)  #{lzObstacle.dogleg.name}
+        div(style="margin-left:20px;margin-top:20px")       
+            a(href=lzObstacle.dogleg.url)  #{lzObstacle.dogleg.name}
 
-        ul 
-            li Adjust: #{lzObstacle.dogleg.effectiveLengthAdjust}
-            li Length: #{lzObstacle.dogleg.length}
+            ul 
+                li Adjust: #{lzObstacle.dogleg.effectiveLengthAdjust}
+                li Length: #{lzObstacle.dogleg.length}
 
-    div(style="margin-left:20px;margin-top:20px")       
-        a(href=lzObstacle.roll.url)  #{lzObstacle.roll.name}
+        div(style="margin-left:20px;margin-top:20px")       
+            a(href=lzObstacle.roll.url)  #{lzObstacle.roll.name}
 
-        ul 
-            li Rating: #{lzObstacle.roll.rating}
-            li Adjust: #{lzObstacle.roll.effectiveLengthAdjust}
-            li Firm Adjust: #{lzObstacle.roll.firm_F}
-            li Two Adjust: #{lzObstacle.roll.twoTimes_2}
+            ul 
+                li Rating: #{lzObstacle.roll.rating}
+                li Adjust: #{lzObstacle.roll.effectiveLengthAdjust}
+                li Firm Adjust: #{lzObstacle.roll.firm_F}
+                li Two Adjust: #{lzObstacle.roll.twoTimes_2}
 
-    div(style="margin-left:20px;margin-top:20px")       
-        a(href=lzObstacle.topo.url)  #{lzObstacle.topo.name}
+        div(style="margin-left:20px;margin-top:20px")       
+            a(href=lzObstacle.topo.url)  #{lzObstacle.topo.name}
 
-        ul 
-            li Rating: #{lzObstacle.topo.rating}
+            ul 
+                li Rating: #{lzObstacle.topo.rating}
 
-    div(style="margin-left:20px;margin-top:20px")       
-        a(href=lzObstacle.fairway.url)  #{lzObstacle.fairway.name}
+        div(style="margin-left:20px;margin-top:20px")       
+            a(href=lzObstacle.fairway.url)  #{lzObstacle.fairway.name}
 
-        ul 
-            li Rating: #{lzObstacle.fairway.rating}
-            li Layup Adjust: #{lzObstacle.fairway.layup_L}
-            li Visibility Adjust: #{lzObstacle.fairway.visibility_V}
-            li Width Adjust: #{lzObstacle.fairway.width_W}
-            li Unpleasant Adjust: #{lzObstacle.fairway.unpleasant_U}
+            ul 
+                li Rating: #{lzObstacle.fairway.rating}
+                li Layup Adjust: #{lzObstacle.fairway.layup_L}
+                li Visibility Adjust: #{lzObstacle.fairway.visibility_V}
+                li Width Adjust: #{lzObstacle.fairway.width_W}
+                li Unpleasant Adjust: #{lzObstacle.fairway.unpleasant_U}
 
-    div(style="margin-left:20px;margin-top:20px")       
-        a(href=lzObstacle.target.url)  #{lzObstacle.target.name}
+        div(style="margin-left:20px;margin-top:20px")       
+            a(href=lzObstacle.target.url)  #{lzObstacle.target.name}
 
-        ul 
-            li Rating: #{lzObstacle.target.rating}
-            li Obstructed Adjust: #{lzObstacle.target.obstructed_O}
-            li Visibility Adjust: #{lzObstacle.target.visibility_V}
+            ul 
+                li Rating: #{lzObstacle.target.rating}
+                li Obstructed Adjust: #{lzObstacle.target.obstructed_O}
+                li Visibility Adjust: #{lzObstacle.target.visibility_V}
 
-    div(style="margin-left:20px;margin-top:20px")       
-        a(href=lzObstacle.rR.url)  #{lzObstacle.rR.name}
+        div(style="margin-left:20px;margin-top:20px")       
+            a(href=lzObstacle.rR.url)  #{lzObstacle.rR.name}
 
-        ul 
-            li Rating: #{lzObstacle.rR.rating}
-            li Carry Adjust: #{lzObstacle.rR.carry_C}
-            li Layup Adjust: #{lzObstacle.rR.layup_L}
-            li Inconsistent Adjust: #{lzObstacle.rR.inconsistent_I}
-            li Mounds Adjust: #{lzObstacle.rR.mounds_M}
-            li Unpleasant Adjust: #{lzObstacle.rR.unpleasant_U}
-            li Two Adjust: #{lzObstacle.rR.twoTimes_2}
-            li Par 3 Adjust: #{lzObstacle.rR.parThree_3}
-            li Surrounded Adjust: #{lzObstacle.rR.surrounded_S}
+            ul 
+                li Rating: #{lzObstacle.rR.rating}
+                li Carry Adjust: #{lzObstacle.rR.carry_C}
+                li Layup Adjust: #{lzObstacle.rR.layup_L}
+                li Inconsistent Adjust: #{lzObstacle.rR.inconsistent_I}
+                li Mounds Adjust: #{lzObstacle.rR.mounds_M}
+                li Unpleasant Adjust: #{lzObstacle.rR.unpleasant_U}
+                li Two Adjust: #{lzObstacle.rR.twoTimes_2}
+                li Par 3 Adjust: #{lzObstacle.rR.parThree_3}
+                li Surrounded Adjust: #{lzObstacle.rR.surrounded_S}
 
-    div(style="margin-left:20px;margin-top:20px")       
-        a(href=lzObstacle.bunker.url)  #{lzObstacle.bunker.name}
+        div(style="margin-left:20px;margin-top:20px")       
+            a(href=lzObstacle.bunker.url)  #{lzObstacle.bunker.name}
 
-        ul 
-            li Rating: #{lzObstacle.bunker.rating}
-            li Bounce Adjust: #{lzObstacle.bunker.bounce_B}
-            li Carry Adjust: #{lzObstacle.bunker.carry_C}
-            li Depth Adjust: #{lzObstacle.bunker.depth_D}
-            li Extreme Adjust: #{lzObstacle.bunker.extreme_E}
-            li No Adjust: #{lzObstacle.bunker.no_N}
-            li Squeeze Adjust: #{lzObstacle.bunker.squeeze_Q}
+            ul 
+                li Rating: #{lzObstacle.bunker.rating}
+                li Bounce Adjust: #{lzObstacle.bunker.bounce_B}
+                li Carry Adjust: #{lzObstacle.bunker.carry_C}
+                li Depth Adjust: #{lzObstacle.bunker.depth_D}
+                li Extreme Adjust: #{lzObstacle.bunker.extreme_E}
+                li No Adjust: #{lzObstacle.bunker.no_N}
+                li Squeeze Adjust: #{lzObstacle.bunker.squeeze_Q}
 
-    div(style="margin-left:20px;margin-top:20px")       
-        a(href=lzObstacle.lateral.url)  #{lzObstacle.lateral.name}
+        div(style="margin-left:20px;margin-top:20px")       
+            a(href=lzObstacle.lateral.url)  #{lzObstacle.lateral.name}
 
-        ul 
-            li Rating: #{lzObstacle.lateral.rating}
-            li Percentage Adjust: #{lzObstacle.lateral.percentage_P}
-            li Bounce Adjust: #{lzObstacle.lateral.bounce_B}
-            li Squeeze Adjust: #{lzObstacle.lateral.squeeze_Q}
-            li Stroke Adjust: #{lzObstacle.lateral.stroke_K}
-            li Two Adjust: #{lzObstacle.lateral.twoTimes_2}
-            li Surrounded: #{lzObstacle.lateral.surrounded_S}
+            ul 
+                li Rating: #{lzObstacle.lateral.rating}
+                li Percentage Adjust: #{lzObstacle.lateral.percentage_P}
+                li Bounce Adjust: #{lzObstacle.lateral.bounce_B}
+                li Squeeze Adjust: #{lzObstacle.lateral.squeeze_Q}
+                li Stroke Adjust: #{lzObstacle.lateral.stroke_K}
+                li Two Adjust: #{lzObstacle.lateral.twoTimes_2}
+                li Surrounded: #{lzObstacle.lateral.surrounded_S}
 
-    div(style="margin-left:20px;margin-top:20px")       
-        a(href=lzObstacle.crossing.url)  #{lzObstacle.crossing.name}
+        div(style="margin-left:20px;margin-top:20px")       
+            a(href=lzObstacle.crossing.url)  #{lzObstacle.crossing.name}
 
-        ul 
-            li Rating: #{lzObstacle.crossing.rating}
-            li Percentage Adjust: #{lzObstacle.crossing.percentage_P}
-            li Carry Adjust: #{lzObstacle.crossing.carry_C}
-            li Two Adjust: #{lzObstacle.crossing.twoTimes_2}
+            ul 
+                li Rating: #{lzObstacle.crossing.rating}
+                li Percentage Adjust: #{lzObstacle.crossing.percentage_P}
+                li Carry Adjust: #{lzObstacle.crossing.carry_C}
+                li Two Adjust: #{lzObstacle.crossing.twoTimes_2}
 
-    div(style="margin-left:20px;margin-top:20px")       
-        a(href=lzObstacle.tree.url)  #{lzObstacle.tree.name}
+        div(style="margin-left:20px;margin-top:20px")       
+            a(href=lzObstacle.tree.url)  #{lzObstacle.tree.name}
 
-        ul 
-            li Rating: #{lzObstacle.tree.rating}
-            li Obstructed Adjust: #{lzObstacle.tree.obstructed_O}
-            li Chute Adjust: #{lzObstacle.tree.chute_H}
+            ul 
+                li Rating: #{lzObstacle.tree.rating}
+                li Obstructed Adjust: #{lzObstacle.tree.obstructed_O}
+                li Chute Adjust: #{lzObstacle.tree.chute_H}
 
     hr
 

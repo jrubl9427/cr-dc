@@ -2,23 +2,30 @@ extends layout
 
 block content
     h1 Roll: #{roll.name}
+
+    div(style="width:350px;")
+
+        div(style="position:absolute; left:400px; width:400px; margin-top: 0; background:lightgrey; padding:10px")
+            p #[strong Instruction box ]
+            p To enter rating data select #[strong Update Roll] link
+            p After submitting the data the screen will return here
+            p Select the #[strong obstacle link] to return to rate the next obstacle
     
-    div(style="margin-left:20px;margin-top:20px")
+        div(style="margin-left:20px;margin-top:20px")
+            p #[strong rating: ] #{roll.rating}
+            p #[strong Effective Length Adjust: ] #{roll.effectiveLengthAdjust}
+            p #[strong Firm Adjust: ] #{roll.firm_F}
+            p #[strong Two Adjust: ] #{roll.twoTimes_2}
 
-        p #[strong rating: ] #{roll.rating}
-        p #[strong Effective Length Adjust: ] #{roll.effectiveLengthAdjust}
-        p #[strong Firm Adjust: ] #{roll.firm_F}
-        p #[strong Two Adjust: ] #{roll.twoTimes_2}
+        div(style="margin-left:20px;margin-top:20px")
 
-    div(style="margin-left:20px;margin-top:20px")
+            if lzObstacle.length > 0
+                h4 lzObstacle
+                each obst in lzObstacle
 
-        if lzObstacle.length > 0
-            h4 lzObstacle
-            each obst in lzObstacle
-
-                div(style="margin-left:40px;")
-                
-                    a(href=obst.url) #{obst.name}
+                    div(style="margin-left:40px;")
+                    
+                        a(href=obst.url) #{obst.name}
             
     hr
 

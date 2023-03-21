@@ -2,31 +2,38 @@ extends layout
 
 block content
     h1 Bunker: #{bunker.name}
+
+    div(style="width:350px;")
+
+        div(style="position:absolute; left:400px; width:400px; margin-top: 0; background:lightgrey; padding:10px")
+            p #[strong Instruction box ]
+            p To enter rating data select #[strong Update Bunker] link
+            p After submitting the data the screen will return here
+            p Select the #[strong obstacle link] to return to rate the next obstacle
     
-    div(style="margin-left:20px;margin-top:20px")
+        div(style="margin-left:20px;margin-top:20px")
+            p #[strong rating: ] #{bunker.rating}
+            p #[strong Carry Adjust: ] #{bunker.carry_C}
+            p #[strong Depth Adjust: ] #{bunker.depth_D}
+            p #[strong Extreme Adjust: ] #{bunker.extreme_E}
+            p #[strong No Adjust: ] #{bunker.no_N}
+            p #[strong Squeeze Adjust: ] #{bunker.squeeze_Q}
+            p #[strong Two Adjust: ] #{bunker.twoTimes_2}
 
-        p #[strong rating: ] #{bunker.rating}
-        p #[strong Carry Adjust: ] #{bunker.carry_C}
-        p #[strong Depth Adjust: ] #{bunker.depth_D}
-        p #[strong Extreme Adjust: ] #{bunker.extreme_E}
-        p #[strong No Adjust: ] #{bunker.no_N}
-        p #[strong Squeeze Adjust: ] #{bunker.squeeze_Q}
-        p #[strong Two Adjust: ] #{bunker.twoTimes_2}
+        div(style="margin-left:20px;margin-top:20px")
 
-    div(style="margin-left:20px;margin-top:20px")
+            if lzObstacle.length > 0 || greenObstacle.length > 0
+                h4 Obstacle
+                each obst in lzObstacle
 
-        if lzObstacle.length > 0 || greenObstacle.length > 0
-            h4 Obstacle
-            each obst in lzObstacle
+                    div(style="margin-left:40px;")
+                    
+                        a(href=obst.url) #{obst.name}
+                each obst in greenObstacle
 
-                div(style="margin-left:40px;")
-                
-                    a(href=obst.url) #{obst.name}
-            each obst in greenObstacle
-
-                div(style="margin-left:40px;")
-                
-                    a(href=obst.url) #{obst.name}
+                    div(style="margin-left:40px;")
+                    
+                        a(href=obst.url) #{obst.name}
             
     hr
 

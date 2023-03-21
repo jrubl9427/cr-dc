@@ -3,7 +3,13 @@ extends layout
 block content
     h1 Hole Number: #{hole.name}
 
-    div(style="margin-left:20px;margin-top:20px")
+    div(style="width:450px;")
+
+        div(style="position:absolute; left:475px; width:400px; margin-top: 0; background:lightgrey; padding:10px")
+            p #[strong Instruction box ]
+            p Select to rate this hole by clicking #[strong Rate Hole]
+
+        div(style="margin-left:20px;margin-top:20px")
         h4 Tees
         each tee in hole.tee.sort((a,b) => b.length - a.length)
 
