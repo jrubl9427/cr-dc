@@ -8,7 +8,7 @@ block content
         div(style="position:absolute; left:400px; width:400px; margin-top: 0; background:lightgrey; padding:10px")
             p #[strong Instruction box ]
             p Select the obstacle link to be rated
-            p When complete go back to rating zone list by selecting the browser #[em #[strong ????]]
+            p When complete go back to rating zone list by selecting #[em #[strong Return To Hole]]
 
         div(style="margin-left:20px;margin-top:20px")       
             a(href=greenObstacle.rR.url)  #{greenObstacle.rR.name}
@@ -65,7 +65,16 @@ block content
                 li Firm Adjust: #{greenObstacle.surface.firm_F}
                 li Unpleasant Adjust: #{greenObstacle.surface.unpleasant_U}
         
-    hr
+        hr
+        
+        div(style="margin-left:0px;")
+            a.btn(id="sbtn" style="background-color: lightgrey; padding: 5px 10px; font-weight: bold; border-radius: 3px; border: 2px solid black;") Return To Hole
+            script.
+                var link = document.getElementById('sbtn');
+                sbtn.onclick = saveLink(link);
+                function saveLink(link) {
+                    link.href = localStorage.getItem("returnLink");
+                }
 
     p 
         a(href=greenObstacle.url+'/delete') Delete greenObstacle

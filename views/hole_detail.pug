@@ -31,12 +31,21 @@ block content
             | (Diameter #{hole.green.diameter} yards, Altitude: #{hole.green.altitude})
             
         hr
+        div(style="margin-left:0px;")
+            a.btn(href=hole.url+'/rate' id="sbtn" style="background-color: lightgrey; padding: 5px 10px; font-weight: bold; border-radius: 3px; border: 2px solid black;") Rate Hole
+            script.
+                var save_link = document.getElementById("sbtn");
+                sbtn.onclick = saveLink(save_link);
+                function saveLink(slink){
+                    localStorage.setItem("returnLink", slink);
+                }
 
+        hr
     p 
         a(href=hole.url+'/delete') Delete Hole
     p
         a(href=hole.url+'/update') Update Hole
-    p 
-        a(href=hole.url+'/rate') Rate Hole
+    //- p 
+    //-     a(href=hole.url+'/rate' id='save') Rate Hole
         
 
