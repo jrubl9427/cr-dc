@@ -7,7 +7,7 @@ block content
 
         div(style="position:absolute; left:400px; width:400px; margin-top: 0; background:lightgrey; padding:10px")
             p #[strong Instruction box ]
-            p Rate this hole at each of the below rating zones (#[em distance shown is yards to the green])
+            p Rate this hole at each of the listed rating zones (#[em distance shown is yards to the green])
             p Begin by selecting a rating zone
 
         div(style="margin-left:20px;margin-top:20px")
@@ -15,22 +15,13 @@ block content
                 div
                     a(href=tee.url)  #{tee.name}
                     | (#{tee.length} yard)
+                    
             each lz in hole.lz.sort((a,b) => b.distanceToGreen - a.distanceToGreen)
                 div
                     a(href=lz.url)  #{lz.name}
                     | (#{lz.distanceToGreen } yard)
+                    
             div
                 a(href=hole.green.url)  Green #{hole.green.name}
                 | (Diameter #{hole.green.diameter} yards)
-
-    //- div(id="result")
-    //- script.
-    //-     // Check browser support
-    //-     if(typeof(Storage) !== "undefined") {
-    //-         // Store
-    //-         localStorage.setItem("teeUrl", "URL saved");
-    //-         // Retrieve
-    //-         document.getElementById("result").innerHTML = localStorage.getItem("teeUrl");
-    //-     } else {
-    //-         document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
-    //-     }
+                

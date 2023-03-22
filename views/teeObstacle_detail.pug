@@ -8,7 +8,7 @@ block content
         div(style="position:absolute; left:300px; width:400px; margin-top: 0; background:lightgrey; padding:10px")
             p #[strong Instruction box ]
             p Select the obstacle link to be rated
-            p When complete go back to rating zone list by selecting #[em #[strong Return To Hole]]
+            p When complete go back to rating zone list by selecting #[em #[strong Return To Rating Zones]]
 
         div(style="margin-left:20px;margin-top:20px")       
             a(href=teeObstacle.target.url)  #{teeObstacle.target.name}
@@ -52,7 +52,7 @@ block content
         hr
         
         div(style="margin-left:0px;")
-            a.btn(id="sbtn" style="background-color: lightgrey; padding: 5px 10px; font-weight: bold; border-radius: 3px; border: 2px solid black;") Return To Hole
+            a.btn(id="sbtn" style="background-color: lightgrey; margin-bottom: 20px; padding: 5px 10px; font-weight: bold; border-radius: 3px; border: 2px solid black;") Return To Rating Zones
             script.
                 var link = document.getElementById('sbtn');
                 sbtn.onclick = saveLink(link);
